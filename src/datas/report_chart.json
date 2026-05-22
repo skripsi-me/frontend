@@ -1,0 +1,52 @@
+[
+  {
+    "date": "2024-03-11",
+    "total_amount": 426333,
+    "order_count": 17
+  },
+  {
+    "date": "2024-03-12",
+    "total_amount": 4178171,
+    "order_count": 17
+  },
+  {
+    "date": "2024-03-13",
+    "total_amount": 2923816,
+    "order_count": 18
+  },
+  {
+    "date": "2024-03-14",
+    "total_amount": 7532316,
+    "order_count": 17
+  },
+  {
+    "date": "2024-03-15",
+    "total_amount": 6783425,
+    "order_count": 17
+  },
+  {
+    "date": "2024-03-16",
+    "total_amount": 1787672,
+    "order_count": 17
+  },
+  {
+    "date": "2024-03-17",
+    "total_amount": 1324823,
+    "order_count": 17
+  },
+  {
+    "date": "2024-03-18",
+    "total_amount": 6823521,
+    "order_count": 17
+  },
+  {
+    "date": "2024-03-19",
+    "total_amount": 4739470,
+    "order_count": 17
+  },
+  {
+    "date": "2024-03-20",
+    "total_amount": 8898180,
+    "order_count": 18
+  }
+]

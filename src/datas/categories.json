@@ -1,0 +1,42 @@
+[
+  {
+    "id": "01HSCAT0000000000000000001",
+    "name": "Sembako",
+    "slug": "sembako",
+    "created_at": "2024-03-10T08:00:00.000Z",
+    "updated_at": "2024-03-10T08:00:00.000Z",
+    "deleted_at": null
+  },
+  {
+    "id": "01HSCAT0000000000000000002",
+    "name": "Sayur & Buah",
+    "slug": "sayur-buah",
+    "created_at": "2024-03-10T08:00:00.000Z",
+    "updated_at": "2024-03-10T08:00:00.000Z",
+    "deleted_at": null
+  },
+  {
+    "id": "01HSCAT0000000000000000003",
+    "name": "Alat Dapur",
+    "slug": "alat-dapur",
+    "created_at": "2024-03-10T08:00:00.000Z",
+    "updated_at": "2024-03-10T08:00:00.000Z",
+    "deleted_at": null
+  },
+  {
+    "id": "01HSCAT0000000000000000004",
+    "name": "Kebutuhan Bayi",
+    "slug": "kebutuhan-bayi",
+    "created_at": "2024-03-10T08:00:00.000Z",
+    "updated_at": "2024-03-10T08:00:00.000Z",
+    "deleted_at": null
+  },
+  {
+    "id": "01HSCAT0000000000000000005",
+    "name": "Perawatan & Kesehatan",
+    "slug": "perawatan-kesehatan",
+    "created_at": "2024-03-10T08:00:00.000Z",
+    "updated_at": "2024-03-10T08:00:00.000Z",
+    "deleted_at": null
+  }
+]

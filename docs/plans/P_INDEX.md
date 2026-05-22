@@ -91,18 +91,12 @@ Berikut adalah daftar rencana implementasi halaman dan fitur As-Sakinah Mart yan
 
 | No | Modul / Halaman | Berkas Rencana (Plan File) | Target File Output | Status |
 | :---: | :--- | :--- | :--- | :---: |
-| **1** | **Beranda & Tata Letak Utama** | [01_beranda_dan_layout.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/01_beranda_dan_layout.md) | `src/pages/main/Home.tsx`<br>`src/components/layout/Navbar.tsx`<br>`src/components/layout/Footer.tsx` | 🟢 Selesai |
-| **2** | **Katalog & Detail Produk** | [02_katalog_dan_produk.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/02_katalog_dan_produk.md) | `src/pages/main/ProductList.tsx`<br>`src/pages/main/ProductDetail.tsx`<br>`src/routes/products/index.tsx`<br>`src/routes/products/$slug.tsx` | ⚪ Belum Mulai |
-| **3** | **Keranjang Belanja Offline & Checkout** | [03_keranjang_dan_checkout.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/03_keranjang_dan_checkout.md) | `src/pages/main/Cart.tsx`<br>`src/routes/cart.tsx`<br>`src/libs/zustand/cartStore.ts` | ⚪ Belum Mulai |
-| **4** | **Autentikasi, Profil & Keamanan** | [04_autentikasi_dan_profil.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/04_autentikasi_dan_profil.md) | `src/pages/main/Profile.tsx`<br>`src/pages/main/ProfileEdit.tsx`<br>`src/pages/main/ChangePassword.tsx`<br>`src/routes/profile/` | ⚪ Belum Mulai |
-| **5** | **Riwayat Transaksi & Riwayat Pesanan** | [05_riwayat_pesanan.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/05_riwayat_pesanan.md) | `src/pages/main/OrderList.tsx`<br>`src/pages/main/OrderDetail.tsx`<br>`src/routes/orders/` | ⚪ Belum Mulai |
-| **6** | **Admin Dashboard & Visualisasi Penjualan** | [06_admin_dashboard.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/06_admin_dashboard.md) | `src/pages/admin/DashboardPage.tsx`<br>`src/routes/admin/dashboard.tsx` | ⚪ Belum Mulai |
-| **7** | **Admin Manajemen (Produk, Kategori, Order, User)** | [07_admin_manajemen.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/07_admin_manajemen.md) | `src/pages/admin/ManageProducts.tsx`<br>`src/pages/admin/ManageCategories.tsx`<br>`src/pages/admin/ManageOrders.tsx`<br>`src/pages/admin/ManageUsers.tsx` | ⚪ Belum Mulai |
+| **1** | **Dummy Datas** | [01_dummy_data.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/01_dummy_data.md) | `src/datas/products.json`<br>`src/datas/categories.json`<br>`src/datas/carts.json`<br>`src/datas/orders.json`<br>`src/datas/users.json`<br>`src/datas/product_best_seller.json`<br>`src/datas/report_chart.json` | [ X ] |
 
 > **Keterangan Status:**
-> *   ⚪ *Belum Mulai (Not Started)*
-> *   🟡 *Sedang Dikerjakan (In Progress)*
-> *   🟢 *Selesai & Tervalidasi (Done & Validated)*
+> *   [  ] *Belum Mulai (Not Started)*
+> *   [ - ] *Sedang Dikerjakan (In Progress)*
+> *   [ X ] *Selesai & Tervalidasi (Done & Validated)*
 
 ---
 
