@@ -198,6 +198,8 @@ Berdasarkan keputusan pengguna, konfigurasi dasar disepakati sebagai berikut:
 *   **Preview Build:** `npm run preview`
 *   **Unit Testing:** `npm run test`
 *   **Lighthouse Success Validator:** `npm run validate:success`
+*   **JSDoc Validator:** `npm run jsdoc:check`
+*   **JSDoc Auto-Generator:** `npm run jsdoc:generate`
 
 ---
 
@@ -205,6 +207,28 @@ Berdasarkan keputusan pengguna, konfigurasi dasar disepakati sebagai berikut:
 
 Setiap kali melakukan perubahan kode pada repositori ini, ikuti alur kerja wajib berikut:
 1.  **Modifikasi Berkas:** Lakukan pembuatan, pembaruan, atau penghapusan kode/berkas (`Create/Update/Delete`) sesuai kebutuhan fitur.
-2.  **Pengujian & Validasi Otomatis:** Selalu jalankan pengujian unit (`npm run test`) dan verifikasi kepatuhan kriteria sukses Lighthouse (`npm run validate:success`) untuk memastikan fungsionalitas berjalan dengan benar dan mematuhi aturan SEO, Aksesibilitas, Performa, dan Naming Convention.
+2.  **Pengujian & Validasi Otomatis:** Selalu jalankan pengujian unit (`npm run test`), verifikasi kepatuhan kriteria sukses Lighthouse (`npm run validate:success`), serta validasi kelengkapan dokumentasi (`npm run jsdoc:check`) untuk memastikan fungsionalitas, kepatuhan, dan kelengkapan dokumentasi berjalan dengan benar.
 3.  **Git Commit:** Lakukan commit perubahan menggunakan perintah `git commit` dengan pesan berbasis **Conventional Commits** (misal: `feat: ...`, `fix: ...`, `docs: ...`, `refactor: ...`, `test: ...`).
 4.  **Batas Git Push:** **JANGAN** pernah melakukan `git push` ke repositori jauh (remote). Biarkan pengguna yang meninjau kembali dan melakukan push secara manual.
+
+---
+
+## 📝 11. Aturan Pendokumentasian & Reusabilitas (JSDoc & DRY)
+
+### A. Aturan Dokumentasi JSDoc
+Setiap deklarasi fungsi biasa (helper), kelas (class), custom hooks, dan React components wajib didokumentasikan menggunakan komentar JSDoc dengan format wajib:
+```typescript
+/**
+ * @description Penjelasan singkat mengenai fungsi, kelas, atau komponen ini.
+ * @param {tipe} namaParam Penjelasan singkat parameter (opsional jika tidak ada param).
+ * @return {tipe} Penjelasan nilai kembalian (opsional jika void/JSX Component).
+ * @example
+ * // Contoh penggunaan:
+ * ...
+ */
+```
+
+### B. Aturan Don't Repeat Yourself (DRY)
+1.  **Logika Bisnis & Helper:** Pindahkan logika manipulasi data, pemformatan rupiah/tanggal, atau kalkulasi yang digunakan di lebih dari satu berkas ke folder `src/utils/`.
+2.  **Pengelolaan State & Hooks:** Bagikan logika stateful dan efek samping yang berulang dengan membuat custom React hook di folder `src/hooks/`.
+3.  **Komponen Visual (UI):** Jangan menduplikasi markup visual yang sama. Pecah menjadi komponen atomic/molecule di `src/components/ui/` atau `src/components/shared/` untuk reusabilitas penuh.

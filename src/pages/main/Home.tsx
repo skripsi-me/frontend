@@ -4,6 +4,12 @@ import logoImg from '../../assets/logo.png'
 import heroImg from '../../assets/hero.png'
 import { toast } from 'sonner'
 
+/**
+ * @description Komponen halaman utama (Beranda) As-Sakinah Mart yang merender banner promosi, kategori populer, produk terlaris, dan footer.
+ * @return {JSX.Element} Elemen JSX untuk halaman Beranda.
+ * @example
+ * <Home />
+ */
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
 

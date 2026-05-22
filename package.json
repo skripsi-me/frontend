@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "validate:success": "node .agents/skills/success-criteria-validator/scripts/validate.cjs"
+    "validate:success": "node .agents/skills/success-criteria-validator/scripts/validate.cjs",
+    "jsdoc:check": "node .agents/skills/jsdoc-generator/scripts/jsdoc-generator.cjs --check",
+    "jsdoc:generate": "node .agents/skills/jsdoc-generator/scripts/jsdoc-generator.cjs --generate"
   },
   "dependencies": {
     "@tanstack/react-form": "^1.32.0",
