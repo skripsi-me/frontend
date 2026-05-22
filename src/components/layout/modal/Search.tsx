@@ -10,7 +10,7 @@ import {
 import { Button } from '../../ui/Button'
 import { Input } from '../../ui/Input'
 import categoriesData from '../../../datas/categories.json'
-import { ICategory } from '../../../types/ICategory'
+import { type ICategory } from '../../../types/ICategory'
 
 export interface ISearchModalProps {
   isOpen: boolean
@@ -36,7 +36,7 @@ export function SearchModal({ isOpen, onClose }: ISearchModalProps): React.JSX.E
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     // Navigate to products route with query parameters
     navigate({
       to: '/products',
@@ -46,7 +46,7 @@ export function SearchModal({ isOpen, onClose }: ISearchModalProps): React.JSX.E
         category: selectedCategory || undefined,
       },
     })
-    
+
     onClose()
   }
 
@@ -56,14 +56,14 @@ export function SearchModal({ isOpen, onClose }: ISearchModalProps): React.JSX.E
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md w-[95%] p-5 md:p-6 gap-6 rounded-lg bg-white border border-[#E5E7EB]">
+      <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-lg p-5 md:p-6 gap-6 rounded-lg bg-white border border-[#E5E7EB] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-base md:text-lg font-bold text-[#080808]">
             Cari Sembako & Kebutuhan Rumah
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSearchSubmit} className="flex flex-col gap-5">
+        <form onSubmit={handleSearchSubmit} className="flex flex-col gap-5 w-full">
           {/* Input & Search Button */}
           <div className="flex gap-2">
             <div className="relative flex-1">
@@ -103,11 +103,10 @@ export function SearchModal({ isOpen, onClose }: ISearchModalProps): React.JSX.E
                     key={cat.id}
                     type="button"
                     onClick={() => selectCategory(cat.slug)}
-                    className={`px-3 py-2 text-xs md:text-sm font-bold rounded-full transition-all border min-h-[44px] md:min-h-[36px] cursor-pointer ${
-                      isSelected
-                        ? 'bg-[#00AA5B] text-white border-[#00AA5B]'
-                        : 'bg-[#F4F6F8] text-[#080808] border-[#E5E7EB] hover:bg-[#E5E7EB]'
-                    }`}
+                    className={`px-3 py-2 text-xs md:text-sm font-bold rounded-full transition-all border min-h-[44px] md:min-h-[36px] cursor-pointer ${isSelected
+                      ? 'bg-[#00AA5B] text-white border-[#00AA5B]'
+                      : 'bg-[#F4F6F8] text-[#080808] border-[#E5E7EB] hover:bg-[#E5E7EB]'
+                      }`}
                   >
                     {cat.name}
                   </button>
@@ -126,11 +125,10 @@ export function SearchModal({ isOpen, onClose }: ISearchModalProps): React.JSX.E
               <button
                 type="button"
                 onClick={() => setSearchAlgo('levenshtein')}
-                className={`flex flex-col items-center justify-center p-3 rounded-md border text-center transition-all min-h-[44px] cursor-pointer ${
-                  searchAlgo === 'levenshtein'
-                    ? 'border-[#00AA5B] bg-[#00AA5B]/5 text-[#00AA5B]'
-                    : 'border-[#B3BBC9] bg-white text-[#6B7280] hover:bg-[#F9FAFB]'
-                }`}
+                className={`flex flex-col items-center justify-center p-3 rounded-md border text-center transition-all min-h-[44px] cursor-pointer ${searchAlgo === 'levenshtein'
+                  ? 'border-[#00AA5B] bg-[#00AA5B]/5 text-[#00AA5B]'
+                  : 'border-[#B3BBC9] bg-white text-[#6B7280] hover:bg-[#F9FAFB]'
+                  }`}
               >
                 <span className="text-sm font-bold">Levenshtein</span>
                 <span className="text-[10px] md:text-xs text-neutral-500 mt-0.5">
@@ -140,11 +138,10 @@ export function SearchModal({ isOpen, onClose }: ISearchModalProps): React.JSX.E
               <button
                 type="button"
                 onClick={() => setSearchAlgo('normal')}
-                className={`flex flex-col items-center justify-center p-3 rounded-md border text-center transition-all min-h-[44px] cursor-pointer ${
-                  searchAlgo === 'normal'
-                    ? 'border-[#00AA5B] bg-[#00AA5B]/5 text-[#00AA5B]'
-                    : 'border-[#B3BBC9] bg-white text-[#6B7280] hover:bg-[#F9FAFB]'
-                }`}
+                className={`flex flex-col items-center justify-center p-3 rounded-md border text-center transition-all min-h-[44px] cursor-pointer ${searchAlgo === 'normal'
+                  ? 'border-[#00AA5B] bg-[#00AA5B]/5 text-[#00AA5B]'
+                  : 'border-[#B3BBC9] bg-white text-[#6B7280] hover:bg-[#F9FAFB]'
+                  }`}
               >
                 <span className="text-sm font-bold">Normal</span>
                 <span className="text-[10px] md:text-xs text-neutral-500 mt-0.5">
