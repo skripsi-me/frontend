@@ -61,11 +61,23 @@ src/
 └── config/         # Konfigurasi sistem (env loader, setting global)
 ```
 
-### Aturan Tambahan Penamaan Berkas:
-1.  **Halaman & Komponen:** Gunakan PascalCase untuk berkas `.tsx` (misal: `ProductCard.tsx`, `DashboardPage.tsx`).
-2.  **Types/Interfaces:** Letakkan di dalam `src/types/` dan gunakan prefix `I` pada nama file dan type/interface utama (misal: `IUser.ts` mendefinisikan interface `IUser`, `IProduct.ts` mendefinisikan `IProduct`).
-3.  **Hooks:** Gunakan prefix `use` dan camelCase (misal: `useAuth.ts`, `useCart.ts`).
-4.  **Services/APIs:** Mengikuti nama modul backend dengan akhiran `Service` (misal: `authService.ts`, `productService.ts`).
+### 📌 Aturan Standar Penamaan (Naming Convention)
+
+Untuk menjaga konsistensi kode dan memudahkan kolaborasi, seluruh penulisan kode dan berkas harus mengikuti aturan konvensi penamaan berikut:
+
+| Elemen | Naming Convention | Contoh |
+| :--- | :--- | :--- |
+| **Variabel & Fungsi Biasa** | `camelCase` | `const totalAmount = 0`, `function calculateTotal()` |
+| **Class** | `PascalCase` | `class AxiosService`, `class HttpClient` |
+| **Komponen React (Function)** | `PascalCase` | `function ProductCard()`, `export default function Home()` |
+| **Type & Interface** | `PascalCase` (Wajib prefix `I`) | `interface IUser`, `type IOrderStatus` |
+| **Berkas Komponen (`components/`)** | `PascalCase` | `ProductCard.tsx`, `Sidebar.tsx` |
+| **Berkas Halaman (`pages/`)** | `PascalCase` | `Home.tsx`, `ProductDetail.tsx`, `DashboardPage.tsx` |
+| **Berkas Route (`routes/`)** | Aturan TanStack Router | `__root.tsx`, `index.tsx`, `products.$slug.tsx` |
+| **Berkas Hooks** | `camelCase` (Prefix `use`) | `useAuth.ts`, `useCart.ts` |
+| **Berkas Utils & Helper** | `camelCase` | `formatDate.ts`, `currencyFormatter.ts` |
+| **Berkas Service / API** | `camelCase` (Suffix `Service`) | `authService.ts`, `productService.ts` |
+| **Tipe Data / Interface Berkas** | `PascalCase` (Prefix `I`) | `IUser.ts`, `IProduct.ts` |
 
 ---
 
@@ -185,3 +197,14 @@ Berdasarkan keputusan pengguna, konfigurasi dasar disepakati sebagai berikut:
 *   **Build Production:** `npm run build`
 *   **Preview Build:** `npm run preview`
 *   **Unit Testing:** `npm run test`
+*   **Lighthouse Success Validator:** `npm run validate:success`
+
+---
+
+## 🔄 10. Alur Kerja Pengembang & Agen (Developer & Agent Workflow)
+
+Setiap kali melakukan perubahan kode pada repositori ini, ikuti alur kerja wajib berikut:
+1.  **Modifikasi Berkas:** Lakukan pembuatan, pembaruan, atau penghapusan kode/berkas (`Create/Update/Delete`) sesuai kebutuhan fitur.
+2.  **Pengujian & Validasi Otomatis:** Selalu jalankan pengujian unit (`npm run test`) dan verifikasi kepatuhan kriteria sukses Lighthouse (`npm run validate:success`) untuk memastikan fungsionalitas berjalan dengan benar dan mematuhi aturan SEO, Aksesibilitas, Performa, dan Naming Convention.
+3.  **Git Commit:** Lakukan commit perubahan menggunakan perintah `git commit` dengan pesan berbasis **Conventional Commits** (misal: `feat: ...`, `fix: ...`, `docs: ...`, `refactor: ...`, `test: ...`).
+4.  **Batas Git Push:** **JANGAN** pernah melakukan `git push` ke repositori jauh (remote). Biarkan pengguna yang meninjau kembali dan melakukan push secara manual.

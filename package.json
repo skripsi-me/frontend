@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "validate:success": "node .agents/skills/success-criteria-validator/scripts/validate.cjs"
   },
   "dependencies": {
     "@tanstack/react-form": "^1.32.0",

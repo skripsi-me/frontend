@@ -99,7 +99,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           {/* Logo & Brand Name */}
           <div className="flex items-center gap-2 cursor-pointer shrink-0">
-            <img src={logoImg} alt="As-Sakinah Mart Logo" className="h-10 w-10 object-contain" />
+            <img src={logoImg} alt="As-Sakinah Mart Logo" className="h-10 w-10 object-contain" fetchPriority="high" />
             <div className="flex flex-col">
               <span className="font-bold text-lg leading-tight text-[#080808]">As-Sakinah</span>
               <span className="text-[#00AA5B] font-bold text-xs tracking-wider uppercase leading-none">Mart</span>
@@ -166,7 +166,7 @@ export default function Home() {
             </button>
           </div>
           <div className="w-40 md:w-56 shrink-0 relative flex justify-center">
-            <img src={heroImg} alt="Belanja Praktis" className="w-full h-auto object-contain filter drop-shadow-lg" />
+            <img src={heroImg} alt="Belanja Praktis" className="w-full h-auto object-contain filter drop-shadow-lg" fetchPriority="high" />
           </div>
         </section>
 
@@ -185,8 +185,16 @@ export default function Home() {
             {categories.map((category) => (
               <div
                 key={category.id}
+                role="button"
+                tabIndex={0}
                 onClick={() => toast.info(`Kategori ${category.name} dipilih`)}
-                className={`border p-4 rounded-md flex flex-col items-center gap-2 cursor-pointer transition transform hover:-translate-y-1 hover:shadow-md ${category.color}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    toast.info(`Kategori ${category.name} dipilih`)
+                  }
+                }}
+                className={`border p-4 rounded-md flex flex-col items-center gap-2 cursor-pointer transition transform hover:-translate-y-1 hover:shadow-md ${category.color} focus:outline-none focus:ring-2 focus:ring-[#00AA5B]`}
               >
                 <span className="text-3xl" role="img" aria-label={category.name}>{category.icon}</span>
                 <span className="text-xs font-bold text-center leading-snug">{category.name}</span>
@@ -251,10 +259,22 @@ export default function Home() {
                 </button>
 
                 {/* Product Image */}
-                <div className="relative aspect-square w-full bg-gray-100 overflow-hidden cursor-pointer" onClick={() => toast.info(`Detail Produk: ${product.name}`)}>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => toast.info(`Detail Produk: ${product.name}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      toast.info(`Detail Produk: ${product.name}`)
+                    }
+                  }}
+                  className="relative aspect-square w-full bg-gray-100 overflow-hidden cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00AA5B]"
+                >
                   <img
                     src={product.image}
                     alt={product.name}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                   />
                   {product.discount && (
@@ -320,7 +340,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2">
-              <img src={logoImg} alt="As-Sakinah Mart Logo" className="h-8 w-8 object-contain" />
+              <img src={logoImg} alt="As-Sakinah Mart Logo" className="h-8 w-8 object-contain" loading="lazy" />
               <span className="font-bold text-base">As-Sakinah Mart</span>
             </div>
             <p className="text-xs text-[#6B7280] font-semibold leading-relaxed">
