@@ -92,6 +92,7 @@ Berikut adalah daftar rencana implementasi halaman dan fitur As-Sakinah Mart yan
 | No | Modul / Halaman | Berkas Rencana (Plan File) | Target File Output | Status |
 | :---: | :--- | :--- | :--- | :---: |
 | **1** | **Dummy Datas** | [01_dummy_data.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/01_dummy_data.md) | `src/datas/products.json`<br>`src/datas/categories.json`<br>`src/datas/carts.json`<br>`src/datas/orders.json`<br>`src/datas/users.json`<br>`src/datas/product_best_seller.json`<br>`src/datas/report_chart.json` | [ X ] |
+| **2** | **Navbar, Footer, and Search Modal** | [02_navbar_footer_and_search_modal.md](file:///e:/PROJECT/SKRIPSI/frontend/docs/plans/02_navbar_footer_and_search_modal.md) | `src/components/layout/Navbar.tsx`<br>`src/components/layout/Footer.tsx`<br>`src/components/layout/modal/Search.tsx` | [ X ] |
 
 > **Keterangan Status:**
 > *   [  ] *Belum Mulai (Not Started)*
