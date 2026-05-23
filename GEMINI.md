@@ -30,7 +30,7 @@ Semua kode harus ditulis menggunakan library dan tool berikut:
 *   **Validasi Schema & Input:** Zod.
 *   **Icon Library:** Lucide React.
 *   **Chart Library:** Recharts (digunakan pada dashboard admin).
-*   **Atomic Components:** Shadcn UI (Radix UI + Tailwind CSS v4).
+*   **Atomic Components:** Shadcn UI (Radix UI + Tailwind CSS v4) terkonfigurasi dengan style `radix-nova`.
 *   **Alert & Notification:** Sonner.
 *   **Unit Testing:** Vitest.
 
@@ -52,7 +52,7 @@ src/
 │   └── admin/      # Halaman untuk Admin Panel
 ├── routes/         # Entrypoint file-based routing untuk @tanstack/react-router
 ├── hooks/          # Custom hooks reusable
-├── libs/           # Inisialisasi library (Axios instance, Tanstack Query client, Zustand store)
+├── libs/           # Inisialisasi library (Axios instance, Tanstack Query client, Zustand store, utils.ts helper)
 ├── utils/          # Helper functions dan formatter (format IDR, tanggal)
 ├── constants/      # Konstanta statis (route paths, status enum, dll.)
 ├── services/       # Integrasi API (fungsi fetch, mutasi query)
@@ -191,6 +191,7 @@ Berdasarkan keputusan pengguna, konfigurasi dasar disepakati sebagai berikut:
 2.  **Tanstack Router (`@tanstack/react-router`):** Diimplementasikan dengan file-based routing. File route di `src/routes/` berfungsi sebagai loader dan entrypoint, merender visual page yang ada di `src/pages/`.
 3.  **Environment Variable:** Endpoint API dikonfigurasi melalui berkas `.env` dengan variabel `VITE_API_URL=http://localhost:3000/api`.
 4.  **Zustand:** Digunakan sebagai state manager di sisi client untuk menangani persistensi keranjang belanja offline dan UI global state (sidebar, mode, dll.).
+5.  **Shadcn UI:** Diinstal dan dikonfigurasi menggunakan `components.json` dengan style `radix-nova`. Pustaka utility `cn` ditempatkan di `src/libs/utils.ts`, dan komponen atomic yang diunduh akan ditempatkan di `src/components/ui/`. File stylesheet global yang digunakan adalah `src/index.css`.
 
 ---
 
