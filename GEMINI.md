@@ -58,7 +58,10 @@ src/
 ├── services/       # Integrasi API (fungsi fetch, mutasi query)
 ├── types/          # Type & Interface TypeScript (Wajib menggunakan prefix 'I')
 ├── datas/          # Data dummy/mock lokals untuk development/testing
-└── config/         # Konfigurasi sistem (env loader, setting global)
+├── config/         # Konfigurasi sistem (env loader, setting global)
+└── tests/          # Unit & E2E testing
+    ├── units/      # Unit testing
+    └── e2e/        # E2E testing
 ```
 
 ### 📌 Aturan Standar Penamaan (Naming Convention)
