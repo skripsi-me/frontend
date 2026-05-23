@@ -30,7 +30,7 @@ Semua kode harus ditulis menggunakan library dan tool berikut:
 *   **Validasi Schema & Input:** Zod.
 *   **Icon Library:** Lucide React.
 *   **Chart Library:** Recharts (digunakan pada dashboard admin).
-*   **Atomic Components:** Shadcn UI (Radix UI + Tailwind CSS v4) terkonfigurasi dengan style `radix-nova`.
+*   **Atomic Components:** Shadcn UI (Radix UI + Tailwind CSS v4) terkonfigurasi dengan style `radix-nova` dan custom registry `@acme`. CLI shadcn dipasang sebagai `devDependencies` dan dikelola menggunakan agent skill `shadcn` di `.agents/skills/shadcn/`.
 *   **Alert & Notification:** Sonner.
 *   **Unit Testing:** Vitest.
 
@@ -191,7 +191,7 @@ Berdasarkan keputusan pengguna, konfigurasi dasar disepakati sebagai berikut:
 2.  **Tanstack Router (`@tanstack/react-router`):** Diimplementasikan dengan file-based routing. File route di `src/routes/` berfungsi sebagai loader dan entrypoint, merender visual page yang ada di `src/pages/`.
 3.  **Environment Variable:** Endpoint API dikonfigurasi melalui berkas `.env` dengan variabel `VITE_API_URL=http://localhost:3000/api`.
 4.  **Zustand:** Digunakan sebagai state manager di sisi client untuk menangani persistensi keranjang belanja offline dan UI global state (sidebar, mode, dll.).
-5.  **Shadcn UI:** Diinstal dan dikonfigurasi menggunakan `components.json` dengan style `radix-nova`. Pustaka utility `cn` ditempatkan di `src/libs/utils.ts`, dan komponen atomic yang diunduh akan ditempatkan di `src/components/ui/`. File stylesheet global yang digunakan adalah `src/index.css`.
+5.  **Shadcn UI:** Diinstal dan dikonfigurasi menggunakan `components.json` dengan style `radix-nova` serta registry kustom `@acme` (`https://acme.com/r/{name}.json`). Pustaka utility `cn` ditempatkan di `src/libs/utils.ts`, dan komponen atomic yang diunduh ditempatkan di `src/components/ui/`. File stylesheet global yang digunakan adalah `src/index.css`. Dependensi `shadcn` dipasang di `devDependencies` dalam `package.json`, dan pengelolaan komponen shadcn (tambah, cari, kustomisasi) memanfaatkan agent skill `shadcn` di `.agents/skills/shadcn/`.
 
 ---
 
