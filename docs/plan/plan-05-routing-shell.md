@@ -56,13 +56,13 @@ app/
 
 1. Buat folder & placeholder `page.tsx` untuk setiap route di atas.
 2. Pola placeholder seragam:
-   - `metadata` per halaman (title deskriptif Bahasa Indonesia).
-   - Isi minimal: heading (`headline` token) + teks "Halaman ini sedang dalam pengembangan." + label route.
-   - Tidak ada logika/fetch di placeholder.
+    - `metadata` per halaman (title deskriptif Bahasa Indonesia).
+    - Isi minimal: heading (`headline` token) + teks "Halaman ini sedang dalam pengembangan." + label route.
+    - Tidak ada logika/fetch di placeholder.
 3. Beranda `app/page.tsx` diganti placeholder (hanya teks sementara).
 4. Buat `app/dashboard/layout.tsx`:
-   - Guard role **stub**: tampilkan placeholder + komentar TODO bahwa autentikasi penuh di Fase 3/4 (jangan redirect login aktif — akan merusak dev).
-   - Bungkus `children` dalam shell sederhana.
+    - Guard role **stub**: tampilkan placeholder + komentar TODO bahwa autentikasi penuh di Fase 3/4 (jangan redirect login aktif — akan merusak dev).
+    - Bungkus `children` dalam shell sederhana.
 5. Jangan membuat layout untuk area publik lain di plan ini — root layout sudah cukup.
 
 ## Verifikasi
@@ -74,11 +74,11 @@ pnpm dev
 ```
 
 - Buka tiap route utama di browser → render tanpa 404:
-  - `/`, `/produk`, `/produk/abc`
-  - `/keranjang-saya`, `/keranjang-saya/konfirmasi-checkout`
-  - `/profil`, `/profil/update`, `/profil/riwayat-transaksi`
-  - `/auth/login`, `/auth/ubah-password`
-  - `/dashboard` + sub-route (produk, kategori, pesanan, pengguna)
+    - `/`, `/produk`, `/produk/abc`
+    - `/keranjang-saya`, `/keranjang-saya/konfirmasi-checkout`
+    - `/profil`, `/profil/update`, `/profil/riwayat-transaksi`
+    - `/auth/login`, `/auth/ubah-password`
+    - `/dashboard` + sub-route (produk, kategori, pesanan, pengguna)
 - Tidak ada error Next.js di terminal.
 
 ## Catatan

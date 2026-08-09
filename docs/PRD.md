@@ -16,9 +16,11 @@ Frontend dibangun dengan **Next.js (App Router)**, terhubung ke backend REST API
 ## 2. Tujuan & Problem Statement
 
 ### Problem Statement
+
 Toko fisik (mart) kesulitan menjangkau pembeli di luar area toko. Pembeli tidak dapat melihat stok produk, harga, atau melakukan pemesanan tanpa datang langsung ke toko.
 
 ### Tujuan
+
 1. Menyediakan katalog produk online yang dapat diakses publik.
 2. Memudahkan pembeli memesan produk dari rumah dan membayar saat barang tiba (COD).
 3. Memberi admin alat kelola produk, kategori, pesanan, dan pengguna dalam satu panel.
@@ -26,38 +28,38 @@ Toko fisik (mart) kesulitan menjangkau pembeli di luar area toko. Pembeli tidak 
 
 ## 3. Target Pengguna & Persona
 
-| Persona | Deskripsi | Kebutuhan |
-|---|---|---|
-| **Pengunjung (Guest)** | Belum login, melihat-lihat katalog | Browsing, mencari, melihat detail produk |
-| **Pembeli (User)** | Terdaftar & login | Keranjang, checkout, riwayat transaksi, kelola profil |
-| **Admin** | Mengelola toko | Kelola produk, kategori, pesanan, pengguna, lihat laporan |
+| Persona                | Deskripsi                          | Kebutuhan                                                 |
+| ---------------------- | ---------------------------------- | --------------------------------------------------------- |
+| **Pengunjung (Guest)** | Belum login, melihat-lihat katalog | Browsing, mencari, melihat detail produk                  |
+| **Pembeli (User)**     | Terdaftar & login                  | Keranjang, checkout, riwayat transaksi, kelola profil     |
+| **Admin**              | Mengelola toko                     | Kelola produk, kategori, pesanan, pengguna, lihat laporan |
 
 ## 4. Daftar Fitur
 
 ### 4.1 Fitur Pengunjung / Pembeli
 
-| ID | Fitur | Keterangan |
-|---|---|---|
-| F-01 | Browsing produk | Beranda menampilkan produk terlaris & kategori |
-| F-02 | Pencarian produk | Cari berdasarkan nama/deskripsi |
-| F-03 | Filter kategori | Lihat produk per kategori |
-| F-04 | Detail produk | Info lengkap: harga, stok, deskripsi, kategori |
-| F-05 | Registrasi & login | Daftar akun baru, login, logout |
-| F-06 | Ubah password | Ganti password dari akun sendiri |
-| F-07 | Keranjang belanja | Tambah, ubah kuantitas, hapus item |
-| F-08 | Checkout | Konfirmasi order dengan pembayaran COD |
-| F-09 | Riwayat transaksi | Daftar order milik sendiri beserta status |
-| F-10 | Kelola profil | Lihat & update nama, alamat, nomor telepon |
+| ID   | Fitur              | Keterangan                                     |
+| ---- | ------------------ | ---------------------------------------------- |
+| F-01 | Browsing produk    | Beranda menampilkan produk terlaris & kategori |
+| F-02 | Pencarian produk   | Cari berdasarkan nama/deskripsi                |
+| F-03 | Filter kategori    | Lihat produk per kategori                      |
+| F-04 | Detail produk      | Info lengkap: harga, stok, deskripsi, kategori |
+| F-05 | Registrasi & login | Daftar akun baru, login, logout                |
+| F-06 | Ubah password      | Ganti password dari akun sendiri               |
+| F-07 | Keranjang belanja  | Tambah, ubah kuantitas, hapus item             |
+| F-08 | Checkout           | Konfirmasi order dengan pembayaran COD         |
+| F-09 | Riwayat transaksi  | Daftar order milik sendiri beserta status      |
+| F-10 | Kelola profil      | Lihat & update nama, alamat, nomor telepon     |
 
 ### 4.2 Fitur Admin
 
-| ID | Fitur | Keterangan |
-|---|---|---|
-| F-11 | Dashboard | Ringkasan data toko & laporan harian |
-| F-12 | Kelola produk | Buat, lihat, update, hapus produk (termasuk upload gambar) |
-| F-13 | Kelola kategori | Buat, lihat, update, hapus kategori |
-| F-14 | Kelola pesanan | Lihat semua pesanan, update status |
-| F-15 | Kelola pengguna | Buat, lihat, update, hapus pengguna & role |
+| ID   | Fitur           | Keterangan                                                 |
+| ---- | --------------- | ---------------------------------------------------------- |
+| F-11 | Dashboard       | Ringkasan data toko & laporan harian                       |
+| F-12 | Kelola produk   | Buat, lihat, update, hapus produk (termasuk upload gambar) |
+| F-13 | Kelola kategori | Buat, lihat, update, hapus kategori                        |
+| F-14 | Kelola pesanan  | Lihat semua pesanan, update status                         |
+| F-15 | Kelola pengguna | Buat, lihat, update, hapus pengguna & role                 |
 
 ## 5. Alur Order (Checkout)
 
@@ -80,34 +82,34 @@ pending → shipped → delivered
 
 ### 6.1 Halaman Pengguna
 
-| Halaman | Route |
-|---|---|
-| Beranda | `/` |
-| Produk | `/produk` |
-| Detail produk | `/produk/{id}` |
-| Keranjang saya | `/keranjang-saya` |
+| Halaman             | Route                                 |
+| ------------------- | ------------------------------------- |
+| Beranda             | `/`                                   |
+| Produk              | `/produk`                             |
+| Detail produk       | `/produk/{id}`                        |
+| Keranjang saya      | `/keranjang-saya`                     |
 | Konfirmasi checkout | `/keranjang-saya/konfirmasi-checkout` |
-| Profil | `/profil` |
-| Update profile | `/profil/update` |
-| Riwayat transaksi | `/profil/riwayat-transaksi` |
-| Login | `/auth/login` |
-| Ubah password | `/auth/ubah-password` |
+| Profil              | `/profil`                             |
+| Update profile      | `/profil/update`                      |
+| Riwayat transaksi   | `/profil/riwayat-transaksi`           |
+| Login               | `/auth/login`                         |
+| Ubah password       | `/auth/ubah-password`                 |
 
 ### 6.2 Admin Panel (base URL `/dashboard`)
 
-| Halaman | Route |
-|---|---|
-| Dashboard | `/dashboard` |
-| Produk | `/dashboard/produk` |
-| Detail produk | `/dashboard/produk/{id}` |
-| Tambah produk | `/dashboard/produk/buat` |
-| Update produk | `/dashboard/produk/{id}/update` |
-| Kategori | `/dashboard/kategori` |
-| Pesanan | `/dashboard/pesanan` |
-| Detail pesanan | `/dashboard/pesanan/{id}` |
-| Pengguna | `/dashboard/pengguna` |
-| Detail pengguna | `/dashboard/pengguna/{id}` |
-| Tambah pengguna | `/dashboard/pengguna/buat` |
+| Halaman         | Route                             |
+| --------------- | --------------------------------- |
+| Dashboard       | `/dashboard`                      |
+| Produk          | `/dashboard/produk`               |
+| Detail produk   | `/dashboard/produk/{id}`          |
+| Tambah produk   | `/dashboard/produk/buat`          |
+| Update produk   | `/dashboard/produk/{id}/update`   |
+| Kategori        | `/dashboard/kategori`             |
+| Pesanan         | `/dashboard/pesanan`              |
+| Detail pesanan  | `/dashboard/pesanan/{id}`         |
+| Pengguna        | `/dashboard/pengguna`             |
+| Detail pengguna | `/dashboard/pengguna/{id}`        |
+| Tambah pengguna | `/dashboard/pengguna/buat`        |
 | Update pengguna | `/dashboard/pengguna/{id}/update` |
 
 > Langkah 4 pada alur order (konfirmasi checkout) diimplementasikan pada halaman `/keranjang-saya/konfirmasi-checkout`.
@@ -124,16 +126,16 @@ pending → shipped → delivered
 
 ## 8. Prioritas MoSCoW
 
-| Prioritas | Fitur |
-|---|---|
-| **Must have** | Auth (login/register/logout), katalog & pencarian produk, detail produk, keranjang, checkout COD, riwayat transaksi, kelola produk, kelola kategori, kelola pesanan, kelola pengguna |
-| **Should have** | Update profil, ubah password, dashboard admin, laporan harian |
-| **Could have** | Fitur best-sellers di beranda, filter lanjutan |
-| **Won't have** | Payment gateway, wishlist, review produk, notifikasi realtime, chat |
+| Prioritas       | Fitur                                                                                                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Must have**   | Auth (login/register/logout), katalog & pencarian produk, detail produk, keranjang, checkout COD, riwayat transaksi, kelola produk, kelola kategori, kelola pesanan, kelola pengguna |
+| **Should have** | Update profil, ubah password, dashboard admin, laporan harian                                                                                                                        |
+| **Could have**  | Fitur best-sellers di beranda, filter lanjutan                                                                                                                                       |
+| **Won't have**  | Payment gateway, wishlist, review produk, notifikasi realtime, chat                                                                                                                  |
 
 ## 9. Metrik Sukses (Skripsi)
 
-- 100% fitur *must have* terimplementasi dan berfungsi.
+- 100% fitur _must have_ terimplementasi dan berfungsi.
 - Semua alur order end-to-end dapat diselesaikan tanpa error.
 - Kelayakan fungsionalitas diuji via skenario use case (pengujian black-box).
 - Performa halaman memenuhi standar dasar (waktu muat halaman dapat diterima).

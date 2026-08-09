@@ -16,46 +16,49 @@
 ## Langkah
 
 1. Pindahkan halaman publik ke route group `(public)` (URL tidak berubah):
-   ```
-   app/(public)/
-   ├── layout.tsx           # baru: Navbar + Footer shell
-   ├── page.tsx             # /  (beranda)
-   ├── produk/...           # /produk, /produk/{id}
-   ├── keranjang-saya/...   # /keranjang-saya, /keranjang-saya/konfirmasi-checkout
-   ├── profil/...           # /profil, /profil/update, /profil/riwayat-transaksi
-   └── auth/...             # /auth/login, /auth/ubah-password
-   ```
-   Dashboard tetap di `app/dashboard/` (di luar group).
+
+    ```
+    app/(public)/
+    ├── layout.tsx           # baru: Navbar + Footer shell
+    ├── page.tsx             # /  (beranda)
+    ├── produk/...           # /produk, /produk/{id}
+    ├── keranjang-saya/...   # /keranjang-saya, /keranjang-saya/konfirmasi-checkout
+    ├── profil/...           # /profil, /profil/update, /profil/riwayat-transaksi
+    └── auth/...             # /auth/login, /auth/ubah-password
+    ```
+
+    Dashboard tetap di `app/dashboard/` (di luar group).
 
 2. Tambah komponen shadcn yang dibutuhkan shell:
-   ```bash
-   npx shadcn@latest add avatar sheet
-   ```
+
+    ```bash
+    npx shadcn@latest add avatar sheet
+    ```
 
 3. Auth context — `providers/auth-provider.tsx` ("use client"):
-   - Pakai `useMe()` dari `hooks/user.hook.ts`.
-   - Expose: `user`, `isAuthenticated`, `isLoading`, `login`, `logout`.
-   - `login(email, password)` → `useLogin().mutateAsync`, lalu invalidate `userKeys.me`.
-   - `logout()` → `useLogout().mutateAsync`, hapus cache `userKeys.me` (`removeQueries`).
-   - Pasang `AuthProvider` di `app/layout.tsx` (di dalam `QueryProvider`).
+    - Pakai `useMe()` dari `hooks/user.hook.ts`.
+    - Expose: `user`, `isAuthenticated`, `isLoading`, `login`, `logout`.
+    - `login(email, password)` → `useLogin().mutateAsync`, lalu invalidate `userKeys.me`.
+    - `logout()` → `useLogout().mutateAsync`, hapus cache `userKeys.me` (`removeQueries`).
+    - Pasang `AuthProvider` di `app/layout.tsx` (di dalam `QueryProvider`).
 
 4. Guard privat — `components/auth/require-auth.tsx` ("use client"):
-   - Jika `isLoading` → tampilkan Skeleton.
-   - Jika `!isAuthenticated` → `<Redirect href="/auth/login" />`.
-   - Jika login → render `children`.
-   - (Fase 5: varian `require-admin` untuk dashboard.)
+    - Jika `isLoading` → tampilkan Skeleton.
+    - Jika `!isAuthenticated` → `<Redirect href="/auth/login" />`.
+    - Jika login → render `children`.
+    - (Fase 5: varian `require-admin` untuk dashboard.)
 
 5. Layout `app/(public)/layout.tsx`:
-   - Server component. Render `<Navbar /> {children} <Footer />`.
-   - Navbar/Footer client component (pakai auth context + cart count).
+    - Server component. Render `<Navbar /> {children} <Footer />`.
+    - Navbar/Footer client component (pakai auth context + cart count).
 
 6. Komponen bersama di `components/`:
-   - `navbar.tsx` — logo As-Sakinah Mart, link (Beranda, Produk), search singkat (ke /produk), keranjang icon + count, dropdown profil (Profil, Riwayat Transaksi, Ubah Password, Logout) atau tombol Login.
-   - `footer.tsx` — info toko statis.
-   - `product-card.tsx` — card produk: image, nama, harga (`formatRupiah`), stok; link ke `/produk/{slug}`.
-   - `empty-state.tsx` — ilustrasi + teks kosong (pakai komponen `Empty` bila tersedia, atau div sederhana).
-   - `status-badge.tsx` — Badge status order via `formatStatus` + warna (pending=warning, shipped=primary, delivered=success, cancelled=secondary).
-   - `price.tsx` — teks harga Rupiah.
+    - `navbar.tsx` — logo As-Sakinah Mart, link (Beranda, Produk), search singkat (ke /produk), keranjang icon + count, dropdown profil (Profil, Riwayat Transaksi, Ubah Password, Logout) atau tombol Login.
+    - `footer.tsx` — info toko statis.
+    - `product-card.tsx` — card produk: image, nama, harga (`formatRupiah`), stok; link ke `/produk/{slug}`.
+    - `empty-state.tsx` — ilustrasi + teks kosong (pakai komponen `Empty` bila tersedia, atau div sederhana).
+    - `status-badge.tsx` — Badge status order via `formatStatus` + warna (pending=warning, shipped=primary, delivered=success, cancelled=secondary).
+    - `price.tsx` — teks harga Rupiah.
 
 ## Verifikasi
 

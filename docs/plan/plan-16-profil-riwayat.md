@@ -17,25 +17,25 @@
 ## Langkah
 
 1. `/profil` ("use client", `RequireAuth`):
-   - `useMe()` → card data: nama, email, alamat, phone, role.
-   - Tombol "Edit Profil" → `/profil/update`.
-   - Tombol "Ubah Password" → `/auth/ubah-password`.
-   - Tombol "Riwayat Transaksi" → `/profil/riwayat-transaksi`.
-   - Loading → Skeleton.
+    - `useMe()` → card data: nama, email, alamat, phone, role.
+    - Tombol "Edit Profil" → `/profil/update`.
+    - Tombol "Ubah Password" → `/auth/ubah-password`.
+    - Tombol "Riwayat Transaksi" → `/profil/riwayat-transaksi`.
+    - Loading → Skeleton.
 
 2. `/profil/update` ("use client", `RequireAuth`):
-   - Form prefill dari `useMe()` (name, address, phone_number).
-   - Submit → `useUpdateProfile().mutateAsync({ name, address, phone_number })`.
-   - Sukses → toast + redirect `/profil` (cache me ter-invalidate).
-   - Error → Alert/field errors.
+    - Form prefill dari `useMe()` (name, address, phone_number).
+    - Submit → `useUpdateProfile().mutateAsync({ name, address, phone_number })`.
+    - Sukses → toast + redirect `/profil` (cache me ter-invalidate).
+    - Error → Alert/field errors.
 
 3. `/profil/riwayat-transaksi` ("use client", `RequireAuth`):
-   - `useMyOrders({ page, limit })` → daftar Card order:
-     - Tanggal (`formatDate`), status (`status-badge`), total (`formatRupiah`).
-     - Item list: nama, qty, `price_at_purchase`.
-   - Pagination dari meta (shadcn Pagination) → set page.
-   - Empty → `empty-state` "Belum ada transaksi".
-   - Loading → Skeleton; error → Alert.
+    - `useMyOrders({ page, limit })` → daftar Card order:
+        - Tanggal (`formatDate`), status (`status-badge`), total (`formatRupiah`).
+        - Item list: nama, qty, `price_at_purchase`.
+    - Pagination dari meta (shadcn Pagination) → set page.
+    - Empty → `empty-state` "Belum ada transaksi".
+    - Loading → Skeleton; error → Alert.
 
 ## Verifikasi
 

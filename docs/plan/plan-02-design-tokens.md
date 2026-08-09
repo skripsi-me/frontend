@@ -12,33 +12,33 @@ Baca [`../DESIGN.md`](../DESIGN.md) — bagian YAML frontmatter (warna, tipograf
 
 ## Mapping Warna
 
-| Token DESIGN.md | Nilai | CSS var / Tailwind |
-|---|---|---|
-| primary | `#00AA5B` | `--color-primary` |
-| primary-foreground | `#FFFFFF` | `--color-primary-foreground` |
-| primary-soft | `#E7F9EF` | `--color-primary-soft` |
-| secondary | `#101010` | `--color-secondary` |
-| tertiary | `#B3BBC9` | `--color-tertiary` |
-| neutral | `#FFFFFF` | `--color-neutral` |
-| neutral-100 / surface-muted | `#F7F8FA` | `--color-surface-muted` |
-| surface | `#FFFFFF` | `--color-surface` |
-| on-surface | `#080808` | `--color-on-surface` |
-| on-surface-muted | `#6B7280` | `--color-on-surface-muted` |
-| border | `#E5E7EB` | `--color-border` |
-| border-strong | `#B3BBC9` | `--color-border-strong` |
-| success | `#00AA5B` | `--color-success` |
-| warning | `#F59E0B` | `--color-warning` |
-| error | `#E11D48` | `--color-error` |
+| Token DESIGN.md             | Nilai     | CSS var / Tailwind           |
+| --------------------------- | --------- | ---------------------------- |
+| primary                     | `#00AA5B` | `--color-primary`            |
+| primary-foreground          | `#FFFFFF` | `--color-primary-foreground` |
+| primary-soft                | `#E7F9EF` | `--color-primary-soft`       |
+| secondary                   | `#101010` | `--color-secondary`          |
+| tertiary                    | `#B3BBC9` | `--color-tertiary`           |
+| neutral                     | `#FFFFFF` | `--color-neutral`            |
+| neutral-100 / surface-muted | `#F7F8FA` | `--color-surface-muted`      |
+| surface                     | `#FFFFFF` | `--color-surface`            |
+| on-surface                  | `#080808` | `--color-on-surface`         |
+| on-surface-muted            | `#6B7280` | `--color-on-surface-muted`   |
+| border                      | `#E5E7EB` | `--color-border`             |
+| border-strong               | `#B3BBC9` | `--color-border-strong`      |
+| success                     | `#00AA5B` | `--color-success`            |
+| warning                     | `#F59E0B` | `--color-warning`            |
+| error                       | `#E11D48` | `--color-error`              |
 
 ## Mapping Radius & Spacing
 
-| Token | Nilai | Catatan |
-|---|---|---|
-| `rounded.md` | 8px | radius default komponen |
-| `rounded.lg` | 12px | banner |
-| `rounded.xl` | 16px | panel besar |
-| `rounded.full` | 9999px | chip/badge |
-| spacing xs/sm/md/lg/xl | 6/16/32/50/110px | rhythm layout |
+| Token                  | Nilai            | Catatan                 |
+| ---------------------- | ---------------- | ----------------------- |
+| `rounded.md`           | 8px              | radius default komponen |
+| `rounded.lg`           | 12px             | banner                  |
+| `rounded.xl`           | 16px             | panel besar             |
+| `rounded.full`         | 9999px           | chip/badge              |
+| spacing xs/sm/md/lg/xl | 6/16/32/50/110px | rhythm layout           |
 
 Sesuaikan/tingkatkan skala spacing Tailwind bila diperlukan agar konsisten.
 
@@ -48,19 +48,19 @@ Font: **Open Sauce One** (dipasang di plan-03).
 
 Gunakan `@theme` untuk token berikut (font-size + weight + line-height):
 
-| Token | Size/Weight/LineHeight |
-|---|---|
-| headline-display | 32px / 700 / 38px |
-| headline-lg | 28px / 700 / 33px |
-| headline-md | 20px / 600 / 24px |
-| headline-sm | 18px / 600 / 22px |
-| body-lg | 16px / 600 / 24px |
-| body-md | 14px / 600 / 21px |
-| body-sm | 12px / 400 / 18px |
-| label-lg | 14px / 700 / 21px |
-| label-md | 12px / 800 / 18px |
-| label-sm | 12px / 400 / 18px |
-| caption | 11px / 600 / 16px |
+| Token            | Size/Weight/LineHeight |
+| ---------------- | ---------------------- |
+| headline-display | 32px / 700 / 38px      |
+| headline-lg      | 28px / 700 / 33px      |
+| headline-md      | 20px / 600 / 24px      |
+| headline-sm      | 18px / 600 / 22px      |
+| body-lg          | 16px / 600 / 24px      |
+| body-md          | 14px / 600 / 21px      |
+| body-sm          | 12px / 400 / 18px      |
+| label-lg         | 14px / 700 / 21px      |
+| label-md         | 12px / 800 / 18px      |
+| label-sm         | 12px / 400 / 18px      |
+| caption          | 11px / 600 / 16px      |
 
 Implementasi diserahkan pada eksekutor — target: utility class siap pakai (misal via `@utility` atau custom class di layer `components`).
 

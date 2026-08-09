@@ -4,10 +4,10 @@ Panduan setup pengembangan dan deployment frontend.
 
 ## 1. Prasyarat
 
-| Tool | Versi minimal |
-|---|---|
-| Node.js | 20.x |
-| pnpm | 9.x / 11.x (sesuai `package.json`) |
+| Tool    | Versi minimal                      |
+| ------- | ---------------------------------- |
+| Node.js | 20.x                               |
+| pnpm    | 9.x / 11.x (sesuai `package.json`) |
 
 Verifikasi:
 
@@ -30,9 +30,9 @@ Buat file `.env.local` di root proyek.
 cp .env.example .env.local
 ```
 
-| Variable | Wajib | Deskripsi |
-|---|---|---|
-| `NEXT_PUBLIC_API_BASE_URL` | Ya | Base URL backend, contoh `http://localhost:3000` (dev) |
+| Variable                   | Wajib | Deskripsi                                              |
+| -------------------------- | ----- | ------------------------------------------------------ |
+| `NEXT_PUBLIC_API_BASE_URL` | Ya    | Base URL backend, contoh `http://localhost:3000` (dev) |
 
 > Backend memakai cookie `httpOnly` (JWT). Pastikan request dikirim dengan `credentials: "include"` dan backend mengizinkan origin frontend (CORS dengan `credentials: true`).
 

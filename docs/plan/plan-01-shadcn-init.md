@@ -15,24 +15,27 @@ Inisialisasi shadcn/ui di proyek Next.js + Tailwind v4, lalu menambahkan kompone
 ## Langkah
 
 1. Jalankan inisialisasi shadcn:
-   ```bash
-   npx shadcn@latest init
-   ```
-   Pilihan konfigurasi:
-   - Base color: **Green** (mendekati `#00AA5B` — penyempurnaan di plan-02)
-   - Alias components: `@/components`
-   - Alias utils: `@/lib/utils`
-   - Gaya: ikuti default (New York) kecuali ada prompt lain.
+
+    ```bash
+    npx shadcn@latest init
+    ```
+
+    Pilihan konfigurasi:
+    - Base color: **Green** (mendekati `#00AA5B` — penyempurnaan di plan-02)
+    - Alias components: `@/components`
+    - Alias utils: `@/lib/utils`
+    - Gaya: ikuti default (New York) kecuali ada prompt lain.
 
 2. Pastikan file berikut tercipta:
-   - `components.json`
-   - `lib/utils.ts` (fungsi `cn`)
-   - `components/ui/` (jika init menghasilkan)
+    - `components.json`
+    - `lib/utils.ts` (fungsi `cn`)
+    - `components/ui/` (jika init menghasilkan)
 
 3. Tambahkan komponen base:
-   ```bash
-   npx shadcn@latest add button input label card badge tabs skeleton separator sonner checkbox select dialog dropdown-menu table pagination textarea alert
-   ```
+
+    ```bash
+    npx shadcn@latest add button input label card badge tabs skeleton separator sonner checkbox select dialog dropdown-menu table pagination textarea alert
+    ```
 
 4. Periksa hasil: semua komponen di `components/ui/`.
 

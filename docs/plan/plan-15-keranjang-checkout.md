@@ -18,19 +18,19 @@
 ## Langkah
 
 1. `/keranjang-saya` ("use client", bungkus `RequireAuth`):
-   - `useCart()` → daftar item (image, nama, harga satuan, subtotal per item).
-   - Kuantitas: tombol − / + (clamp min 1, max stok produk bila tersedia) → `useUpdateCartItem`.
-   - Hapus item → `useDeleteCartItem` (konfirmasi Dialog/AlertDialog opsional).
-   - Ringkasan: jumlah item, total `formatRupiah` (sum `price * quantity`).
-   - Tombol **"Checkout"** (primary) → `/keranjang-saya/konfirmasi-checkout`. Kosong → disabled + empty-state.
+    - `useCart()` → daftar item (image, nama, harga satuan, subtotal per item).
+    - Kuantitas: tombol − / + (clamp min 1, max stok produk bila tersedia) → `useUpdateCartItem`.
+    - Hapus item → `useDeleteCartItem` (konfirmasi Dialog/AlertDialog opsional).
+    - Ringkasan: jumlah item, total `formatRupiah` (sum `price * quantity`).
+    - Tombol **"Checkout"** (primary) → `/keranjang-saya/konfirmasi-checkout`. Kosong → disabled + empty-state.
 
 2. `/keranjang-saya/konfirmasi-checkout` ("use client", `RequireAuth`):
-   - `useMe()` → nama, alamat, phone (card data pengiriman).
-   - `useCart()` → daftar produk + subtotal + total transaksi.
-   - Tombol **"Pesan Sekarang"** (primary) → `useCreateOrder().mutateAsync()`.
-   - Sukses → toast + redirect `/profil/riwayat-transaksi` (backend mengosongkan keranjang).
-   - Error 400 (`Cart is empty`, `Insufficient stock...`) → Alert.
-   - Loading → button spinner; keranjang kosong → redirect balik `/keranjang-saya`.
+    - `useMe()` → nama, alamat, phone (card data pengiriman).
+    - `useCart()` → daftar produk + subtotal + total transaksi.
+    - Tombol **"Pesan Sekarang"** (primary) → `useCreateOrder().mutateAsync()`.
+    - Sukses → toast + redirect `/profil/riwayat-transaksi` (backend mengosongkan keranjang).
+    - Error 400 (`Cart is empty`, `Insufficient stock...`) → Alert.
+    - Loading → button spinner; keranjang kosong → redirect balik `/keranjang-saya`.
 
 ## Verifikasi
 

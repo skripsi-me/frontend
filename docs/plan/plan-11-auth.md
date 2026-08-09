@@ -16,23 +16,23 @@
 ## Langkah
 
 1. `app/(public)/auth/login/page.tsx` ("use client"):
-   - Form: email + password (Input + Label). Validasi minimal (required, email format).
-   - Submit → `useLogin().mutateAsync({ email, password })`.
-   - Sukses → invalidate `userKeys.me` (via auth context), redirect `/`.
-   - Error → `isApiError` → tampilkan `metadata.message` (Alert), field error per input.
-   - Loading state button (disabled + spinner).
-   - Link ke `/auth/ubah-password`.
+    - Form: email + password (Input + Label). Validasi minimal (required, email format).
+    - Submit → `useLogin().mutateAsync({ email, password })`.
+    - Sukses → invalidate `userKeys.me` (via auth context), redirect `/`.
+    - Error → `isApiError` → tampilkan `metadata.message` (Alert), field error per input.
+    - Loading state button (disabled + spinner).
+    - Link ke `/auth/ubah-password`.
 
 2. Logout (di Navbar):
-   - Tombol Logout → `authContext.logout()` → redirect `/auth/login`.
-   - Setelah logout pastikan cache user & cart dibersihkan.
+    - Tombol Logout → `authContext.logout()` → redirect `/auth/login`.
+    - Setelah logout pastikan cache user & cart dibersihkan.
 
 3. `app/(public)/auth/ubah-password/page.tsx` ("use client"):
-   - Form: old_password, new_password (min 8), konfirmasi password baru (validasi client, tidak dikirim).
-   - Submit → `useChangePassword().mutateAsync({ old_password, new_password })`.
-   - Sukses → toast (sonner) + redirect `/profil`.
-   - Error 400 `Invalid old password` → Alert.
-   - Halaman privat → bungkus dengan `RequireAuth`.
+    - Form: old_password, new_password (min 8), konfirmasi password baru (validasi client, tidak dikirim).
+    - Submit → `useChangePassword().mutateAsync({ old_password, new_password })`.
+    - Sukses → toast (sonner) + redirect `/profil`.
+    - Error 400 `Invalid old password` → Alert.
+    - Halaman privat → bungkus dengan `RequireAuth`.
 
 ## Verifikasi
 

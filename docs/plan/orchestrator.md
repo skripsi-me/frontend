@@ -15,13 +15,13 @@ Membangun fondasi teknis frontend As-Sakinah Mart:
 
 ## Daftar Plan
 
-| # | File | Isi | Dependensi |
-|---|---|---|---|
-| 01 | [`plan-01-shadcn-init.md`](./plan-01-shadcn-init.md) | Inisialisasi shadcn + add base components | Tidak ada |
-| 02 | [`plan-02-design-tokens.md`](./plan-02-design-tokens.md) | Design token DESIGN.md → Tailwind v4 theme | 01 (globals.css hasil init shadcn) |
-| 03 | [`plan-03-layout-fonts.md`](./plan-03-layout-fonts.md) | Font Open Sauce One + rewrite root layout | 02 (tema di globals.css) |
-| 04 | [`plan-04-api-client.md`](./plan-04-api-client.md) | axios instance + interceptor + helpers | Tidak ada (paralel) |
-| 05 | [`plan-05-routing-shell.md`](./plan-05-routing-shell.md) | Struktur `app/` + placeholder pages + dashboard group | 03 (layout), 04 (utils) |
+| #   | File                                                     | Isi                                                   | Dependensi                         |
+| --- | -------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------- |
+| 01  | [`plan-01-shadcn-init.md`](./plan-01-shadcn-init.md)     | Inisialisasi shadcn + add base components             | Tidak ada                          |
+| 02  | [`plan-02-design-tokens.md`](./plan-02-design-tokens.md) | Design token DESIGN.md → Tailwind v4 theme            | 01 (globals.css hasil init shadcn) |
+| 03  | [`plan-03-layout-fonts.md`](./plan-03-layout-fonts.md)   | Font Open Sauce One + rewrite root layout             | 02 (tema di globals.css)           |
+| 04  | [`plan-04-api-client.md`](./plan-04-api-client.md)       | axios instance + interceptor + helpers                | Tidak ada (paralel)                |
+| 05  | [`plan-05-routing-shell.md`](./plan-05-routing-shell.md) | Struktur `app/` + placeholder pages + dashboard group | 03 (layout), 04 (utils)            |
 
 ## Urutan Eksekusi
 
@@ -80,12 +80,12 @@ Membangun lapisan data modular: config → types → services → hooks (TanStac
 
 ## Daftar Plan (eksekusi langsung, bukan dokumen terpisah)
 
-| # | Cakupan | File |
-|---|---|---|
-| 06 | API config | `config/api.config.ts` (env + `API_ENDPOINTS`) + refactor `lib/api/client.ts` |
-| 07 | Types per module | `types/{auth,user,category,product,cart,order}.ts` |
-| 08 | Services per module | `services/{auth,user,category,product,cart,order}.service.ts` |
-| 09 | Hooks per module | `hooks/{auth,user,category,product,cart,order}.hook.ts` + `providers/query-provider.tsx` + pasang di `app/layout.tsx` |
+| #   | Cakupan             | File                                                                                                                  |
+| --- | ------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 06  | API config          | `config/api.config.ts` (env + `API_ENDPOINTS`) + refactor `lib/api/client.ts`                                         |
+| 07  | Types per module    | `types/{auth,user,category,product,cart,order}.ts`                                                                    |
+| 08  | Services per module | `services/{auth,user,category,product,cart,order}.service.ts`                                                         |
+| 09  | Hooks per module    | `hooks/{auth,user,category,product,cart,order}.hook.ts` + `providers/query-provider.tsx` + pasang di `app/layout.tsx` |
 
 Urutan: 06 → 07 → 08 → 09. Install `@tanstack/react-query` + devtools di langkah 09.
 
@@ -116,15 +116,15 @@ Membangun seluruh halaman publik: shell + auth, katalog, keranjang/checkout, pro
 
 ## Daftar Plan
 
-| # | Plan | Isi | Dependensi |
-|---|---|---|---|
-| 10 | [`plan-10-public-shell.md`](./plan-10-public-shell.md) | Route group `(public)`, Navbar/Footer, auth context, guard, shared UI | Fase 3 |
-| 11 | [`plan-11-auth.md`](./plan-11-auth.md) | Login, logout, ubah password | 10 |
-| 12 | [`plan-12-beranda.md`](./plan-12-beranda.md) | Hero, kategori, best-sellers | 10 |
-| 13 | [`plan-13-katalog.md`](./plan-13-katalog.md) | Daftar produk + search + filter + pagination | 10 |
-| 14 | [`plan-14-detail.md`](./plan-14-detail.md) | Detail produk + tambah ke keranjang | 10 |
-| 15 | [`plan-15-keranjang-checkout.md`](./plan-15-keranjang-checkout.md) | Keranjang + konfirmasi checkout + pesan sekarang | 11 |
-| 16 | [`plan-16-profil-riwayat.md`](./plan-16-profil-riwayat.md) | Profil, update, riwayat transaksi | 11 |
+| #   | Plan                                                               | Isi                                                                   | Dependensi |
+| --- | ------------------------------------------------------------------ | --------------------------------------------------------------------- | ---------- |
+| 10  | [`plan-10-public-shell.md`](./plan-10-public-shell.md)             | Route group `(public)`, Navbar/Footer, auth context, guard, shared UI | Fase 3     |
+| 11  | [`plan-11-auth.md`](./plan-11-auth.md)                             | Login, logout, ubah password                                          | 10         |
+| 12  | [`plan-12-beranda.md`](./plan-12-beranda.md)                       | Hero, kategori, best-sellers                                          | 10         |
+| 13  | [`plan-13-katalog.md`](./plan-13-katalog.md)                       | Daftar produk + search + filter + pagination                          | 10         |
+| 14  | [`plan-14-detail.md`](./plan-14-detail.md)                         | Detail produk + tambah ke keranjang                                   | 10         |
+| 15  | [`plan-15-keranjang-checkout.md`](./plan-15-keranjang-checkout.md) | Keranjang + konfirmasi checkout + pesan sekarang                      | 11         |
+| 16  | [`plan-16-profil-riwayat.md`](./plan-16-profil-riwayat.md)         | Profil, update, riwayat transaksi                                     | 11         |
 
 ## Urutan Eksekusi
 

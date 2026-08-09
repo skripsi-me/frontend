@@ -3,179 +3,179 @@ version: alpha
 name: Tokopedia Green Commerce
 description: A bright, trust-oriented marketplace system with a clean white base and vivid green accent.
 colors:
-  primary: "#00AA5B"
-  primary-foreground: "#FFFFFF"
-  primary-soft: "#E7F9EF"
-  secondary: "#101010"
-  tertiary: "#B3BBC9"
-  neutral: "#FFFFFF"
-  neutral-100: "#F7F8FA"
-  surface: "#FFFFFF"
-  surface-muted: "#F7F8FA"
-  on-surface: "#080808"
-  on-surface-muted: "#6B7280"
-  border: "#E5E7EB"
-  border-strong: "#B3BBC9"
-  success: "#00AA5B"
-  warning: "#F59E0B"
-  error: "#E11D48"
+    primary: '#00AA5B'
+    primary-foreground: '#FFFFFF'
+    primary-soft: '#E7F9EF'
+    secondary: '#101010'
+    tertiary: '#B3BBC9'
+    neutral: '#FFFFFF'
+    neutral-100: '#F7F8FA'
+    surface: '#FFFFFF'
+    surface-muted: '#F7F8FA'
+    on-surface: '#080808'
+    on-surface-muted: '#6B7280'
+    border: '#E5E7EB'
+    border-strong: '#B3BBC9'
+    success: '#00AA5B'
+    warning: '#F59E0B'
+    error: '#E11D48'
 typography:
-  headline-display:
-    fontFamily: "Open Sauce One"
-    fontSize: 32px
-    fontWeight: 700
-    lineHeight: 38px
-    letterSpacing: 0px
-  headline-lg:
-    fontFamily: "Open Sauce One"
-    fontSize: 28px
-    fontWeight: 700
-    lineHeight: 33px
-    letterSpacing: 0px
-  headline-md:
-    fontFamily: "Open Sauce One"
-    fontSize: 20px
-    fontWeight: 600
-    lineHeight: 24px
-    letterSpacing: 0px
-  headline-sm:
-    fontFamily: "Open Sauce One"
-    fontSize: 18px
-    fontWeight: 600
-    lineHeight: 22px
-    letterSpacing: 0px
-  body-lg:
-    fontFamily: "Open Sauce One"
-    fontSize: 16px
-    fontWeight: 600
-    lineHeight: 24px
-    letterSpacing: 0px
-  body-md:
-    fontFamily: "Open Sauce One"
-    fontSize: 14px
-    fontWeight: 600
-    lineHeight: 21px
-    letterSpacing: 0px
-  body-sm:
-    fontFamily: "Open Sauce One"
-    fontSize: 12px
-    fontWeight: 400
-    lineHeight: 18px
-    letterSpacing: 0px
-  label-lg:
-    fontFamily: "Open Sauce One"
-    fontSize: 14px
-    fontWeight: 700
-    lineHeight: 21px
-    letterSpacing: 0px
-  label-md:
-    fontFamily: "Open Sauce One"
-    fontSize: 12px
-    fontWeight: 800
-    lineHeight: 18px
-    letterSpacing: 0px
-  label-sm:
-    fontFamily: "Open Sauce One"
-    fontSize: 12px
-    fontWeight: 400
-    lineHeight: 18px
-    letterSpacing: 0px
-  caption:
-    fontFamily: "Open Sauce One"
-    fontSize: 11px
-    fontWeight: 600
-    lineHeight: 16px
-    letterSpacing: 0px
-  input:
-    fontFamily: "Open Sauce One"
-    fontSize: 14px
-    fontWeight: 400
-    lineHeight: 21px
-    letterSpacing: 0px
-  navigation:
-    fontFamily: "Open Sauce One"
-    fontSize: 12px
-    fontWeight: 600
-    lineHeight: 18px
-    letterSpacing: 0px
+    headline-display:
+        fontFamily: 'Open Sauce One'
+        fontSize: 32px
+        fontWeight: 700
+        lineHeight: 38px
+        letterSpacing: 0px
+    headline-lg:
+        fontFamily: 'Open Sauce One'
+        fontSize: 28px
+        fontWeight: 700
+        lineHeight: 33px
+        letterSpacing: 0px
+    headline-md:
+        fontFamily: 'Open Sauce One'
+        fontSize: 20px
+        fontWeight: 600
+        lineHeight: 24px
+        letterSpacing: 0px
+    headline-sm:
+        fontFamily: 'Open Sauce One'
+        fontSize: 18px
+        fontWeight: 600
+        lineHeight: 22px
+        letterSpacing: 0px
+    body-lg:
+        fontFamily: 'Open Sauce One'
+        fontSize: 16px
+        fontWeight: 600
+        lineHeight: 24px
+        letterSpacing: 0px
+    body-md:
+        fontFamily: 'Open Sauce One'
+        fontSize: 14px
+        fontWeight: 600
+        lineHeight: 21px
+        letterSpacing: 0px
+    body-sm:
+        fontFamily: 'Open Sauce One'
+        fontSize: 12px
+        fontWeight: 400
+        lineHeight: 18px
+        letterSpacing: 0px
+    label-lg:
+        fontFamily: 'Open Sauce One'
+        fontSize: 14px
+        fontWeight: 700
+        lineHeight: 21px
+        letterSpacing: 0px
+    label-md:
+        fontFamily: 'Open Sauce One'
+        fontSize: 12px
+        fontWeight: 800
+        lineHeight: 18px
+        letterSpacing: 0px
+    label-sm:
+        fontFamily: 'Open Sauce One'
+        fontSize: 12px
+        fontWeight: 400
+        lineHeight: 18px
+        letterSpacing: 0px
+    caption:
+        fontFamily: 'Open Sauce One'
+        fontSize: 11px
+        fontWeight: 600
+        lineHeight: 16px
+        letterSpacing: 0px
+    input:
+        fontFamily: 'Open Sauce One'
+        fontSize: 14px
+        fontWeight: 400
+        lineHeight: 21px
+        letterSpacing: 0px
+    navigation:
+        fontFamily: 'Open Sauce One'
+        fontSize: 12px
+        fontWeight: 600
+        lineHeight: 18px
+        letterSpacing: 0px
 rounded:
-  none: 0px
-  sm: 4px
-  md: 8px
-  lg: 12px
-  xl: 16px
-  full: 9999px
+    none: 0px
+    sm: 4px
+    md: 8px
+    lg: 12px
+    xl: 16px
+    full: 9999px
 spacing:
-  xs: 6px
-  sm: 16px
-  md: 32px
-  lg: 50px
-  xl: 110px
+    xs: 6px
+    sm: 16px
+    md: 32px
+    lg: 50px
+    xl: 110px
 components:
-  button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.primary-foreground}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.md}"
-    padding: "0px 16px"
-    height: "40px"
-  button-primary-hover:
-    backgroundColor: "#00914D"
-    textColor: "{colors.primary-foreground}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.md}"
-    padding: "0px 16px"
-    height: "40px"
-  button-secondary:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.secondary}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.md}"
-    padding: "0px 16px"
-    height: "40px"
-  button-tertiary:
-    backgroundColor: "transparent"
-    textColor: "{colors.on-surface}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.none}"
-    padding: "0px"
-    height: "auto"
-  card:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.md}"
-    padding: "16px"
-  input:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.on-surface}"
-    typography: "{typography.input}"
-    rounded: "{rounded.md}"
-    padding: "0px 12px"
-    height: "40px"
-  chip:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.on-surface}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.full}"
-    padding: "0px 12px"
-    height: "36px"
-  tab-active:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.primary}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.none}"
-    height: "40px"
-  banner:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.lg}"
-    padding: "16px"
-  nav-link:
-    backgroundColor: "transparent"
-    textColor: "{colors.on-surface-muted}"
-    typography: "{typography.navigation}"
-    rounded: "{rounded.none}"
-    padding: "0px"
+    button-primary:
+        backgroundColor: '{colors.primary}'
+        textColor: '{colors.primary-foreground}'
+        typography: '{typography.label-md}'
+        rounded: '{rounded.md}'
+        padding: '0px 16px'
+        height: '40px'
+    button-primary-hover:
+        backgroundColor: '#00914D'
+        textColor: '{colors.primary-foreground}'
+        typography: '{typography.label-md}'
+        rounded: '{rounded.md}'
+        padding: '0px 16px'
+        height: '40px'
+    button-secondary:
+        backgroundColor: '{colors.neutral}'
+        textColor: '{colors.secondary}'
+        typography: '{typography.label-md}'
+        rounded: '{rounded.md}'
+        padding: '0px 16px'
+        height: '40px'
+    button-tertiary:
+        backgroundColor: 'transparent'
+        textColor: '{colors.on-surface}'
+        typography: '{typography.body-sm}'
+        rounded: '{rounded.none}'
+        padding: '0px'
+        height: 'auto'
+    card:
+        backgroundColor: '{colors.surface}'
+        textColor: '{colors.on-surface}'
+        rounded: '{rounded.md}'
+        padding: '16px'
+    input:
+        backgroundColor: '{colors.surface}'
+        textColor: '{colors.on-surface}'
+        typography: '{typography.input}'
+        rounded: '{rounded.md}'
+        padding: '0px 12px'
+        height: '40px'
+    chip:
+        backgroundColor: '{colors.neutral}'
+        textColor: '{colors.on-surface}'
+        typography: '{typography.body-sm}'
+        rounded: '{rounded.full}'
+        padding: '0px 12px'
+        height: '36px'
+    tab-active:
+        backgroundColor: '{colors.neutral}'
+        textColor: '{colors.primary}'
+        typography: '{typography.label-md}'
+        rounded: '{rounded.none}'
+        height: '40px'
+    banner:
+        backgroundColor: '{colors.surface}'
+        textColor: '{colors.on-surface}'
+        rounded: '{rounded.lg}'
+        padding: '16px'
+    nav-link:
+        backgroundColor: 'transparent'
+        textColor: '{colors.on-surface-muted}'
+        typography: '{typography.navigation}'
+        rounded: '{rounded.none}'
+        padding: '0px'
 ---
 
 # Tokopedia Green Commerce

@@ -1,22 +1,22 @@
 export type ApiStatus = {
-  status: "ok";
+	status: 'ok';
 };
 
 export type RegisterRequest = {
-  email: string;
-  password: string;
-  name: string;
-  address?: string;
-  phone_number?: string;
-  role?: "user" | "admin";
+	email: string;
+	password: string;
+	name: string;
+	address?: string;
+	phone_number?: string;
+	role?: 'user' | 'admin';
 };
 
 export type LoginRequest = {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 };
 
 export type ChangePasswordRequest = {
-  old_password: string;
-  new_password: string;
+	old_password: string;
+	new_password: string;
 };

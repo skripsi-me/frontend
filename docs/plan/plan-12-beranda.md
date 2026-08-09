@@ -15,21 +15,21 @@ Membangun beranda: hero, daftar kategori, produk best-sellers.
 ## Langkah
 
 1. Hero banner:
-   - Statis (tanpa API): teks promo + CTA ke `/produk`.
-   - Gaya banner (`rounded.lg`, surface, aksen hijau).
+    - Statis (tanpa API): teks promo + CTA ke `/produk`.
+    - Gaya banner (`rounded.lg`, surface, aksen hijau).
 
 2. Kategori:
-   - `useCategories()` → daftar Chip/Kartu kategori (nama + slug).
-   - Klik kategori → `/produk?category_id={id}` (atau `/produk?category={slug}` — sesuaikan filter di plan-13).
+    - `useCategories()` → daftar Chip/Kartu kategori (nama + slug).
+    - Klik kategori → `/produk?category_id={id}` (atau `/produk?category={slug}` — sesuaikan filter di plan-13).
 
 3. Best Sellers:
-   - `useBestSellers(limit)` — ambil 4–8 produk.
-   - Grid responsif `product-card`.
-   - State: isLoading → Skeleton grid; error → Alert + retry; kosong → `empty-state`.
+    - `useBestSellers(limit)` — ambil 4–8 produk.
+    - Grid responsif `product-card`.
+    - State: isLoading → Skeleton grid; error → Alert + retry; kosong → `empty-state`.
 
 4. Section layout:
-   - Header section: `text-headline-lg`/`text-headline-md`.
-   - Spacing pakai token (gap/padding konsisten).
+    - Header section: `text-headline-lg`/`text-headline-md`.
+    - Spacing pakai token (gap/padding konsisten).
 
 ## Verifikasi
 
