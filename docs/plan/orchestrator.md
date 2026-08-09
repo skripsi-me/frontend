@@ -105,3 +105,49 @@ Urutan: 06 → 07 → 08 → 09. Install `@tanstack/react-query` + devtools di l
 - [ ] Hook query + mutation per module; cache ter-invalidate benar.
 - [ ] Provider + devtools aktif; `pnpm lint` & `npx tsc --noEmit` bersih; `pnpm build` sukses.
 - [ ] ROADMAP Fase 3 dicentang.
+
+---
+
+# ORKESTRATOR — Fase 4: Area Publik / User
+
+## Tujuan
+
+Membangun seluruh halaman publik: shell + auth, katalog, keranjang/checkout, profil/riwayat.
+
+## Daftar Plan
+
+| # | Plan | Isi | Dependensi |
+|---|---|---|---|
+| 10 | [`plan-10-public-shell.md`](./plan-10-public-shell.md) | Route group `(public)`, Navbar/Footer, auth context, guard, shared UI | Fase 3 |
+| 11 | [`plan-11-auth.md`](./plan-11-auth.md) | Login, logout, ubah password | 10 |
+| 12 | [`plan-12-beranda.md`](./plan-12-beranda.md) | Hero, kategori, best-sellers | 10 |
+| 13 | [`plan-13-katalog.md`](./plan-13-katalog.md) | Daftar produk + search + filter + pagination | 10 |
+| 14 | [`plan-14-detail.md`](./plan-14-detail.md) | Detail produk + tambah ke keranjang | 10 |
+| 15 | [`plan-15-keranjang-checkout.md`](./plan-15-keranjang-checkout.md) | Keranjang + konfirmasi checkout + pesan sekarang | 11 |
+| 16 | [`plan-16-profil-riwayat.md`](./plan-16-profil-riwayat.md) | Profil, update, riwayat transaksi | 11 |
+
+## Urutan Eksekusi
+
+```
+plan-10 → plan-11 → plan-15 → plan-16
+                └→ plan-12, plan-13, plan-14 (bebas, paralel setelah 10)
+```
+
+- **Wajib berurutan**: 10 → 11 (auth jadi fondasi halaman privat).
+- **Setelah 11**: 15 & 16 (privat). **Setelah 10**: 12, 13, 14 (publik).
+
+## Kriteria Selesai Fase 4
+
+- [ ] Route group `(public)` berdiri; URL publik tidak berubah; dashboard terpisah.
+- [ ] Auth context + guard; login/logout/ubah password berfungsi.
+- [ ] Beranda, katalog (+search/filter/pagination), detail produk berfungsi.
+- [ ] Keranjang (ubah qty, hapus) + checkout "Pesan Sekarang" → order `pending`.
+- [ ] Profil, update profil, riwayat transaksi berfungsi.
+- [ ] `pnpm lint` & `npx tsc --noEmit` bersih; `pnpm build` sukses.
+- [ ] ROADMAP Fase 4 dicentang.
+
+## Catatan Umum
+
+- Halaman privat dibungkus `RequireAuth` → redirect `/auth/login`.
+- Route `/produk/{id}` dipakai sebagai slug (endpoint publik `slug/:slug`).
+- Semua harga via `formatRupiah`; error via `isApiError` + Alert; loading via Skeleton; kosong via `empty-state`.
