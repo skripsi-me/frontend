@@ -5,15 +5,19 @@ import { Button } from '@/components/ui/button';
 import { USER_NAV_LINKS } from '@/config/menu.config';
 import { useCart } from '@/hooks/cart.hook';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/providers/auth-provider';
 import { isActiveNav } from '@/utils/nav.util';
 import { Badge, SearchIcon, ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { MenuSheet } from './sheet/menu-sheet';
 
 export function Navbar() {
 	const pathname = usePathname();
 	const router = useRouter();
+
+	const { user, isAuthenticated, isLoading, logout } = useAuth();
 	const { data: cart } = useCart();
 
 	const cartCount =
@@ -56,7 +60,7 @@ export function Navbar() {
 					))}
 				</nav>
 
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-1.5 md:gap-4 w-fit">
 					<Button
 						variant="ghost"
 						size="icon"
@@ -78,7 +82,21 @@ export function Navbar() {
 						)}
 					</Button>
 
-					<UserDropdown />
+					<UserDropdown
+						user={user}
+						isAuthenticated={isAuthenticated}
+						isLoading={isLoading}
+						logout={logout}
+					/>
+
+					<MenuSheet
+						menu={USER_NAV_LINKS}
+						pathname={pathname}
+						user={user}
+						isAuthenticated={isAuthenticated}
+						isLoading={isLoading}
+						logout={logout}
+					/>
 				</div>
 			</div>
 		</header>

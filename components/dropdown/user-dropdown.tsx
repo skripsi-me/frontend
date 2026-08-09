@@ -11,22 +11,25 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useAuth } from '@/providers/auth-provider';
+import { PROFILE_NAV_LINKS } from '@/config/menu.config';
+import { User } from '@/types/user';
+import { getInitials } from '@/utils/user.util';
 import { LogOutIcon } from 'lucide-react';
 import Link from 'next/link';
 
-function getInitials(name: string): string {
-	return name
-		.split(/\s+/)
-		.filter(Boolean)
-		.slice(0, 2)
-		.map((part) => part[0]?.toUpperCase() ?? '')
-		.join('');
+interface Props {
+	user: User | null;
+	isAuthenticated: boolean;
+	isLoading: boolean;
+	logout: () => Promise<void>;
 }
 
-export function UserDropdown() {
-	const { user, isAuthenticated, isLoading, logout } = useAuth();
-
+export function UserDropdown({
+	user,
+	isAuthenticated,
+	isLoading,
+	logout,
+}: Props) {
 	if (isLoading) {
 		return <Skeleton className="size-8 rounded-full" />;
 	}
@@ -36,7 +39,7 @@ export function UserDropdown() {
 			<Button
 				variant="default"
 				size="lg"
-				className="font-semibold"
+				className="font-semibold hidden md:flex"
 				render={<Link href="/auth/login" />}
 			>
 				Masuk
@@ -51,7 +54,7 @@ export function UserDropdown() {
 					<Button
 						variant="default"
 						size="lg"
-						className="rounded-full"
+						className="rounded-full hidden md:flex"
 					/>
 				}
 				aria-label="Menu pengguna"
@@ -68,17 +71,14 @@ export function UserDropdown() {
 					</p>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem render={<Link href="/profil" />}>
-					Profil
-				</DropdownMenuItem>
-				<DropdownMenuItem
-					render={<Link href="/profil/riwayat-transaksi" />}
-				>
-					Riwayat Transaksi
-				</DropdownMenuItem>
-				<DropdownMenuItem render={<Link href="/auth/ubah-password" />}>
-					Ubah Password
-				</DropdownMenuItem>
+				{PROFILE_NAV_LINKS.map((link) => (
+					<DropdownMenuItem
+						key={link.href}
+						render={<Link href={link.href} />}
+					>
+						{link.label}
+					</DropdownMenuItem>
+				))}
 				{user.role === 'admin' && (
 					<DropdownMenuItem render={<Link href="/dashboard" />}>
 						Dashboard Admin
