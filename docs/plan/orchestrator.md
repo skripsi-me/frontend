@@ -69,3 +69,39 @@ Aturan: `lint` dan `tsc --noEmit` WAJIB bersih sebelum plan dianggap selesai.
 - Bahasa UI: Indonesia.
 - Axios dipakai pada **client components** (`"use client"`). Server components memakai `fetch` native.
 - Halaman placeholder bersifat sementara — isi penuh di Fase 3 (publik) & Fase 4 (admin).
+
+---
+
+# ORKESTRATOR — Fase 3: Modular Service Layer
+
+## Tujuan
+
+Membangun lapisan data modular: config → types → services → hooks (TanStack Query).
+
+## Daftar Plan (eksekusi langsung, bukan dokumen terpisah)
+
+| # | Cakupan | File |
+|---|---|---|
+| 06 | API config | `config/api.config.ts` (env + `API_ENDPOINTS`) + refactor `lib/api/client.ts` |
+| 07 | Types per module | `types/{auth,user,category,product,cart,order}.ts` |
+| 08 | Services per module | `services/{auth,user,category,product,cart,order}.service.ts` |
+| 09 | Hooks per module | `hooks/{auth,user,category,product,cart,order}.hook.ts` + `providers/query-provider.tsx` + pasang di `app/layout.tsx` |
+
+Urutan: 06 → 07 → 08 → 09. Install `@tanstack/react-query` + devtools di langkah 09.
+
+## Prinsip Kode
+
+- Config = satu sumber endpoint & env.
+- Service = typed, endpoint dari `API_ENDPOINTS`, hasil dari helpers `lib/api`.
+- Hook = TanStack Query: queryKey factory, `queryFn` → service, mutation `onSuccess` → invalidate key terkait.
+- Semua module pakai `"use client"` (cookies + state browser).
+- Best practice per stack, readable, mudah maintenance.
+
+## Kriteria Selesai Fase 3
+
+- [ ] `config/api.config.ts` ada; `client.ts` baca baseURL dari config.
+- [ ] Tipe response/request semua endpoint API.md terdefinisi di `types/`.
+- [ ] Service per module memanggil endpoint config dengan tipe sesuai.
+- [ ] Hook query + mutation per module; cache ter-invalidate benar.
+- [ ] Provider + devtools aktif; `pnpm lint` & `npx tsc --noEmit` bersih; `pnpm build` sukses.
+- [ ] ROADMAP Fase 3 dicentang.

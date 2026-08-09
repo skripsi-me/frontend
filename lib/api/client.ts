@@ -1,10 +1,11 @@
 "use client";
 
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
+import { API_BASE_URL } from "@/config/api.config";
 import type { ApiError, ApiErrorResponse } from "./types";
 
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: API_BASE_URL,
   withCredentials: true,
 });
 

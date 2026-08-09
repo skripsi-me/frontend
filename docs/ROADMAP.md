@@ -16,7 +16,15 @@ Rencana pengembangan frontend As-Sakinah Mart.
 - [x] API client layer (axios instance + interceptor, `credentials: "include"`, penanganan error & refresh token).
 - [x] Routing shell & struktur folder `app/` sesuai route map.
 
-## Fase 3 — Area Publik / User
+## Fase 3 — Modular Service Layer
+
+- [x] API config: `config/api.config.ts` (env `NEXT_PUBLIC_API_BASE_URL` + `API_ENDPOINTS`).
+- [x] Tipe/interface per module: `types/` (auth, user, category, product, cart, order).
+- [x] Service API per module: `services/` (typed, endpoint dari config).
+- [x] Hook API per module: `hooks/` (TanStack Query, queryKey factory, queryFn → service, invalidate cache).
+- [x] QueryClientProvider + ReactQueryDevtools di root layout.
+
+## Fase 4 — Area Publik / User
 
 - [ ] Beranda (`/`): best-sellers, kategori, hero.
 - [ ] Katalog produk (`/produk`): daftar, pencarian, filter kategori, pagination.
@@ -27,7 +35,7 @@ Rencana pengembangan frontend As-Sakinah Mart.
 - [ ] Profil: lihat/update (`/profil`, `/profil/update`).
 - [ ] Riwayat transaksi (`/profil/riwayat-transaksi`).
 
-## Fase 4 — Admin Panel
+## Fase 5 — Admin Panel
 
 - [ ] Layout & autentikasi admin (guard role `admin`).
 - [ ] Dashboard (`/dashboard`): ringkasan + laporan harian.
@@ -36,7 +44,7 @@ Rencana pengembangan frontend As-Sakinah Mart.
 - [ ] Kelola pesanan (list, detail, update status).
 - [ ] Kelola pengguna (list, detail, buat, update).
 
-## Fase 5 — Pengujian & Penyempurnaan
+## Fase 6 — Pengujian & Penyempurnaan
 
 - [ ] Uji end-to-end alur order (UC-01).
 - [ ] Uji fungsionalitas admin (UC-02, UC-03).
@@ -44,7 +52,7 @@ Rencana pengembangan frontend As-Sakinah Mart.
 - [ ] Error handling & empty states.
 - [ ] `pnpm lint` & `tsc --noEmit` bersih.
 
-## Fase 6 — Deployment
+## Fase 7 — Deployment
 
 - [ ] Deploy ke Vercel.
 - [ ] Setup `NEXT_PUBLIC_API_BASE_URL` production.
