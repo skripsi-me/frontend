@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# As-Sakinah Mart — Frontend
 
-## Getting Started
+Toko online (e-commerce) berbasis web dengan pembayaran **Cash on Delivery (COD)**. Proyek tugas akhir (skripsi).
 
-First, run the development server:
+Frontend dibangun dengan **Next.js (App Router)** dan terhubung ke backend REST API. Desain mengikuti sistem token "Tokopedia Green Commerce" (hijau `#00AA5B`, latar putih, font Open Sauce One).
+
+## Tech Stack
+
+| Teknologi | Versi |
+|---|---|
+| Next.js | 16.x |
+| React | 19.x |
+| TypeScript | 5.x |
+| Tailwind CSS | 4.x |
+| Package manager | pnpm |
+
+## Quick Start
+
+Prasyarat: **Node.js 20+** dan **pnpm**.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# 1. Install dependencies
+pnpm install
+
+# 2. Siapkan environment (lihat docs/SETUP.md)
+cp .env.example .env.local
+
+# 3. Jalankan development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Deskripsi |
+|---|---|
+| `pnpm dev` | Jalankan development server |
+| `pnpm build` | Build production |
+| `pnpm start` | Jalankan server production |
+| `pnpm lint` | Jalankan ESLint |
 
-## Learn More
+## Struktur Folder
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/          # Routes & halaman (App Router)
+docs/         # Dokumentasi proyek
+public/       # Aset statis
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Daftar Halaman
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Pengguna
 
-## Deploy on Vercel
+| Halaman | Route |
+|---|---|
+| Beranda | `/` |
+| Produk | `/produk` |
+| Detail produk | `/produk/{id}` |
+| Keranjang | `/keranjang-saya` |
+| Konfirmasi checkout | `/keranjang-saya/konfirmasi-checkout` |
+| Profil | `/profil` |
+| Update profil | `/profil/update` |
+| Riwayat transaksi | `/profil/riwayat-transaksi` |
+| Login | `/auth/login` |
+| Ubah password | `/auth/ubah-password` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Admin Panel (base `/dashboard`)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Halaman | Route |
+|---|---|
+| Dashboard | `/dashboard` |
+| Produk | `/dashboard/produk` |
+| Tambah/Update produk | `/dashboard/produk/buat`, `/dashboard/produk/{id}/update` |
+| Kategori | `/dashboard/kategori` |
+| Pesanan | `/dashboard/pesanan` |
+| Pengguna | `/dashboard/pengguna` |
+
+## Dokumentasi
+
+- [`docs/API.md`](docs/API.md) — Kontrak API backend
+- [`docs/DESIGN.md`](docs/DESIGN.md) — Desain token visual
+- [`docs/PRD.md`](docs/PRD.md) — Product Requirements Document
+- [`docs/SRS.md`](docs/SRS.md) — Software Requirements Specification
+- [`docs/SETUP.md`](docs/SETUP.md) — Panduan setup & deployment
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — Rencana pengembangan
+- [`CHANGELOG.md`](CHANGELOG.md) — Catatan perubahan
+
+## Lisensi
+
+Proprietary. Hak cipta © 2026 Ibnu Khoirul Prasetyo. Lihat [LICENSE](LICENSE).
