@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
 	ChevronLeftIcon,
 	ChevronRightIcon,
 	MoreHorizontalIcon,
 } from 'lucide-react';
+import Link from 'next/link';
 
 function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
 	return (
@@ -39,8 +40,10 @@ function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
 
 type PaginationLinkProps = {
 	isActive?: boolean;
+	className?: string;
+	children?: React.ReactNode;
 } & Pick<React.ComponentProps<typeof Button>, 'size'> &
-	React.ComponentProps<'a'>;
+	Omit<React.ComponentProps<typeof Link>, 'children' | 'className'>;
 
 function PaginationLink({
 	className,
@@ -55,7 +58,7 @@ function PaginationLink({
 			className={cn(className)}
 			nativeButton={false}
 			render={
-				<a
+				<Link
 					aria-current={isActive ? 'page' : undefined}
 					data-slot="pagination-link"
 					data-active={isActive}
@@ -69,6 +72,7 @@ function PaginationLink({
 function PaginationPrevious({
 	className,
 	text = 'Previous',
+	href,
 	...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
 	return (
@@ -76,6 +80,7 @@ function PaginationPrevious({
 			aria-label="Go to previous page"
 			size="default"
 			className={cn('pl-2!', className)}
+			href={href}
 			{...props}
 		>
 			<ChevronLeftIcon data-icon="inline-start" />

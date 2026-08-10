@@ -11,15 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/empty-state';
 import { SectionHeader } from '@/components/section-header';
 import { Badge } from '@/components/ui/badge';
-import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from '@/components/ui/pagination';
+import { PaginationNav } from '@/components/pagination-nav';
 import type { Product } from '@/types/product';
 
 const PAGE_SIZE = 12;
@@ -181,8 +173,6 @@ function NormalResults({
 		return `/produk?${params.toString()}`;
 	}
 
-	const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-
 	return (
 		<>
 			<ResultSummary query={search} count={total} method="normal" />
@@ -196,62 +186,11 @@ function NormalResults({
 			)}
 
 			{totalPages > 1 && (
-				<Pagination>
-					<PaginationContent>
-						<PaginationItem>
-							<PaginationPrevious
-								text="Sebelumnya"
-								href={buildHref(Math.max(1, page - 1))}
-								className={
-									page <= 1
-										? 'pointer-events-none opacity-50'
-										: undefined
-								}
-							/>
-						</PaginationItem>
-						{pages.map((p, i) => {
-							const show =
-								p === 1 ||
-								p === totalPages ||
-								Math.abs(p - page) <= 1;
-							if (!show) {
-								const prevShown = pages[i - 1];
-								if (
-									prevShown !== undefined &&
-									p - prevShown > 1
-								) {
-									return (
-										<PaginationItem key={p}>
-											<PaginationEllipsis />
-										</PaginationItem>
-									);
-								}
-								return null;
-							}
-							return (
-								<PaginationItem key={p}>
-									<PaginationLink
-										href={buildHref(p)}
-										isActive={p === page}
-									>
-										{p}
-									</PaginationLink>
-								</PaginationItem>
-							);
-						})}
-						<PaginationItem>
-							<PaginationNext
-								text="Berikutnya"
-								href={buildHref(Math.min(totalPages, page + 1))}
-								className={
-									page >= totalPages
-										? 'pointer-events-none opacity-50'
-										: undefined
-								}
-							/>
-						</PaginationItem>
-					</PaginationContent>
-				</Pagination>
+				<PaginationNav
+					page={page}
+					totalPages={totalPages}
+					buildHref={buildHref}
+				/>
 			)}
 
 			<p className="text-center text-caption text-muted-foreground">
