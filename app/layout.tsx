@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { QueryProvider } from '@/providers/query-provider';
 import { AuthProvider } from '@/providers/auth-provider';
+import { Toaster } from '@/components/ui/sonner';
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 
@@ -22,6 +23,7 @@ export default function RootLayout({
 				<QueryProvider>
 					<AuthProvider>{children}</AuthProvider>
 				</QueryProvider>
+				<Toaster position="top-center" />
 			</body>
 		</html>
 	);

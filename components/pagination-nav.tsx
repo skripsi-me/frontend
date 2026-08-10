@@ -22,9 +22,15 @@ function getVisiblePages(page: number, totalPages: number): number[] {
 	}
 
 	const pages = new Set<number>([1, totalPages]);
+
 	if (page <= 3) {
 		pages.add(2);
 		pages.add(3);
+	}
+	if (page === 3 && totalPages > 3) {
+		pages.add(2);
+		pages.add(3);
+		pages.add(4);
 	} else if (page === totalPages) {
 		pages.add(totalPages - 2);
 		pages.add(totalPages - 1);
