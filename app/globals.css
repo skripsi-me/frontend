@@ -6,6 +6,8 @@
 @import '@fontsource/open-sauce-one/700.css';
 @import '@fontsource/open-sauce-one/800.css';
 
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -74,27 +76,26 @@
 
 /* As-Sakinah Mart design tokens — source: docs/DESIGN.md */
 :root {
-	--background: #ffffff; /* surface */
-	--foreground: #080808; /* on-surface */
-	--card: #ffffff;
-	--card-foreground: #080808;
-	--popover: #ffffff;
-	--popover-foreground: #080808;
+	/* surface */ /* on-surface */
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.145 0 0);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.145 0 0);
 	--primary: #00aa5b;
 	--primary-foreground: #ffffff;
 	--primary-soft: #e7f9ef;
 	--primary-hover: #00914d;
-	--secondary: #f7f8fa; /* surface-muted */
-	--secondary-foreground: #080808;
-	--muted: #f7f8fa;
-	--muted-foreground: #6b7280; /* on-surface-muted */
+	--secondary: oklch(0.97 0 0); /* surface-muted */
+	--secondary-foreground: oklch(0.205 0 0);
+	--muted: oklch(0.97 0 0);
+	--muted-foreground: oklch(0.556 0 0); /* on-surface-muted */
 	--accent: #e7f9ef; /* primary-soft */
 	--accent-foreground: #00914d;
-	--destructive: #e11d48; /* error */
-	--border: #e5e7eb;
-	--input: #e5e7eb;
+	--destructive: oklch(0.577 0.245 27.325); /* error */
+	--border: oklch(0.922 0 0);
+	--input: oklch(0.922 0 0);
 	--ring: #00aa5b;
-	--radius: 8px; /* rounded.md */
+	--radius: 0.625rem; /* rounded.md */
 	--tertiary: #b3bbc9;
 	--neutral-100: #f7f8fa;
 	--surface: #ffffff;
@@ -110,14 +111,16 @@
 	--chart-3: #b3bbc9;
 	--chart-4: #f59e0b;
 	--chart-5: #e11d48;
-	--sidebar: #ffffff;
-	--sidebar-foreground: #080808;
+	--sidebar: oklch(0.985 0 0);
+	--sidebar-foreground: oklch(0.145 0 0);
 	--sidebar-primary: #00aa5b;
-	--sidebar-primary-foreground: #ffffff;
+	--sidebar-primary-foreground: oklch(0.985 0 0);
 	--sidebar-accent: #e7f9ef;
 	--sidebar-accent-foreground: #00914d;
-	--sidebar-border: #e5e7eb;
+	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: #00aa5b;
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.145 0 0);
 }
 
 /* Typography tokens — source: docs/DESIGN.md */
@@ -219,4 +222,38 @@
 	html {
 		@apply font-sans;
 	}
+}
+
+.dark {
+	--background: oklch(0.145 0 0);
+	--foreground: oklch(0.985 0 0);
+	--card: oklch(0.205 0 0);
+	--card-foreground: oklch(0.985 0 0);
+	--popover: oklch(0.205 0 0);
+	--popover-foreground: oklch(0.985 0 0);
+	--primary: oklch(0.922 0 0);
+	--primary-foreground: oklch(0.205 0 0);
+	--secondary: oklch(0.269 0 0);
+	--secondary-foreground: oklch(0.985 0 0);
+	--muted: oklch(0.269 0 0);
+	--muted-foreground: oklch(0.708 0 0);
+	--accent: oklch(0.269 0 0);
+	--accent-foreground: oklch(0.985 0 0);
+	--destructive: oklch(0.704 0.191 22.216);
+	--border: oklch(1 0 0 / 10%);
+	--input: oklch(1 0 0 / 15%);
+	--ring: oklch(0.556 0 0);
+	--chart-1: oklch(0.87 0 0);
+	--chart-2: oklch(0.556 0 0);
+	--chart-3: oklch(0.439 0 0);
+	--chart-4: oklch(0.371 0 0);
+	--chart-5: oklch(0.269 0 0);
+	--sidebar: oklch(0.205 0 0);
+	--sidebar-foreground: oklch(0.985 0 0);
+	--sidebar-primary: oklch(0.488 0.243 264.376);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.269 0 0);
+	--sidebar-accent-foreground: oklch(0.985 0 0);
+	--sidebar-border: oklch(1 0 0 / 10%);
+	--sidebar-ring: oklch(0.556 0 0);
 }

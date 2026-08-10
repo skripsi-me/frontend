@@ -40,7 +40,7 @@ export function UserDropdown({
 				variant="default"
 				size="lg"
 				className="font-semibold hidden md:flex"
-				render={<Link href="/auth/login" />}
+				nativeButton={false} render={<Link href="/auth/login" />}
 			>
 				Masuk
 			</Button>

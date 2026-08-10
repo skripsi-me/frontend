@@ -1,6 +1,6 @@
-import type { ComponentType, SVGProps } from 'react';
-import { InboxIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { InboxIcon } from 'lucide-react';
+import type { ComponentType, SVGProps } from 'react';
 
 type EmptyStateProps = {
 	icon?: ComponentType<SVGProps<SVGSVGElement>>;
@@ -27,7 +27,7 @@ export function EmptyState({
 			</div>
 			<h3 className="text-body-md text-foreground">{title}</h3>
 			{description && (
-				<p className="max-w-sm text-body-sm text-muted-foreground">
+				<p className="text-body-sm text-muted-foreground">
 					{description}
 				</p>
 			)}
