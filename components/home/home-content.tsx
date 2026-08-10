@@ -178,7 +178,7 @@ export function HomeContent() {
 							{categories.map((category) => (
 								<Link
 									key={category.id}
-									href="/produk"
+									href={`/produk?category=${category.id}`}
 									className="rounded-full border border-border bg-surface px-5 py-2.5 text-label-md text-foreground transition-colors hover:border-primary hover:bg-primary-soft hover:text-primary"
 								>
 									{category.name}
@@ -209,10 +209,11 @@ export function HomeContent() {
 						<ProductGridSkeleton />
 					) : bestSellers && bestSellers.length > 0 ? (
 						<div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
-							{bestSellers.map((product) => (
+							{bestSellers.map((product, index) => (
 								<ProductCard
 									key={product.id}
 									product={product}
+									eager={index === 0}
 								/>
 							))}
 						</div>

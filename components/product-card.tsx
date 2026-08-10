@@ -6,7 +6,13 @@ import { PackageIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+	product,
+	eager = false,
+}: {
+	product: Product;
+	eager?: boolean;
+}) {
 	const outOfStock = product.stock <= 0;
 
 	return (
@@ -20,8 +26,10 @@ export function ProductCard({ product }: { product: Product }) {
 						<Image
 							src={product.image_url}
 							alt={product.name}
-							loading="lazy"
+							loading={eager ? 'eager' : 'lazy'}
+							fetchPriority={eager ? 'high' : 'auto'}
 							fill
+							sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
 							className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 						/>
 					) : (
