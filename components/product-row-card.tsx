@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import { PackageIcon } from 'lucide-react';
 import { Price } from '@/components/price';
 import { cn } from '@/lib/utils';
 import type { Product } from '@/types/product';
+import { PackageIcon } from 'lucide-react';
+import Link from 'next/link';
 
 export function ProductRowCard({
 	product,
@@ -40,9 +40,6 @@ export function ProductRowCard({
 				<p className="text-caption text-muted-foreground">
 					Stok {product.stock}
 				</p>
-				<span className="mt-auto w-fit rounded-lg border border-border bg-background px-2.5 py-1 text-caption font-medium text-foreground transition-colors group-hover:border-primary group-hover:text-primary">
-					Lihat Detail
-				</span>
 			</div>
 		</Link>
 	);
