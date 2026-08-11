@@ -56,14 +56,16 @@ public/       # Aset statis
 |---|---|
 | Beranda | `/` |
 | Produk | `/produk` |
-| Detail produk | `/produk/{id}` |
+| Detail produk | `/produk/{slug}` |
 | Keranjang | `/keranjang-saya` |
 | Konfirmasi checkout | `/keranjang-saya/konfirmasi-checkout` |
 | Profil | `/profil` |
-| Update profil | `/profil/update` |
 | Riwayat transaksi | `/profil/riwayat-transaksi` |
+| Detail transaksi | `/profil/riwayat-transaksi/{id}` |
 | Login | `/auth/login` |
 | Ubah password | `/auth/ubah-password` |
+
+> Update profil dilakukan langsung di halaman `/profil` (mode edit inline). Tidak ada route `/profil/update`.
 
 ### Admin Panel (base `/dashboard`)
 

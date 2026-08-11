@@ -1,6 +1,12 @@
 # PLAN-15 — Keranjang & Checkout
 
-> Eksekusi SETELAH [`plan-11-auth.md`](./plan-11-auth.md). Bagian dari Fase 4.
+> **Status: SELESAI.** Eksekusi SETELAH [`plan-11-auth.md`](./plan-11-auth.md). Bagian dari Fase 4.
+
+## Divergensi Implementasi
+
+- Sukses `useCreateOrder` → **inline success panel** (tetap di halaman, tampil no. pesanan + rincian dari response), bukan redirect `/profil/riwayat-transaksi`.
+- Konfirmasi tidak menampilkan card data pengiriman (`useMe`) — API `POST /api/orders/` tanpa body; diganti banner COD statis.
+- Keranjang kosong → empty-state + CTA "Mulai Belanja", bukan redirect balik `/keranjang-saya`.
 
 ## Tujuan
 

@@ -26,14 +26,14 @@ Rencana pengembangan frontend As-Sakinah Mart.
 
 ## Fase 4 — Area Publik / User
 
-- [ ] Beranda (`/`): best-sellers, kategori, hero.
-- [ ] Katalog produk (`/produk`): daftar, pencarian, filter kategori, pagination.
-- [ ] Detail produk (`/produk/{id}`).
-- [ ] Autentikasi: login, logout, ubah password.
-- [ ] Keranjang (`/keranjang-saya`): daftar item, ubah kuantitas, hapus.
-- [ ] Alur checkout: konfirmasi di `/keranjang-saya/konfirmasi-checkout` → "Pesan Sekarang" (POST `/api/orders/`).
-- [ ] Profil: lihat/update (`/profil`, `/profil/update`).
-- [ ] Riwayat transaksi (`/profil/riwayat-transaksi`).
+- [x] Beranda (`/`): best-sellers, kategori, hero.
+- [x] Katalog produk (`/produk`): daftar, pencarian, filter kategori, pagination.
+- [x] Detail produk (`/produk/{slug}`).
+- [x] Autentikasi: login, logout, ubah password.
+- [x] Keranjang (`/keranjang-saya`): daftar item, ubah kuantitas, hapus.
+- [x] Alur checkout: konfirmasi di `/keranjang-saya/konfirmasi-checkout` → "Buat Pesanan" (POST `/api/orders/`).
+- [x] Profil: lihat/update (`/profil`, edit inline; tidak ada route `/profil/update`).
+- [x] Riwayat transaksi (`/profil/riwayat-transaksi`) + detail (`/profil/riwayat-transaksi/{id}`).
 
 ## Fase 5 — Admin Panel
 
@@ -48,9 +48,9 @@ Rencana pengembangan frontend As-Sakinah Mart.
 
 - [ ] Uji end-to-end alur order (UC-01).
 - [ ] Uji fungsionalitas admin (UC-02, UC-03).
-- [ ] Responsivitas mobile.
-- [ ] Error handling & empty states.
-- [ ] `pnpm lint` & `tsc --noEmit` bersih.
+- [x] Responsivitas mobile (diperiksa bertahap).
+- [x] Error handling & empty states.
+- [x] `pnpm lint` & `tsc --noEmit` bersih.
 
 ## Fase 7 — Deployment
 

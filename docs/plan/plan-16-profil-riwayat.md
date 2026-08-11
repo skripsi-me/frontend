@@ -1,6 +1,11 @@
 # PLAN-16 — Profil, Update Profil & Riwayat Transaksi
 
-> Eksekusi SETELAH [`plan-11-auth.md`](./plan-11-auth.md). Bagian dari Fase 4.
+> **Status: SELESAI.** Eksekusi SETELAH [`plan-11-auth.md`](./plan-11-auth.md). Bagian dari Fase 4.
+
+## Divergensi Implementasi
+
+- Update profil **inline** di `/profil` (toggle view ↔ edit). Tidak ada route `/profil/update`.
+- Detail order publik **DIBANGUN** di `/profil/riwayat-transaksi/{id}` (timeline status + rincian) — merevisi catatan "tidak ada halaman detail order publik".
 
 ## Tujuan
 
@@ -18,15 +23,15 @@
 
 1. `/profil` ("use client", `RequireAuth`):
     - `useMe()` → card data: nama, email, alamat, phone, role.
-    - Tombol "Edit Profil" → `/profil/update`.
+    - Tombol "Edit Profil" → toggle ke mode edit inline (form di halaman yang sama).
     - Tombol "Ubah Password" → `/auth/ubah-password`.
-    - Tombol "Riwayat Transaksi" → `/profil/riwayat-transaksi`.
+    - Menu "Riwayat Transaksi" → `/profil/riwayat-transaksi`.
     - Loading → Skeleton.
 
-2. `/profil/update` ("use client", `RequireAuth`):
+2. Edit inline di `/profil` ("use client", `RequireAuth`):
     - Form prefill dari `useMe()` (name, address, phone_number).
     - Submit → `useUpdateProfile().mutateAsync({ name, address, phone_number })`.
-    - Sukses → toast + redirect `/profil` (cache me ter-invalidate).
+    - Sukses → toast + kembali ke mode lihat (cache me ter-invalidate).
     - Error → Alert/field errors.
 
 3. `/profil/riwayat-transaksi` ("use client", `RequireAuth`):
@@ -51,5 +56,5 @@ pnpm dev
 
 ## Catatan
 
-- Tidak ada halaman detail order publik di route map — riwayat cukup list. (Detail order ada di dashboard admin, Fase 5.)
+- Detail order publik tersedia di `/profil/riwayat-transaksi/{id}` (timeline status, rincian item, total).
 - Cache `userKeys.me` otomatis invalidate oleh `useUpdateProfile`.
