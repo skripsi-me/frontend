@@ -1,16 +1,14 @@
 import type { Metadata } from 'next';
+import { UbahPasswordForm } from '@/components/auth/ubah-password-form';
 
 export const metadata: Metadata = {
-	title: 'Ubah Password',
+	title: 'Ubah Kata Sandi',
 };
 
 export default function UbahPasswordPage() {
 	return (
-		<main className="flex flex-1 flex-col items-center justify-center gap-2 p-6">
-			<h1 className="text-headline-md">Ubah Password</h1>
-			<p className="text-body-sm text-muted-foreground">
-				Halaman ini sedang dalam pengembangan.
-			</p>
+		<main className="flex flex-1 flex-col items-center justify-center px-4 py-16 md:py-24">
+			<UbahPasswordForm />
 		</main>
 	);
 }

@@ -7,6 +7,6 @@ export const USER_NAV_LINKS: NavLinkUser[] = [
 
 export const PROFILE_NAV_LINKS: NavLinkUser[] = [
 	{ href: '/profil', label: 'Profil Saya' },
-	{ href: '/riwayat-transaksi', label: 'Riwayat Transaksi' },
-	{ href: '/ubah-password', label: 'Ubah Password' },
+	{ href: '/profil/riwayat-transaksi', label: 'Riwayat Transaksi' },
+	{ href: '/auth/ubah-password', label: 'Ubah Password' },
 ];

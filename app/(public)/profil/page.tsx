@@ -1,16 +1,10 @@
 import type { Metadata } from 'next';
+import { ProfilContent } from '@/components/profil/profil-content';
 
 export const metadata: Metadata = {
-	title: 'Profil',
+	title: 'Profil Saya',
 };
 
 export default function ProfilPage() {
-	return (
-		<main className="flex flex-1 flex-col items-center justify-center gap-2 p-6">
-			<h1 className="text-headline-md">Profil</h1>
-			<p className="text-body-sm text-muted-foreground">
-				Halaman ini sedang dalam pengembangan.
-			</p>
-		</main>
-	);
+	return <ProfilContent />;
 }

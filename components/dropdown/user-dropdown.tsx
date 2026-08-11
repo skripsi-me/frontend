@@ -40,7 +40,8 @@ export function UserDropdown({
 				variant="default"
 				size="lg"
 				className="font-semibold hidden md:flex"
-				nativeButton={false} render={<Link href="/auth/login" />}
+				nativeButton={false}
+				render={<Link href="/auth/login" />}
 			>
 				Masuk
 			</Button>
@@ -52,7 +53,7 @@ export function UserDropdown({
 			<DropdownMenuTrigger
 				render={
 					<Button
-						variant="default"
+						variant={'ghost'}
 						size="lg"
 						className="rounded-full hidden md:flex"
 					/>
@@ -60,10 +61,16 @@ export function UserDropdown({
 				aria-label="Menu pengguna"
 			>
 				<Avatar size="sm">
-					<AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+					<AvatarFallback className={'bg-primary text-white'}>
+						{getInitials(user.name)}
+					</AvatarFallback>
 				</Avatar>
+
+				<p className="text-body-sm font-medium text-foreground uppercase hidden md:block ml-1">
+					{user.name}
+				</p>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end" className="w-56">
+			<DropdownMenuContent align="end" className="w-56 rounded-lg">
 				<DropdownMenuLabel>
 					<p className="text-body-sm text-foreground">{user.name}</p>
 					<p className="text-caption text-muted-foreground">

@@ -1,9 +1,9 @@
+import { ProductImage } from '@/components/product-image';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { formatRupiah } from '@/lib/utils/format';
 import type { Product } from '@/types/product';
 import { PackageIcon } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export function ProductCard({
@@ -23,12 +23,10 @@ export function ProductCard({
 			>
 				<div className="relative aspect-square overflow-hidden bg-muted">
 					{product.image_url ? (
-						<Image
+						<ProductImage
 							src={product.image_url}
 							alt={product.name}
-							loading={eager ? 'eager' : 'lazy'}
-							fetchPriority={eager ? 'high' : 'auto'}
-							fill
+							eager={eager}
 							sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
 							className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 						/>

@@ -1,16 +1,10 @@
 import type { Metadata } from 'next';
+import { KeranjangContent } from '@/components/keranjang/keranjang-content';
 
 export const metadata: Metadata = {
 	title: 'Keranjang Saya',
 };
 
 export default function KeranjangPage() {
-	return (
-		<main className="flex flex-1 flex-col items-center justify-center gap-2 p-6">
-			<h1 className="text-headline-md">Keranjang Saya</h1>
-			<p className="text-body-sm text-muted-foreground">
-				Halaman ini sedang dalam pengembangan.
-			</p>
-		</main>
-	);
+	return <KeranjangContent />;
 }

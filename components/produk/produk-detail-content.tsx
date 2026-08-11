@@ -3,6 +3,7 @@
 import { EmptyState } from '@/components/empty-state';
 import { ProductCard } from '@/components/product-card';
 import { ProductGridSkeleton } from '@/components/product-grid-skeleton';
+import { ProductImage } from '@/components/product-image';
 import { SectionHeader } from '@/components/section-header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,6 @@ import {
 	PlusIcon,
 	ShoppingCartIcon,
 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -273,13 +273,13 @@ export function ProdukDetailContent() {
 					<div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
 						<div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-surface-muted lg:sticky lg:top-24 lg:self-start">
 							{product.image_url ? (
-								<Image
+								<ProductImage
 									src={product.image_url}
 									alt={product.name}
-									fill
 									priority
 									sizes="(max-width: 1024px) 100vw, 50vw"
 									className="object-cover"
+									iconClassName="size-16"
 								/>
 							) : (
 								<div className="flex h-full items-center justify-center text-muted-foreground">

@@ -8,11 +8,12 @@ import { useCart } from '@/hooks/cart.hook';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/providers/auth-provider';
 import { isActiveNav } from '@/utils/nav.util';
-import { Badge, ShoppingCartIcon } from 'lucide-react';
+import { ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MenuSheet } from './sheet/menu-sheet';
+import { Badge } from './ui/badge';
 
 export function Navbar() {
 	const pathname = usePathname();
@@ -66,13 +67,16 @@ export function Navbar() {
 					<Button
 						variant="ghost"
 						size="icon"
-						nativeButton={false} render={<Link href="/keranjang-saya" />}
+						nativeButton={false}
+						render={<Link href="/keranjang-saya" />}
 						aria-label="Keranjang belanja"
 						className="relative"
 					>
 						<ShoppingCartIcon />
 						{cartCount > 0 && (
-							<Badge>{cartCount > 9 ? '9+' : cartCount}</Badge>
+							<Badge className="text-[8px] flex items-center justify-center text-white absolute -top-1 -right-2 rounded-full">
+								{cartCount > 9 ? '9+' : cartCount}
+							</Badge>
 						)}
 					</Button>
 
