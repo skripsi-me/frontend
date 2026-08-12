@@ -24,6 +24,7 @@ export type ProductListParams = {
 	limit?: number;
 	search?: string;
 	category_id?: string;
+	stock?: 'asc' | 'desc';
 };
 
 export type ProductPaginationParams = {

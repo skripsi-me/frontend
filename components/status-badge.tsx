@@ -3,8 +3,8 @@ import { formatStatus } from '@/lib/utils/format';
 import { cn } from '@/lib/utils';
 
 const STATUS_CLASS: Record<string, string> = {
-	pending: 'bg-warning/10 text-warning',
-	shipped: 'bg-primary-soft text-primary',
+	pending: 'bg-warning/10 text-amber-700',
+	shipped: 'bg-primary-soft text-green-700',
 	delivered: 'bg-success/10 text-success',
 	cancelled: 'bg-secondary text-on-surface-muted',
 };

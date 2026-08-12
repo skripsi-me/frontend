@@ -25,6 +25,7 @@ export type Order = {
 export type OrderListParams = {
 	page?: number;
 	limit?: number;
+	status?: OrderStatus;
 };
 
 export type UpdateOrderStatusRequest = {

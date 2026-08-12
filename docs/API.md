@@ -79,16 +79,18 @@ Semua endpoint mengembalikan response dengan wrapper standar:
 {
 	"metadata": {
 		"code": 400,
-		"message": "Validation Error"
+		"message": "Data yang dikirim tidak valid. Periksa kembali isian Anda."
 	},
 	"error": {
-		"email": "must be valid email",
-		"password": "must be string"
+		"email": "harus berupa email yang valid.",
+		"password": "harus berupa teks."
 	}
 }
 ```
 
 Field `error` hanya muncul untuk validation errors (status 400). Error lainnya tidak punya field `error`.
+
+> Pesan error field (`error` object) diterjemahkan otomatis ke Bahasa Indonesia dari validasi TypeBox.
 
 ---
 
@@ -116,11 +118,11 @@ Ketika request body tidak sesuai schema, server mengembalikan:
 {
 	"metadata": {
 		"code": 400,
-		"message": "Validation Error"
+		"message": "Data yang dikirim tidak valid. Periksa kembali isian Anda."
 	},
 	"error": {
-		"body/email": "must be valid email",
-		"body/password": "must be string"
+		"body/email": "harus berupa email yang valid.",
+		"body/password": "harus berupa teks."
 	}
 }
 ```
@@ -133,7 +135,7 @@ Field `error` berisi object dengan key berupa path field yang salah dan value be
 {
 	"metadata": {
 		"code": 401,
-		"message": "Invalid or missing token"
+		"message": "Sesi berakhir. Silakan login kembali."
 	}
 }
 ```
@@ -144,7 +146,7 @@ Field `error` berisi object dengan key berupa path field yang salah dan value be
 {
 	"metadata": {
 		"code": 403,
-		"message": "Admin access required"
+		"message": "Akses khusus admin. Anda tidak memiliki izin."
 	}
 }
 ```
@@ -155,7 +157,7 @@ Field `error` berisi object dengan key berupa path field yang salah dan value be
 {
 	"metadata": {
 		"code": 404,
-		"message": "Product not found"
+		"message": "Produk tidak ditemukan."
 	}
 }
 ```
@@ -168,7 +170,42 @@ Field `error` berisi object dengan key berupa path field yang salah dan value be
 {
 	"metadata": {
 		"code": 409,
-		"message": "Email already exists"
+		"message": "Email sudah terdaftar. Gunakan email lain."
+	}
+}
+```
+
+### Route Not Found
+
+Ketika path tidak terdaftar, server mengembalikan:
+
+```json
+{
+	"metadata": {
+		"code": 404,
+		"message": "Halaman tidak ditemukan."
+	}
+}
+```
+
+### Payload/File Terlalu Besar
+
+```json
+{
+	"metadata": {
+		"code": 413,
+		"message": "Ukuran file terlalu besar. Maksimal 5MB."
+	}
+}
+```
+
+### Unsupported Media Type
+
+```json
+{
+	"metadata": {
+		"code": 415,
+		"message": "Format data tidak didukung. Gunakan JSON atau multipart/form-data."
 	}
 }
 ```
@@ -226,8 +263,8 @@ GET /api/products?page=2&limit=10
 ```json
 {
 	"statusCode": 429,
-	"error": "Too Many Requests",
-	"message": "Rate limit exceeded. Maximum 5 requests per minute allowed."
+	"error": "Terlalu Banyak Permintaan",
+	"message": "Terlalu banyak permintaan. Maksimal 5 permintaan per menit. Silakan tunggu sebentar."
 }
 ```
 
@@ -316,11 +353,11 @@ Content-Type: application/json
 
 **Error:**
 
-| Code | Kondisi                               | Message                                   |
-| ---- | ------------------------------------- | ----------------------------------------- |
-| 400  | Email format salah                    | `Validation Error`                        |
-| 400  | Password kurang dari 8 karakter       | `Validation Error`                        |
-| 403  | Non-admin coba register sebagai admin | `Only admins can register admin accounts` |
+| Code | Kondisi                               | Message                                                      |
+| ---- | ------------------------------------- | ------------------------------------------------------------ |
+| 400  | Email format salah                    | `Data yang dikirim tidak valid. Periksa kembali isian Anda.` |
+| 400  | Password kurang dari 8 karakter       | `Data yang dikirim tidak valid. Periksa kembali isian Anda.` |
+| 403  | Non-admin coba register sebagai admin | `Hanya admin yang dapat mendaftarkan akun admin.`            |
 
 ---
 
@@ -368,10 +405,10 @@ Content-Type: application/json
 
 **Error:**
 
-| Code | Kondisi                    | Message               |
-| ---- | -------------------------- | --------------------- |
-| 400  | Email atau password kosong | `Validation Error`    |
-| 401  | Email atau password salah  | `Invalid credentials` |
+| Code | Kondisi                    | Message                                                                       |
+| ---- | -------------------------- | ----------------------------------------------------------------------------- |
+| 400  | Email atau password kosong | `Data yang dikirim tidak valid. Periksa kembali isian Anda.`                  |
+| 401  | Email atau password salah  | `Email atau password salah, gunakan email dan password yang sudah terdaftar.` |
 
 ---
 
@@ -409,11 +446,11 @@ Cookie: refresh_token=<signed-refresh-token>
 
 **Error:**
 
-| Code | Kondisi                             | Message                           |
-| ---- | ----------------------------------- | --------------------------------- |
-| 401  | Cookie `refresh_token` tidak ada    | `Refresh token missing`           |
-| 401  | Signature cookie invalid            | `Invalid refresh token signature` |
-| 401  | Token tidak ditemukan di DB (reuse) | `Session expired or invalid`      |
+| Code | Kondisi                             | Message                                                  |
+| ---- | ----------------------------------- | -------------------------------------------------------- |
+| 401  | Cookie `refresh_token` tidak ada    | `Sesi berakhir. Silakan login kembali.`                  |
+| 401  | Signature cookie invalid            | `Sesi tidak valid. Silakan login kembali.`               |
+| 401  | Token tidak ditemukan di DB (reuse) | `Sesi berakhir atau tidak valid. Silakan login kembali.` |
 
 ---
 
@@ -494,10 +531,10 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 400  | Password lama salah     | `Invalid old password`     |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
+| Code | Kondisi                 | Message                                               |
+| ---- | ----------------------- | ----------------------------------------------------- |
+| 400  | Password lama salah     | `Password lama salah. Periksa kembali password Anda.` |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`               |
 
 ---
 
@@ -546,9 +583,9 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
+| Code | Kondisi                 | Message                                 |
+| ---- | ----------------------- | --------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.` |
 
 ---
 
@@ -603,9 +640,9 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
+| Code | Kondisi                 | Message                                 |
+| ---- | ----------------------- | --------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.` |
 
 ---
 
@@ -670,10 +707,10 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
 
 ---
 
@@ -718,11 +755,11 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
-| 404  | User tidak ditemukan    | `User not found`           |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
+| 404  | User tidak ditemukan    | `Pengguna tidak ditemukan.`                     |
 
 ---
 
@@ -780,12 +817,12 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 400  | Validation error        | `Validation Error`         |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
-| 409  | Email sudah terdaftar   | `Email already exists`     |
+| Code | Kondisi                 | Message                                                      |
+| ---- | ----------------------- | ------------------------------------------------------------ |
+| 400  | Validation error        | `Data yang dikirim tidak valid. Periksa kembali isian Anda.` |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`                      |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.`              |
+| 409  | Email sudah terdaftar   | `Email sudah terdaftar. Gunakan email lain.`                 |
 
 ---
 
@@ -847,12 +884,12 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 400  | Validation error        | `Validation Error`         |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
-| 404  | User tidak ditemukan    | `User not found`           |
+| Code | Kondisi                 | Message                                                      |
+| ---- | ----------------------- | ------------------------------------------------------------ |
+| 400  | Validation error        | `Data yang dikirim tidak valid. Periksa kembali isian Anda.` |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`                      |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.`              |
+| 404  | User tidak ditemukan    | `Pengguna tidak ditemukan.`                                  |
 
 ---
 
@@ -892,10 +929,10 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
 
 ---
 
@@ -993,9 +1030,9 @@ GET /api/categories/elektronik
 
 **Error:**
 
-| Code | Kondisi                  | Message              |
-| ---- | ------------------------ | -------------------- |
-| 404  | Kategori tidak ditemukan | `Category not found` |
+| Code | Kondisi                  | Message                     |
+| ---- | ------------------------ | --------------------------- |
+| 404  | Kategori tidak ditemukan | `Kategori tidak ditemukan.` |
 
 ---
 
@@ -1049,11 +1086,11 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 400  | Nama kosong             | `Validation Error`         |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
+| Code | Kondisi                 | Message                                                      |
+| ---- | ----------------------- | ------------------------------------------------------------ |
+| 400  | Nama kosong             | `Data yang dikirim tidak valid. Periksa kembali isian Anda.` |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`                      |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.`              |
 
 ---
 
@@ -1113,11 +1150,11 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                  | Message                    |
-| ---- | ------------------------ | -------------------------- |
-| 401  | Token tidak ada/invalid  | `Invalid or missing token` |
-| 403  | Bukan admin              | `Admin access required`    |
-| 404  | Kategori tidak ditemukan | `Category not found`       |
+| Code | Kondisi                  | Message                                         |
+| ---- | ------------------------ | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid  | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin              | `Akses khusus admin. Anda tidak memiliki izin.` |
+| 404  | Kategori tidak ditemukan | `Kategori tidak ditemukan.`                     |
 
 ---
 
@@ -1157,10 +1194,10 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
 
 ---
 
@@ -1169,6 +1206,8 @@ Cookie: token=<admin-signed-token>
 Prefix: `/api/products`
 
 > **Catatan**: Endpoint GET bersifat publik. Endpoint POST, PATCH, DELETE memerlukan adminOnly. POST dan PATCH mendukung `multipart/form-data` untuk upload gambar.
+
+> **Slug**: Di-generate otomatis dari `name` dan di-truncate maksimal 100 karakter. Route param slug mendukung hingga 255 karakter (`maxParamLength`).
 
 ---
 
@@ -1234,18 +1273,19 @@ Mendapatkan daftar produk dengan pagination, pencarian, dan filter.
 
 **Query Params:**
 
-| Param         | Tipe   | Default | Keterangan                                                                                   |
-| ------------- | ------ | ------- | -------------------------------------------------------------------------------------------- |
-| `page`        | number | `1`     | Nomor halaman                                                                                |
-| `limit`       | number | `20`    | Item per halaman                                                                             |
-| `search`      | string | -       | Kata kunci pencarian (pada name/description)                                                 |
-| `category_id` | string | -       | Filter berdasarkan ID kategori                                                               |
-| `sort`        | string | `desc`  | Urutan sort berdasarkan `created_at`. Nilai: `asc` (terlama dulu) atau `desc` (terbaru dulu) |
+| Param         | Tipe   | Default | Keterangan                                                                                                                            |
+| ------------- | ------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `page`        | number | `1`     | Nomor halaman                                                                                                                         |
+| `limit`       | number | `20`    | Item per halaman                                                                                                                      |
+| `search`      | string | -       | Kata kunci pencarian (pada name/description)                                                                                          |
+| `category_id` | string | -       | Filter berdasarkan ID kategori                                                                                                        |
+| `sort`        | string | `desc`  | Urutan sort berdasarkan `created_at`. Nilai: `asc` (terlama dulu) atau `desc` (terbaru dulu)                                          |
+| `stock`       | string | -       | Urutan sort berdasarkan `stock`. Nilai: `asc` (stok terkecil dulu) atau `desc` (stok terbesar dulu). Menggantikan `sort` jika dikirim |
 
 **Contoh Request:**
 
 ```json
-GET /api/products/?page=1&limit=10&search=iphone&category_id=01HXYZ123456789ABCDEFGHIJN&sort=asc
+GET /api/products/?page=1&limit=10&search=iphone&category_id=01HXYZ123456789ABCDEFGHIJN&sort=asc&stock=desc
 ```
 
 **Response 200 Success:**
@@ -1338,11 +1378,11 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
-| 404  | Produk tidak ditemukan  | `Product not found`        |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
+| 404  | Produk tidak ditemukan  | `Produk tidak ditemukan.`                       |
 
 ---
 
@@ -1395,9 +1435,9 @@ GET /api/products/slug/iphone-15-pro-max
 
 **Error:**
 
-| Code | Kondisi                | Message             |
-| ---- | ---------------------- | ------------------- |
-| 404  | Produk tidak ditemukan | `Product not found` |
+| Code | Kondisi                | Message                   |
+| ---- | ---------------------- | ------------------------- |
+| 404  | Produk tidak ditemukan | `Produk tidak ditemukan.` |
 
 ---
 
@@ -1468,9 +1508,9 @@ GET /api/products/category/elektronik?page=1&limit=5&sort=asc
 
 **Error:**
 
-| Code | Kondisi                  | Message              |
-| ---- | ------------------------ | -------------------- |
-| 404  | Kategori tidak ditemukan | `Category not found` |
+| Code | Kondisi                  | Message                     |
+| ---- | ------------------------ | --------------------------- |
+| 404  | Kategori tidak ditemukan | `Kategori tidak ditemukan.` |
 
 ---
 
@@ -1579,13 +1619,13 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                                                                                |
-| ---- | ----------------------- | -------------------------------------------------------------------------------------- |
-| 400  | Field wajib tidak ada   | `Missing required fields: name, price, stock, category_id`                             |
-| 400  | Tipe file tidak valid   | `Invalid file type: text/plain. Allowed: image/jpeg, image/png, image/webp, image/gif` |
-| 400  | Upload gagal            | `Upload failed`                                                                        |
-| 401  | Token tidak ada/invalid | `Invalid or missing token`                                                             |
-| 403  | Bukan admin             | `Admin access required`                                                                |
+| Code | Kondisi                 | Message                                                                                                 |
+| ---- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| 400  | Field wajib tidak ada   | `Field wajib belum lengkap: nama, harga, stok, kategori. Harap lengkapi isian.`                         |
+| 400  | Tipe file tidak valid   | `Tipe file tidak valid: text/plain. Tipe yang diizinkan: image/jpeg, image/png, image/webp, image/gif.` |
+| 400  | Upload gagal            | `Gagal mengunggah gambar. Silakan coba lagi.`                                                           |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`                                                                 |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.`                                                         |
 
 ---
 
@@ -1670,12 +1710,12 @@ Content-Type: image/jpeg
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 400  | Upload gagal            | `Upload failed`            |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
-| 404  | Produk tidak ditemukan  | `Product not found`        |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 400  | Upload gagal            | `Gagal mengunggah gambar. Silakan coba lagi.`   |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
+| 404  | Produk tidak ditemukan  | `Produk tidak ditemukan.`                       |
 
 ---
 
@@ -1715,10 +1755,10 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
 
 ---
 
@@ -1789,9 +1829,9 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
+| Code | Kondisi                 | Message                                 |
+| ---- | ----------------------- | --------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.` |
 
 ---
 
@@ -1854,9 +1894,9 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
+| Code | Kondisi                 | Message                                 |
+| ---- | ----------------------- | --------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.` |
 
 ---
 
@@ -1921,10 +1961,10 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 404  | Item tidak ditemukan    | `Cart item not found`      |
+| Code | Kondisi                 | Message                                 |
+| ---- | ----------------------- | --------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.` |
+| 404  | Item tidak ditemukan    | `Item keranjang tidak ditemukan.`       |
 
 ---
 
@@ -1968,10 +2008,10 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 404  | Item tidak ditemukan    | `Cart item not found`      |
+| Code | Kondisi                 | Message                                 |
+| ---- | ----------------------- | --------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.` |
+| 404  | Item tidak ditemukan    | `Item keranjang tidak ditemukan.`       |
 
 ---
 
@@ -2029,10 +2069,10 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
 
 ---
 
@@ -2086,11 +2126,11 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                                                         |
-| ---- | ----------------------- | --------------------------------------------------------------- |
-| 400  | Keranjang kosong        | `Cart is empty`                                                 |
-| 400  | Stok tidak mencukupi    | `Insufficient stock for <name>. Available: <n>, requested: <n>` |
-| 401  | Token tidak ada/invalid | `Invalid or missing token`                                      |
+| Code | Kondisi                 | Message                                                             |
+| ---- | ----------------------- | ------------------------------------------------------------------- |
+| 400  | Keranjang kosong        | `Keranjang belanja masih kosong. Tambahkan produk terlebih dahulu.` |
+| 400  | Stok tidak mencukupi    | `Stok <name> tidak mencukupi. Tersedia: <n>, diminta: <n>.`         |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`                             |
 
 ---
 
@@ -2159,9 +2199,9 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
+| Code | Kondisi                 | Message                                 |
+| ---- | ----------------------- | --------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.` |
 
 ---
 
@@ -2218,11 +2258,11 @@ Cookie: token=<signed-token>
 
 **Error:**
 
-| Code | Kondisi                           | Message                    |
-| ---- | --------------------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid           | `Invalid or missing token` |
-| 403  | Akses order user lain (non-admin) | `Access denied`            |
-| 404  | Order tidak ditemukan             | `Order not found`          |
+| Code | Kondisi                           | Message                                     |
+| ---- | --------------------------------- | ------------------------------------------- |
+| 401  | Token tidak ada/invalid           | `Sesi berakhir. Silakan login kembali.`     |
+| 403  | Akses order user lain (non-admin) | `Anda tidak memiliki akses ke pesanan ini.` |
+| 404  | Order tidak ditemukan             | `Pesanan tidak ditemukan.`                  |
 
 ---
 
@@ -2291,10 +2331,10 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                 | Message                    |
-| ---- | ----------------------- | -------------------------- |
-| 401  | Token tidak ada/invalid | `Invalid or missing token` |
-| 403  | Bukan admin             | `Admin access required`    |
+| Code | Kondisi                 | Message                                         |
+| ---- | ----------------------- | ----------------------------------------------- |
+| 401  | Token tidak ada/invalid | `Sesi berakhir. Silakan login kembali.`         |
+| 403  | Bukan admin             | `Akses khusus admin. Anda tidak memiliki izin.` |
 
 ---
 
@@ -2370,8 +2410,8 @@ Cookie: token=<admin-signed-token>
 
 **Error:**
 
-| Code | Kondisi                                   | Message                    |
-| ---- | ----------------------------------------- | -------------------------- |
-| 400  | Status tidak valid (validasi enum schema) | `Validation Error`         |
-| 401  | Token tidak ada/invalid                   | `Invalid or missing token` |
-| 403  | Bukan admin                               | `Admin access required`    |
+| Code | Kondisi                                   | Message                                                      |
+| ---- | ----------------------------------------- | ------------------------------------------------------------ |
+| 400  | Status tidak valid (validasi enum schema) | `Data yang dikirim tidak valid. Periksa kembali isian Anda.` |
+| 401  | Token tidak ada/invalid                   | `Sesi berakhir. Silakan login kembali.`                      |
+| 403  | Bukan admin                               | `Akses khusus admin. Anda tidak memiliki izin.`              |

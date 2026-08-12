@@ -19,7 +19,8 @@ export const productKeys = {
 	lists: () => [...productKeys.all, 'list'] as const,
 	list: (filters: ProductListParams) =>
 		[...productKeys.lists(), filters] as const,
-	bestSellers: () => [...productKeys.all, 'best-sellers'] as const,
+	bestSellers: (limit: number) =>
+		[...productKeys.all, 'best-sellers', limit] as const,
 	details: () => [...productKeys.all, 'detail'] as const,
 	detail: (id: string) => [...productKeys.details(), id] as const,
 	bySlug: (slug: string) => [...productKeys.all, 'slug', slug] as const,
@@ -37,7 +38,7 @@ export function useProducts(params: ProductListParams = {}) {
 
 export function useBestSellers(limit = 20) {
 	return useQuery({
-		queryKey: productKeys.bestSellers(),
+		queryKey: productKeys.bestSellers(limit),
 		queryFn: () => productService.bestSellers(limit),
 	});
 }
