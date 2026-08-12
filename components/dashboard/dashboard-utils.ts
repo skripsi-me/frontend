@@ -49,18 +49,15 @@ export function monthBounds(from: Date, startMonthOffset = 0) {
 	return { start: toDateString(start), end: toDateString(end) };
 }
 
-export function sumBetween(items: OrderReportItem[], start: string, end: string) {
+export function sumBetween(
+	items: OrderReportItem[],
+	start: string,
+	end: string,
+) {
 	return items
 		.filter((item) => item.date >= start && item.date <= end)
 		.reduce((sum, item) => sum + Number(item.total_amount), 0);
 }
-
-export const formatCurrency = (value: number) =>
-	new Intl.NumberFormat('id-ID', {
-		style: 'currency',
-		currency: 'IDR',
-		maximumFractionDigits: 0,
-	}).format(value);
 
 export type RevenueChartPoint = {
 	key: string;
@@ -93,18 +90,4 @@ export function buildChartData(
 		});
 	}
 	return days;
-}
-
-const nowListeners = new Set<() => void>();
-export const currentDate = new Date();
-
-export function subscribeNow(callback: () => void) {
-	nowListeners.add(callback);
-	return () => {
-		nowListeners.delete(callback);
-	};
-}
-
-export function getNowSnapshot() {
-	return currentDate;
 }

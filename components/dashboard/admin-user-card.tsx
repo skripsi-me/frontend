@@ -29,10 +29,7 @@ export function AdminUserCard() {
 					</div>
 				</div>
 			) : (
-				<Link
-					href="/dashboard/profil-saya"
-					className="flex items-center gap-2 px-2"
-				>
+				<Link href="/profil" className="flex items-center gap-2 px-2">
 					<Avatar size="lg">
 						<AvatarFallback className="bg-primary-soft text-green-700">
 							{getInitials(user?.name ?? 'Admin')}
@@ -49,11 +46,7 @@ export function AdminUserCard() {
 				</Link>
 			)}
 
-			<Button
-				variant="destructive"
-				className="w-full"
-				onClick={handleLogout}
-			>
+			<Button variant="outline" className="w-full" onClick={handleLogout}>
 				<LogOutIcon />
 				Keluar
 			</Button>

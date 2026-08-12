@@ -59,7 +59,7 @@ export function DashboardBestSellersSection({
 	onRetry,
 }: Props) {
 	return (
-		<div className="flex flex-col gap-4 rounded-2xl bg-white p-5 ring-1 ring-border">
+		<div className="flex flex-col gap-4 rounded-xl bg-white p-5 ring-1 ring-border">
 			<div className="flex flex-col gap-0.5">
 				<h2 className="text-headline-sm text-foreground">
 					Produk Best Seller
@@ -71,9 +71,13 @@ export function DashboardBestSellersSection({
 
 			{error ? (
 				<Alert variant="destructive" className="p-4">
-					<AlertTitle className="text-sm">Gagal memuat produk</AlertTitle>
+					<AlertTitle className="text-sm">
+						Gagal memuat produk
+					</AlertTitle>
 					<AlertDescription className="text-sm">
-						{isApiError(error) ? error.message : 'Terjadi kesalahan.'}
+						{isApiError(error)
+							? error.message
+							: 'Terjadi kesalahan.'}
 					</AlertDescription>
 					<div className="pt-2">
 						<Button variant="outline" size="sm" onClick={onRetry}>
@@ -88,7 +92,9 @@ export function DashboardBestSellersSection({
 						<TableRow>
 							<TableHead>Produk</TableHead>
 							<TableHead>Kategori</TableHead>
-							<TableHead className="text-right">Terjual</TableHead>
+							<TableHead className="text-right">
+								Terjual
+							</TableHead>
 							<TableHead className="text-right">Harga</TableHead>
 						</TableRow>
 					</TableHeader>
@@ -109,7 +115,9 @@ export function DashboardBestSellersSection({
 						<TableRow>
 							<TableHead>Produk</TableHead>
 							<TableHead>Kategori</TableHead>
-							<TableHead className="text-right">Terjual</TableHead>
+							<TableHead className="text-right">
+								Terjual
+							</TableHead>
 							<TableHead className="text-right">Harga</TableHead>
 						</TableRow>
 					</TableHeader>

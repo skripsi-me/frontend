@@ -76,7 +76,11 @@ function ProductGrid({ products }: { products: Product[] }) {
 	return (
 		<div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
 			{products.map((product, index) => (
-				<ProductCard key={product.id} product={product} eager={index === 0} />
+				<ProductCard
+					key={product.id}
+					product={product}
+					eager={index === 0}
+				/>
 			))}
 		</div>
 	);

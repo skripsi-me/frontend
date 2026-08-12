@@ -80,10 +80,12 @@ export function DashboardOrdersTable({
 	emptyTitle,
 }: Props) {
 	return (
-		<div className="flex flex-col gap-4 rounded-2xl bg-white p-5 ring-1 ring-border">
+		<div className="flex flex-col gap-4 rounded-xl bg-white p-5 ring-1 ring-border">
 			<div className="flex items-center justify-between gap-3">
 				<div className="flex flex-col gap-0.5">
-					<h2 className="text-headline-sm text-foreground">{title}</h2>
+					<h2 className="text-headline-sm text-foreground">
+						{title}
+					</h2>
 					<p className="text-caption text-muted-foreground">
 						{description}
 					</p>
@@ -103,7 +105,9 @@ export function DashboardOrdersTable({
 				<Alert variant="destructive">
 					<AlertTitle>Gagal memuat data</AlertTitle>
 					<AlertDescription>
-						{isApiError(error) ? error.message : 'Terjadi kesalahan. Coba lagi.'}
+						{isApiError(error)
+							? error.message
+							: 'Terjadi kesalahan. Coba lagi.'}
 					</AlertDescription>
 					<div className="pt-2">
 						<Button variant="outline" size="sm" onClick={onRetry}>
@@ -121,7 +125,9 @@ export function DashboardOrdersTable({
 								<TableHead>Tanggal</TableHead>
 								<TableHead>Total</TableHead>
 								<TableHead>Status</TableHead>
-								<TableHead className="text-right">Aksi</TableHead>
+								<TableHead className="text-right">
+									Aksi
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -144,7 +150,9 @@ export function DashboardOrdersTable({
 								<TableHead>Tanggal</TableHead>
 								<TableHead>Total</TableHead>
 								<TableHead>Status</TableHead>
-								<TableHead className="text-right">Aksi</TableHead>
+								<TableHead className="text-right">
+									Aksi
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -167,19 +175,25 @@ export function DashboardOrdersTable({
 											<Price value={order.total_amount} />
 										</TableCell>
 										<TableCell>
-											<StatusBadge status={order.status} />
+											<StatusBadge
+												status={order.status}
+											/>
 										</TableCell>
 										<TableCell className="text-right">
 											<Button
 												size="sm"
 												disabled={busy}
 												onClick={() =>
-													onUpdateStatus(order, action)
+													onUpdateStatus(
+														order,
+														action,
+													)
 												}
 											>
 												{busy ? (
 													<Loader2Icon className="size-4 animate-spin" />
-												) : action.nextStatus === 'delivered' ? (
+												) : action.nextStatus ===
+												  'delivered' ? (
 													<CheckIcon />
 												) : (
 													<SendIcon />

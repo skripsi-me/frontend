@@ -91,14 +91,19 @@ export function HomeContent() {
 							pas barang tiba.
 						</p>
 						<div className="flex flex-wrap items-center gap-3">
-							<Button size="lg" nativeButton={false} render={<Link href="/produk" />}>
+							<Button
+								size="lg"
+								nativeButton={false}
+								render={<Link href="/produk" />}
+							>
 								Lihat Produk
 								<ArrowRightIcon />
 							</Button>
 							<Button
 								variant="ghost"
 								size="lg"
-								nativeButton={false} render={<a href="#cara-pesan" />}
+								nativeButton={false}
+								render={<a href="#cara-pesan" />}
 							>
 								Cara Pesan
 							</Button>
@@ -199,7 +204,8 @@ export function HomeContent() {
 						<Button
 							variant="ghost"
 							size="sm"
-							nativeButton={false} render={<Link href="/produk" />}
+							nativeButton={false}
+							render={<Link href="/produk" />}
 						>
 							Lihat semua
 							<ArrowRightIcon />
@@ -316,7 +322,11 @@ export function HomeContent() {
 							bayar tunai saat pesanan sampai. Tenang dan
 							transparan untuk keluarga.
 						</p>
-						<Button size="lg" nativeButton={false} render={<Link href="/produk" />}>
+						<Button
+							size="lg"
+							nativeButton={false}
+							render={<Link href="/produk" />}
+						>
 							Mulai Belanja
 							<ArrowRightIcon />
 						</Button>
@@ -350,14 +360,19 @@ export function HomeContent() {
 						lengkap dengan harga bersahabat.
 					</p>
 					<div className="flex flex-wrap items-center justify-center gap-3 mt-8">
-						<Button size="lg" nativeButton={false} render={<Link href="/produk" />}>
+						<Button
+							size="lg"
+							nativeButton={false}
+							render={<Link href="/produk" />}
+						>
 							Lihat Semua Produk
 							<ArrowRightIcon />
 						</Button>
 						<Button
 							variant="outline"
 							size="lg"
-							nativeButton={false} render={<Link href="/keranjang-saya" />}
+							nativeButton={false}
+							render={<Link href="/keranjang-saya" />}
 						>
 							Keranjang Saya
 						</Button>

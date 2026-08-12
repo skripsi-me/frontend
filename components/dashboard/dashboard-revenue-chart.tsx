@@ -10,13 +10,10 @@ import {
 	type ChartConfig,
 } from '@/components/ui/chart';
 import { isApiError } from '@/lib/api';
+import { formatRupiah } from '@/lib/utils/format';
 import { RefreshCcwIcon, WalletIcon } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
-import {
-	CHART_DAYS,
-	formatCurrency,
-	type RevenueChartPoint,
-} from './dashboard-utils';
+import { CHART_DAYS, type RevenueChartPoint } from './dashboard-utils';
 
 const chartConfig = {
 	total: {
@@ -41,7 +38,7 @@ export function DashboardRevenueChart({
 	rangeLabel,
 }: Props) {
 	return (
-		<div className="flex flex-col gap-4 rounded-2xl bg-white p-5 ring-1 ring-border">
+		<div className="flex flex-col gap-4 rounded-xl bg-white p-5 ring-1 ring-border">
 			<div className="flex flex-col gap-0.5">
 				<h2 className="text-headline-sm text-foreground">
 					Pendapatan {CHART_DAYS} Hari
@@ -53,9 +50,13 @@ export function DashboardRevenueChart({
 
 			{error ? (
 				<Alert variant="destructive" className="p-4">
-					<AlertTitle className="text-sm">Gagal memuat grafik</AlertTitle>
+					<AlertTitle className="text-sm">
+						Gagal memuat grafik
+					</AlertTitle>
 					<AlertDescription className="text-sm">
-						{isApiError(error) ? error.message : 'Terjadi kesalahan.'}
+						{isApiError(error)
+							? error.message
+							: 'Terjadi kesalahan.'}
 					</AlertDescription>
 					<div className="pt-2">
 						<Button variant="outline" size="sm" onClick={onRetry}>
@@ -95,7 +96,7 @@ export function DashboardRevenueChart({
 							content={
 								<ChartTooltipContent
 									formatter={(value) =>
-										formatCurrency(Number(value))
+										formatRupiah(Number(value))
 									}
 								/>
 							}

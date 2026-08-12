@@ -102,7 +102,10 @@ export function ProfilContent() {
 								<>
 									<div className="flex flex-col gap-4 rounded-2xl bg-white p-6 ring-1 ring-border">
 										<div className="flex items-center gap-4">
-											<Avatar size="lg" className="size-16">
+											<Avatar
+												size="lg"
+												className="size-16"
+											>
 												<AvatarFallback className="text-headline-md">
 													{user.name
 														.charAt(0)
@@ -168,8 +171,8 @@ export function ProfilContent() {
 										</span>
 										<Badge variant="secondary">
 											{user
-												? ROLE_LABEL[user.role] ??
-													user.role
+												? (ROLE_LABEL[user.role] ??
+													user.role)
 												: '-'}
 										</Badge>
 									</div>
@@ -191,8 +194,7 @@ export function ProfilContent() {
 									Menu Lainnya
 								</h3>
 								{PROFILE_NAV_LINKS.map((item) => {
-									const active =
-										pathname === item.href;
+									const active = pathname === item.href;
 									return (
 										<Link
 											key={item.href}

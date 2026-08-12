@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { EmptyState } from '@/components/empty-state';
 import { Price } from '@/components/price';
 import { ProductImage } from '@/components/product-image';
+import { StockBadge } from '@/components/stock-badge';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -34,39 +35,16 @@ function formatDateTime(value: string) {
 	return format(new Date(value), 'd MMMM yyyy, HH:mm', { locale: localeId });
 }
 
-function StockBadge({ stock }: { stock: number }) {
-	if (stock <= 0) {
-		return (
-			<Badge
-				variant="outline"
-				className="bg-destructive/10 text-red-700"
-			>
-				Habis
-			</Badge>
-		);
-	}
-	if (stock <= 5) {
-		return (
-			<Badge
-				variant="outline"
-				className="bg-warning/10 text-amber-700"
-			>
-				{stock} tersisa
-			</Badge>
-		);
-	}
-	return (
-		<Badge variant="outline" className="bg-success/10 text-success">
-			Stok {stock}
-		</Badge>
-	);
-}
-
 export function ProdukAdminDetail({ productId }: { productId: string }) {
 	const router = useRouter();
 	const [deleteOpen, setDeleteOpen] = useState(false);
-	const { data: product, isPending, isError, error, refetch } =
-		useProductById(productId);
+	const {
+		data: product,
+		isPending,
+		isError,
+		error,
+		refetch,
+	} = useProductById(productId);
 	const deleteProduct = useDeleteProduct();
 
 	async function handleDelete() {
@@ -100,12 +78,14 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 			</div>
 
 			{isError ? (
-				<div className="flex flex-col gap-4 rounded-2xl bg-white p-6 ring-1 ring-border">
+				<div className="flex flex-col gap-4 rounded-xl bg-white p-6 ring-1 ring-border">
 					<EmptyState
 						icon={RefreshCcwIcon}
 						title="Gagal memuat produk"
 						description={
-							isApiError(error) ? error.message : 'Terjadi kesalahan.'
+							isApiError(error)
+								? error.message
+								: 'Terjadi kesalahan.'
 						}
 						className="rounded-xl bg-surface-muted py-10"
 					/>
@@ -124,8 +104,8 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 					</div>
 				</div>
 			) : isPending ? (
-				<div className="grid gap-6 rounded-2xl bg-white p-6 ring-1 ring-border lg:grid-cols-2">
-					<Skeleton className="aspect-square w-full rounded-2xl" />
+				<div className="grid gap-6 rounded-xl bg-white p-6 ring-1 ring-border lg:grid-cols-2">
+					<Skeleton className="aspect-square w-full rounded-xl" />
 					<div className="flex flex-col gap-4">
 						<Skeleton className="h-8 w-3/4" />
 						<Skeleton className="h-6 w-28 rounded-full" />
@@ -139,7 +119,7 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 					</div>
 				</div>
 			) : !product ? (
-				<div className="flex flex-col gap-4 rounded-2xl bg-white p-6 ring-1 ring-border">
+				<div className="flex flex-col gap-4 rounded-xl bg-white p-6 ring-1 ring-border">
 					<EmptyState
 						icon={RefreshCcwIcon}
 						title="Produk tidak ditemukan"
@@ -157,8 +137,8 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 					</div>
 				</div>
 			) : (
-				<div className="grid gap-6 rounded-2xl bg-white p-6 ring-1 ring-border lg:grid-cols-2">
-					<div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-surface-muted">
+				<div className="grid gap-6 rounded-xl bg-white p-6 ring-1 ring-border lg:grid-cols-2">
+					<div className="relative aspect-square w-full overflow-hidden rounded-xl bg-surface-muted">
 						{product.image_url ? (
 							<ProductImage
 								src={product.image_url}
@@ -175,7 +155,10 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 
 					<div className="flex flex-col gap-5">
 						<div className="flex flex-wrap items-center gap-3">
-							<Badge variant="outline" className="bg-primary-soft text-green-700">
+							<Badge
+								variant="outline"
+								className="bg-primary-soft text-green-700"
+							>
 								{product.category.name}
 							</Badge>
 							<StockBadge stock={product.stock} />
@@ -189,7 +172,7 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 							<Price value={product.price} />
 						</p>
 
-						<div className="flex flex-col gap-2 rounded-2xl bg-surface-muted p-4">
+						<div className="flex flex-col gap-2 rounded-xl bg-surface-muted p-4">
 							<div className="flex items-center justify-between gap-3">
 								<span className="text-caption text-muted-foreground">
 									Total terjual
@@ -260,11 +243,15 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 						<DialogTitle>Hapus produk?</DialogTitle>
 						<DialogDescription>
 							Produk &quot;{product?.name}&quot; akan dihapus
-							secara permanen. Tindakan ini tidak dapat dibatalkan.
+							secara permanen. Tindakan ini tidak dapat
+							dibatalkan.
 						</DialogDescription>
 					</DialogHeader>
 					<DialogFooter>
-						<Button variant="outline" onClick={() => setDeleteOpen(false)}>
+						<Button
+							variant="outline"
+							onClick={() => setDeleteOpen(false)}
+						>
 							Batal
 						</Button>
 						<Button

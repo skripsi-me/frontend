@@ -4,6 +4,7 @@ import { EmptyState } from '@/components/empty-state';
 import { PaginationNav } from '@/components/pagination-nav';
 import { Price } from '@/components/price';
 import { ProductImage } from '@/components/product-image';
+import { StockBadge } from '@/components/stock-badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
@@ -90,25 +91,91 @@ function TableSkeleton({ rows = 8 }: { rows?: number }) {
 	);
 }
 
-function StockBadge({ stock }: { stock: number }) {
-	if (stock <= 0) {
-		return (
-			<span className="inline-flex h-5 items-center rounded-full bg-destructive/10 px-2 text-xs font-medium text-red-700">
-				Habis
-			</span>
-		);
-	}
-	if (stock <= 5) {
-		return (
-			<span className="inline-flex h-5 items-center rounded-full bg-warning/10 px-2 text-xs font-medium text-amber-700">
-				{stock} tersisa
-			</span>
-		);
-	}
+function MobileProductCards({
+	products,
+	onDelete,
+}: {
+	products: Product[];
+	onDelete: (product: Product) => void;
+}) {
 	return (
-		<span className="inline-flex h-5 items-center rounded-full bg-success/10 px-2 text-xs font-medium text-success">
-			{stock}
-		</span>
+		<div className="flex flex-col gap-3 md:hidden">
+			{products.map((product) => (
+				<div
+					key={product.id}
+					className="flex items-start gap-3 rounded-xl border border-border p-3"
+				>
+					<div className="relative size-14 shrink-0 overflow-hidden rounded-lg bg-surface-muted">
+						{product.image_url ? (
+							<ProductImage
+								src={product.image_url}
+								alt={product.name}
+								sizes="56px"
+								className="h-full w-full object-cover"
+							/>
+						) : (
+							<div className="flex h-full items-center justify-center text-muted-foreground">
+								<SearchIcon className="size-4" />
+							</div>
+						)}
+					</div>
+					<div className="min-w-0 flex-1">
+						<p className="line-clamp-2 font-medium text-foreground">
+							{product.name}
+						</p>
+						<p className="truncate text-caption text-muted-foreground">
+							{product.category.name}
+						</p>
+						<div className="mt-1.5 flex flex-wrap items-center gap-2">
+							<Price value={product.price} />
+							<StockBadge stock={product.stock} />
+						</div>
+						<div className="mt-1.5 flex items-center justify-between gap-2">
+							<span className="text-caption tabular-nums text-muted-foreground">
+								Terjual {product.total_sold ?? 0}
+							</span>
+							<div className="flex items-center gap-1.5">
+								<Button
+									variant="ghost"
+									size="icon-sm"
+									nativeButton={false}
+									render={
+										<Link
+											href={`/dashboard/produk/${product.id}`}
+										/>
+									}
+									aria-label={`Lihat detail ${product.name}`}
+								>
+									<EyeIcon />
+								</Button>
+								<Button
+									variant="outline"
+									size="icon-sm"
+									nativeButton={false}
+									render={
+										<Link
+											href={`/dashboard/produk/${product.id}/update`}
+										/>
+									}
+									aria-label={`Ubah ${product.name}`}
+								>
+									<PencilIcon />
+								</Button>
+								<Button
+									variant="ghost"
+									size="icon-sm"
+									className="text-destructive"
+									onClick={() => onDelete(product)}
+									aria-label={`Hapus ${product.name}`}
+								>
+									<Trash2Icon />
+								</Button>
+							</div>
+						</div>
+					</div>
+				</div>
+			))}
+		</div>
 	);
 }
 
@@ -238,7 +305,7 @@ export function ProdukAdminList() {
 				</Select>
 			</div>
 
-			<div className="flex flex-1 flex-col gap-4 rounded-2xl bg-white p-5 ring-1 ring-border">
+			<div className="flex flex-1 flex-col gap-4 rounded-xl bg-white p-5 ring-1 ring-border">
 				{isError ? (
 					<Alert variant="destructive">
 						<AlertTitle>Gagal memuat produk</AlertTitle>
@@ -259,25 +326,42 @@ export function ProdukAdminList() {
 						</div>
 					</Alert>
 				) : isPending ? (
-					<div className="overflow-x-auto">
-						<Table>
-							<TableHeader>
-								<TableRow>
-									<TableHead>Produk</TableHead>
-									<TableHead>Kategori</TableHead>
-									<TableHead>Harga</TableHead>
-									<TableHead>Stok</TableHead>
-									<TableHead>Terjual</TableHead>
-									<TableHead className="text-right">
-										Aksi
-									</TableHead>
-								</TableRow>
-							</TableHeader>
-							<TableBody>
-								<TableSkeleton />
-							</TableBody>
-						</Table>
-					</div>
+					<>
+						<div className="flex flex-col gap-3 md:hidden">
+							{Array.from({ length: 4 }).map((_, i) => (
+								<div
+									key={i}
+									className="flex items-start gap-3 rounded-xl border border-border p-3"
+								>
+									<Skeleton className="size-14 shrink-0 rounded-lg" />
+									<div className="flex flex-1 flex-col gap-2">
+										<Skeleton className="h-4 w-2/3" />
+										<Skeleton className="h-3 w-24" />
+										<Skeleton className="h-5 w-28" />
+									</div>
+								</div>
+							))}
+						</div>
+						<div className="hidden overflow-x-auto md:block">
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>Produk</TableHead>
+										<TableHead>Kategori</TableHead>
+										<TableHead>Harga</TableHead>
+										<TableHead>Stok</TableHead>
+										<TableHead>Terjual</TableHead>
+										<TableHead className="text-right">
+											Aksi
+										</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									<TableSkeleton />
+								</TableBody>
+							</Table>
+						</div>
+					</>
 				) : products.length === 0 ? (
 					<EmptyState
 						icon={SearchIcon}
@@ -291,7 +375,11 @@ export function ProdukAdminList() {
 					/>
 				) : (
 					<>
-						<div className="overflow-x-auto">
+						<MobileProductCards
+							products={products}
+							onDelete={setProductToDelete}
+						/>
+						<div className="hidden overflow-x-auto md:block">
 							<Table>
 								<TableHeader>
 									<TableRow>

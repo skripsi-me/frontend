@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useUpdateProfile } from '@/hooks/user.hook';
 import { isApiError } from '@/lib/api';
+import { getErrorMessage } from '@/lib/utils/form';
 import type { User } from '@/types/user';
 import { Loader2Icon, SaveIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -24,22 +25,6 @@ const profilSchema = z.object({
 		),
 	address: z.string(),
 });
-
-function getErrorMessage(field: {
-	state: { meta: { errors: unknown[] } };
-}): string | undefined {
-	const error = field.state.meta.errors[0];
-	if (typeof error === 'string') return error;
-	if (
-		typeof error === 'object' &&
-		error !== null &&
-		'message' in error &&
-		typeof (error as { message: unknown }).message === 'string'
-	) {
-		return (error as { message: string }).message;
-	}
-	return undefined;
-}
 
 type ProfilFormProps = {
 	user: User;
@@ -92,8 +77,7 @@ export function ProfilForm({ user, onCancel, onSaved }: ProfilFormProps) {
 					Edit Profil
 				</h2>
 				<p className="text-body-sm text-muted-foreground">
-					Perbarui data diri yang dibutuhkan untuk pengiriman
-					pesanan.
+					Perbarui data diri yang dibutuhkan untuk pengiriman pesanan.
 				</p>
 			</div>
 
@@ -221,7 +205,9 @@ export function ProfilForm({ user, onCancel, onSaved }: ProfilFormProps) {
 					) : (
 						<SaveIcon />
 					)}
-					{updateProfile.isPending ? 'Menyimpan...' : 'Simpan Perubahan'}
+					{updateProfile.isPending
+						? 'Menyimpan...'
+						: 'Simpan Perubahan'}
 				</Button>
 				<Button
 					type="button"

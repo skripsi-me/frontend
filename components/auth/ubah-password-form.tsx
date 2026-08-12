@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { useChangePassword } from '@/hooks/auth.hook';
 import { isApiError } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { getErrorMessage } from '@/lib/utils/form';
 import { useForm } from '@tanstack/react-form';
 import {
 	CheckCircle2Icon,
@@ -31,22 +32,6 @@ const ubahPasswordSchema = z
 		message: 'Konfirmasi kata sandi tidak cocok',
 		path: ['confirm_password'],
 	});
-
-function getErrorMessage(field: {
-	state: { meta: { errors: unknown[] } };
-}): string | undefined {
-	const error = field.state.meta.errors[0];
-	if (typeof error === 'string') return error;
-	if (
-		typeof error === 'object' &&
-		error !== null &&
-		'message' in error &&
-		typeof (error as { message: unknown }).message === 'string'
-	) {
-		return (error as { message: string }).message;
-	}
-	return undefined;
-}
 
 type PasswordFieldProps = {
 	visible: boolean;

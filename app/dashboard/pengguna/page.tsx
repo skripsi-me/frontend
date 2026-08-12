@@ -1,16 +1,10 @@
 import type { Metadata } from 'next';
+import { PenggunaAdminContent } from '@/components/pengguna/pengguna-admin-content';
 
 export const metadata: Metadata = {
 	title: 'Kelola Pengguna',
 };
 
 export default function DashboardPenggunaPage() {
-	return (
-		<main className="flex flex-1 flex-col items-center justify-center gap-2 p-6">
-			<h1 className="text-headline-md">Kelola Pengguna</h1>
-			<p className="text-body-sm text-muted-foreground">
-				Halaman ini sedang dalam pengembangan.
-			</p>
-		</main>
-	);
+	return <PenggunaAdminContent />;
 }

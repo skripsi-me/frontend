@@ -1,4 +1,10 @@
-import { LayoutDashboard, Package, ReceiptText, Tags, Users } from 'lucide-react';
+import {
+	LayoutDashboard,
+	Package,
+	ReceiptText,
+	Tags,
+	Users,
+} from 'lucide-react';
 import { NavLinkAdmin, NavLinkUser } from '@/types/nav';
 
 export const USER_NAV_LINKS: NavLinkUser[] = [

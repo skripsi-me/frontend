@@ -1,11 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Skeleton } from '@/components/ui/skeleton';
 import {
 	Select,
 	SelectContent,
@@ -13,6 +10,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { useCategories } from '@/hooks/category.hook';
 import {
@@ -22,6 +20,7 @@ import {
 } from '@/hooks/product.hook';
 import { isApiError } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { getErrorMessage } from '@/lib/utils/form';
 import type {
 	CreateProductRequest,
 	UpdateProductRequest,
@@ -31,6 +30,8 @@ import { ArrowLeftIcon, ImageIcon, Loader2Icon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 const productSchema = z.object({
@@ -49,22 +50,6 @@ const productSchema = z.object({
 		),
 	category_id: z.string().min(1, 'Kategori wajib dipilih'),
 });
-
-function getErrorMessage(field: {
-	state: { meta: { errors: unknown[] } };
-}): string | undefined {
-	const error = field.state.meta.errors[0];
-	if (typeof error === 'string') return error;
-	if (
-		typeof error === 'object' &&
-		error !== null &&
-		'message' in error &&
-		typeof (error as { message: unknown }).message === 'string'
-	) {
-		return (error as { message: string }).message;
-	}
-	return undefined;
-}
 
 export function ProdukForm({
 	mode,
@@ -166,7 +151,7 @@ export function ProdukForm({
 	}
 
 	const displayedPreview =
-		previewUrl ?? (isUpdate ? product?.image_url ?? null : null);
+		previewUrl ?? (isUpdate ? (product?.image_url ?? null) : null);
 	const isSubmitting = createProduct.isPending || updateProduct.isPending;
 
 	return (
@@ -195,7 +180,7 @@ export function ProdukForm({
 			</div>
 
 			{isUpdate && isProductPending ? (
-				<div className="flex flex-col gap-5 rounded-2xl bg-white p-6 ring-1 ring-border">
+				<div className="flex flex-col gap-5 rounded-xl bg-white p-6 ring-1 ring-border">
 					<Skeleton className="h-10 w-2/3" />
 					<Skeleton className="h-24 w-full" />
 					<div className="grid gap-4 sm:grid-cols-2">
@@ -212,13 +197,13 @@ export function ProdukForm({
 						event.stopPropagation();
 						void form.handleSubmit();
 					}}
-					className="flex flex-col gap-5 rounded-2xl bg-white p-6 ring-1 ring-border"
+					className="flex flex-col gap-5 rounded-xl bg-white p-6 ring-1 ring-border"
 					noValidate
 				>
 					{serverError && (
 						<div
 							role="alert"
-							className="rounded-2xl bg-destructive/10 px-4 py-3 text-label-sm text-destructive"
+							className="rounded-xl bg-destructive/10 px-4 py-3 text-label-sm text-destructive"
 						>
 							{serverError}
 						</div>
@@ -232,14 +217,18 @@ export function ProdukForm({
 							const error = getErrorMessage(field);
 							return (
 								<div className="flex flex-col gap-1.5">
-									<Label htmlFor={field.name}>Nama Produk</Label>
+									<Label htmlFor={field.name}>
+										Nama Produk
+									</Label>
 									<Input
 										id={field.name}
 										name={field.name}
 										placeholder="cth. Susu UHT Full Cream 1L"
 										value={field.state.value}
 										onChange={(event) =>
-											field.handleChange(event.target.value)
+											field.handleChange(
+												event.target.value,
+											)
 										}
 										onBlur={field.handleBlur}
 										aria-invalid={error ? true : undefined}
@@ -282,7 +271,9 @@ export function ProdukForm({
 								const error = getErrorMessage(field);
 								return (
 									<div className="flex flex-col gap-1.5">
-										<Label htmlFor={field.name}>Harga (Rp)</Label>
+										<Label htmlFor={field.name}>
+											Harga (Rp)
+										</Label>
 										<Input
 											id={field.name}
 											name={field.name}
@@ -293,10 +284,14 @@ export function ProdukForm({
 											placeholder="0"
 											value={field.state.value}
 											onChange={(event) =>
-												field.handleChange(event.target.value)
+												field.handleChange(
+													event.target.value,
+												)
 											}
 											onBlur={field.handleBlur}
-											aria-invalid={error ? true : undefined}
+											aria-invalid={
+												error ? true : undefined
+											}
 										/>
 										{error && (
 											<p className="text-caption text-destructive">
@@ -327,10 +322,14 @@ export function ProdukForm({
 											placeholder="0"
 											value={field.state.value}
 											onChange={(event) =>
-												field.handleChange(event.target.value)
+												field.handleChange(
+													event.target.value,
+												)
 											}
 											onBlur={field.handleBlur}
-											aria-invalid={error ? true : undefined}
+											aria-invalid={
+												error ? true : undefined
+											}
 										/>
 										{error && (
 											<p className="text-caption text-destructive">
@@ -345,7 +344,9 @@ export function ProdukForm({
 
 					<form.Field
 						name="category_id"
-						validators={{ onChange: productSchema.shape.category_id }}
+						validators={{
+							onChange: productSchema.shape.category_id,
+						}}
 					>
 						{(field) => {
 							const error = getErrorMessage(field);
@@ -360,7 +361,9 @@ export function ProdukForm({
 									>
 										<SelectTrigger
 											className="w-full"
-											aria-invalid={error ? true : undefined}
+											aria-invalid={
+												error ? true : undefined
+											}
 										>
 											<SelectValue placeholder="Pilih kategori" />
 										</SelectTrigger>
@@ -390,7 +393,7 @@ export function ProdukForm({
 						<div className="flex items-start gap-4">
 							<div
 								className={cn(
-									'relative flex aspect-square w-32 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-surface-muted text-muted-foreground',
+									'relative flex aspect-square w-32 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface-muted text-muted-foreground',
 								)}
 							>
 								{displayedPreview ? (

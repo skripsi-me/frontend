@@ -2,9 +2,18 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useOrderReport, useOrders, useUpdateOrderStatus } from '@/hooks/order.hook';
-import { useBestSellers, useProducts, useUpdateProduct } from '@/hooks/product.hook';
+import {
+	useOrderReport,
+	useOrders,
+	useUpdateOrderStatus,
+} from '@/hooks/order.hook';
+import {
+	useBestSellers,
+	useProducts,
+	useUpdateProduct,
+} from '@/hooks/product.hook';
 import { isApiError } from '@/lib/api';
+import { formatRupiah } from '@/lib/utils/format';
 import { useAuth } from '@/providers/auth-provider';
 import type { Order } from '@/types/order';
 import type { Product } from '@/types/product';
@@ -14,7 +23,6 @@ import {
 	TruckIcon,
 	WalletIcon,
 } from 'lucide-react';
-import { useSyncExternalStore } from 'react';
 import { DashboardBestSellersSection } from './dashboard-best-sellers-section';
 import { DashboardLowStockSection } from './dashboard-low-stock-section';
 import { DashboardOrdersTable } from './dashboard-orders-table';
@@ -29,21 +37,14 @@ import {
 	SHIPPED_ACTION,
 	STATUS_VERB,
 	buildChartData,
-	formatCurrency,
-	getNowSnapshot,
 	monthBounds,
-	subscribeNow,
 	sumBetween,
 	type OrderAction,
 } from './dashboard-utils';
 
 export function DashboardContent() {
 	const { user, isLoading: authLoading } = useAuth();
-	const today = useSyncExternalStore(
-		subscribeNow,
-		getNowSnapshot,
-		getNowSnapshot,
-	);
+	const [today] = useState(() => new Date());
 	const [busyId, setBusyId] = useState<string | null>(null);
 	const [stockBusyId, setStockBusyId] = useState<string | null>(null);
 
@@ -149,7 +150,9 @@ export function DashboardContent() {
 			);
 		} catch (error) {
 			toast.error(
-				isApiError(error) ? error.message : 'Gagal menambah stok produk.',
+				isApiError(error)
+					? error.message
+					: 'Gagal menambah stok produk.',
 			);
 		} finally {
 			setStockBusyId(null);
@@ -190,7 +193,7 @@ export function DashboardContent() {
 					<StatCard
 						icon={WalletIcon}
 						label="Pendapatan Bulan Ini"
-						value={formatCurrency(currentRevenue)}
+						value={formatRupiah(currentRevenue)}
 						href="/dashboard/pesanan"
 						loading={reportQuery.isPending}
 						delta={revenueDelta}

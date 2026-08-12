@@ -19,7 +19,7 @@ export function StatCard({
 	delta?: number | null;
 }) {
 	const content = (
-		<div className="flex flex-col gap-3 rounded-2xl bg-white p-5 ring-1 ring-border transition-shadow hover:shadow-sm">
+		<div className="flex flex-col gap-3 rounded-xl bg-white p-5 ring-1 ring-border transition-shadow hover:shadow-sm">
 			<div className="flex size-10 items-center justify-center rounded-xl bg-primary-soft text-green-700">
 				<Icon className="size-5" />
 			</div>
@@ -53,7 +53,7 @@ export function StatCard({
 	return (
 		<Link
 			href={href}
-			className="group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+			className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 		>
 			{content}
 		</Link>

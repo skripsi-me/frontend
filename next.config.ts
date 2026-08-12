@@ -25,7 +25,8 @@ const nextConfig: NextConfig = {
 		return [
 			{
 				source: '/api/:path*',
-				destination: 'https://api.toko-online.rulltech.web.id/api/:path*',
+				destination:
+					'https://api.toko-online.rulltech.web.id/api/:path*',
 			},
 		];
 	},

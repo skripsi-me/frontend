@@ -8,6 +8,7 @@ import { useLogin } from '@/hooks/auth.hook';
 import { userKeys } from '@/hooks/user.hook';
 import { isApiError } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { getErrorMessage } from '@/lib/utils/form';
 import { useForm } from '@tanstack/react-form';
 import { useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
@@ -25,22 +26,6 @@ const loginSchema = z.object({
 		.email('Format email tidak valid'),
 	password: z.string().min(1, 'Kata sandi wajib diisi'),
 });
-
-function getErrorMessage(field: {
-	state: { meta: { errors: unknown[] } };
-}): string | undefined {
-	const error = field.state.meta.errors[0];
-	if (typeof error === 'string') return error;
-	if (
-		typeof error === 'object' &&
-		error !== null &&
-		'message' in error &&
-		typeof (error as { message: unknown }).message === 'string'
-	) {
-		return (error as { message: string }).message;
-	}
-	return undefined;
-}
 
 function sanitizeRedirect(value: string | null): string {
 	if (value && value.startsWith('/') && !value.startsWith('//')) {

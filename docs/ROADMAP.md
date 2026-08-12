@@ -37,12 +37,12 @@ Rencana pengembangan frontend As-Sakinah Mart.
 
 ## Fase 5 — Admin Panel
 
-- [ ] Layout & autentikasi admin (guard role `admin`).
-- [ ] Dashboard (`/dashboard`): ringkasan + laporan harian.
-- [ ] Kelola produk (list, detail, buat, update, upload gambar).
-- [ ] Kelola kategori (CRUD).
-- [ ] Kelola pesanan (list, detail, update status).
-- [ ] Kelola pengguna (list, detail, buat, update).
+- [x] Layout & autentikasi admin (guard role `admin`).
+- [x] Dashboard (`/dashboard`): ringkasan + laporan harian.
+- [x] Kelola produk (list, detail, buat, update, upload gambar).
+- [x] Kelola kategori (CRUD).
+- [x] Kelola pesanan (list, detail, update status).
+- [x] Kelola pengguna (list, detail, buat, update).
 
 ## Fase 6 — Pengujian & Penyempurnaan
 
