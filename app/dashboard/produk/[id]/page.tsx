@@ -1,16 +1,15 @@
 import type { Metadata } from 'next';
+import { ProdukAdminDetail } from '@/components/produk/produk-admin-detail';
 
 export const metadata: Metadata = {
 	title: 'Detail Produk',
 };
 
-export default function DashboardProdukDetailPage() {
-	return (
-		<main className="flex flex-1 flex-col items-center justify-center gap-2 p-6">
-			<h1 className="text-headline-md">Detail Produk</h1>
-			<p className="text-body-sm text-muted-foreground">
-				Halaman ini sedang dalam pengembangan.
-			</p>
-		</main>
-	);
+export default async function DashboardProdukDetailPage({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	const { id } = await params;
+	return <ProdukAdminDetail productId={id} />;
 }
