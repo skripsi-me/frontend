@@ -10,21 +10,9 @@ export function useLogin() {
 	});
 }
 
-export function useRegister() {
-	return useMutation({
-		mutationFn: authService.register,
-	});
-}
-
 export function useLogout() {
 	return useMutation({
 		mutationFn: authService.logout,
-	});
-}
-
-export function useRefresh() {
-	return useMutation({
-		mutationFn: authService.refresh,
 	});
 }
 

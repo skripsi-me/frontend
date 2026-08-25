@@ -17,11 +17,14 @@ export function AdminNav({ asSheet = false }: Props) {
 	return (
 		<nav className="flex flex-col gap-1">
 			{DASHBOARD_NAV_LINKS.map((link) => {
-				const active = isActiveNav({ href: link.href, pathname });
+				const active =
+					link.href === '/dashboard'
+						? pathname === link.href
+						: isActiveNav({ href: link.href, pathname });
 				const linkClassName = cn(
 					'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
 					active
-						? 'bg-primary/10 text-green-700'
+						? 'bg-primary/10 text-success'
 						: 'text-muted-foreground hover:bg-muted hover:text-foreground',
 				);
 				const linkProps = {

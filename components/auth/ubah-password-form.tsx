@@ -106,26 +106,6 @@ export function UbahPasswordForm() {
 		},
 	});
 
-	const formErrors: string[] = [];
-	for (const error of form.state.errors) {
-		if (typeof error === 'string') {
-			formErrors.push(error);
-		} else if (Array.isArray(error)) {
-			for (const issue of error) {
-				if (typeof issue === 'string') {
-					formErrors.push(issue);
-				} else if (issue?.message) {
-					formErrors.push(issue.message);
-				}
-			}
-		} else if (error && typeof error === 'object') {
-			const candidate = error as { message?: unknown };
-			if (typeof candidate.message === 'string') {
-				formErrors.push(candidate.message);
-			}
-		}
-	}
-
 	return (
 		<RequireAuth>
 			<Card className="w-full md:max-w-4xl">
@@ -168,17 +148,40 @@ export function UbahPasswordForm() {
 							</div>
 						)}
 
-						{(serverError || formErrors.length > 0) && (
+						{serverError && (
 							<div
 								role="alert"
 								className="flex flex-col gap-1 rounded-2xl bg-destructive/10 px-4 py-3 text-label-sm text-destructive"
 							>
 								{serverError}
-								{formErrors.map((error) => (
-									<span key={error}>{error}</span>
-								))}
 							</div>
 						)}
+
+						<form.Subscribe selector={(state) => state.errors}>
+							{(errors) => {
+								const formErrors = errors
+									.flatMap((error) =>
+										Array.isArray(error) ? error : [error],
+									)
+									.map((error) =>
+										typeof error === 'string'
+											? error
+											: error?.message,
+									)
+									.filter(Boolean) as string[];
+								if (formErrors.length === 0) return null;
+								return (
+									<div
+										role="alert"
+										className="flex flex-col gap-1 rounded-2xl bg-destructive/10 px-4 py-3 text-label-sm text-destructive"
+									>
+										{formErrors.map((error) => (
+											<span key={error}>{error}</span>
+										))}
+									</div>
+								);
+							}}
+						</form.Subscribe>
 
 						<form.Field
 							name="old_password"
@@ -315,21 +318,25 @@ export function UbahPasswordForm() {
 							}}
 						</form.Field>
 
-						<Button
-							type="submit"
-							size="lg"
-							className="mt-1 w-full"
-							disabled={changePassword.isPending}
-						>
-							{changePassword.isPending ? (
-								<>
-									<Loader2Icon className="size-4 animate-spin" />
-									Menyimpan...
-								</>
-							) : (
-								'Simpan Kata Sandi'
-							)}
-						</Button>
+						<form.Subscribe selector={(state) => state.canSubmit}>
+						{(canSubmit) => (
+							<Button
+								type="submit"
+								size="lg"
+								className="mt-1 w-full"
+								disabled={!canSubmit || changePassword.isPending}
+							>
+								{changePassword.isPending ? (
+									<>
+										<Loader2Icon className="size-4 animate-spin" />
+										Menyimpan...
+									</>
+								) : (
+									'Simpan Kata Sandi'
+								)}
+							</Button>
+						)}
+					</form.Subscribe>
 
 						<Button
 							type="button"

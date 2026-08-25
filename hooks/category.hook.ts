@@ -9,21 +9,12 @@ import type {
 
 export const categoryKeys = {
 	all: ['categories'] as const,
-	bySlug: (slug: string) => [...categoryKeys.all, 'slug', slug] as const,
 };
 
 export function useCategories() {
 	return useQuery({
 		queryKey: categoryKeys.all,
 		queryFn: categoryService.list,
-	});
-}
-
-export function useCategoryBySlug(slug: string | undefined) {
-	return useQuery({
-		queryKey: categoryKeys.bySlug(slug ?? ''),
-		queryFn: () => categoryService.getBySlug(slug as string),
-		enabled: Boolean(slug),
 	});
 }
 

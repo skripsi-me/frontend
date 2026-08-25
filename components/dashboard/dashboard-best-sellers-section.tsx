@@ -1,8 +1,7 @@
 import { EmptyState } from '@/components/empty-state';
 import { Price } from '@/components/price';
 import { ProductImage } from '@/components/product-image';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { SectionError } from '@/components/dashboard/dashboard-state';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
 	Table,
@@ -12,9 +11,8 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { isApiError } from '@/lib/api';
 import type { Product } from '@/types/product';
-import { FlameIcon, PackageCheckIcon, RefreshCcwIcon } from 'lucide-react';
+import { FlameIcon, PackageCheckIcon } from 'lucide-react';
 
 function BestSellerRowsSkeleton({ rows = 5 }: { rows?: number }) {
 	return (
@@ -70,22 +68,11 @@ export function DashboardBestSellersSection({
 			</div>
 
 			{error ? (
-				<Alert variant="destructive" className="p-4">
-					<AlertTitle className="text-sm">
-						Gagal memuat produk
-					</AlertTitle>
-					<AlertDescription className="text-sm">
-						{isApiError(error)
-							? error.message
-							: 'Terjadi kesalahan.'}
-					</AlertDescription>
-					<div className="pt-2">
-						<Button variant="outline" size="sm" onClick={onRetry}>
-							<RefreshCcwIcon />
-							Coba lagi
-						</Button>
-					</div>
-				</Alert>
+				<SectionError
+					title="Gagal memuat produk"
+					error={error}
+					onRetry={onRetry}
+				/>
 			) : loading ? (
 				<Table>
 					<TableHeader>
@@ -126,7 +113,7 @@ export function DashboardBestSellersSection({
 							<TableRow key={product.id}>
 								<TableCell>
 									<div className="flex items-center gap-3">
-										<span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-semibold tabular-nums text-green-700">
+										<span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-semibold tabular-nums text-success">
 											{index + 1}
 										</span>
 										<div className="relative size-10 shrink-0 overflow-hidden rounded-lg bg-surface-muted">
@@ -152,7 +139,7 @@ export function DashboardBestSellersSection({
 									{product.category.name}
 								</TableCell>
 								<TableCell className="text-right">
-									<span className="inline-flex h-5 items-center gap-1 rounded-full bg-primary-soft px-2 text-xs font-medium tabular-nums text-green-700">
+									<span className="inline-flex h-5 items-center gap-1 rounded-full bg-primary-soft px-2 text-xs font-medium tabular-nums text-success">
 										<FlameIcon className="size-3" />
 										{product.total_sold ?? 0} terjual
 									</span>

@@ -22,14 +22,14 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { useOrders, useUpdateOrderStatus } from '@/hooks/order.hook';
+import { useOrders } from '@/hooks/order.hook';
+import { useOrderStatusUpdate } from '@/hooks/order-status.hook';
 import { isApiError } from '@/lib/api';
 import { formatDate } from '@/lib/utils/format';
 import type { Order, OrderStatus } from '@/types/order';
 import { Loader2Icon, PackageSearchIcon, RefreshCcwIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
 import { toast } from 'sonner';
 
 const PAGE_SIZE = 10;
@@ -78,8 +78,8 @@ export function PesananAdminContent() {
 		limit: PAGE_SIZE,
 		status: status || undefined,
 	});
-	const updateStatus = useUpdateOrderStatus();
-	const [busyId, setBusyId] = useState<string | null>(null);
+	const { mutation: updateStatus, update: handleUpdateStatus } =
+		useOrderStatusUpdate();
 
 	function updateFilter(key: 'status', value: string) {
 		const params = new URLSearchParams(searchParams.toString());
@@ -93,30 +93,6 @@ export function PesananAdminContent() {
 		const params = new URLSearchParams(searchParams.toString());
 		params.set('page', String(pageNumber));
 		return `${pathname}?${params.toString()}`;
-	}
-
-	async function handleUpdateStatus(
-		order: Order,
-		nextStatus: OrderStatus,
-		verb: string,
-	) {
-		if (busyId) return;
-		setBusyId(order.id);
-		try {
-			await updateStatus.mutateAsync({
-				id: order.id,
-				data: { status: nextStatus },
-			});
-			toast.success(`Pesanan #${order.id.slice(0, 8)} ${verb}.`);
-		} catch (error) {
-			toast.error(
-				isApiError(error)
-					? error.message
-					: 'Gagal memperbarui status pesanan.',
-			);
-		} finally {
-			setBusyId(null);
-		}
 	}
 
 	const orders = data?.data ?? [];
@@ -225,7 +201,10 @@ export function PesananAdminContent() {
 								</TableHeader>
 								<TableBody>
 									{orders.map((order) => {
-										const busy = busyId === order.id;
+										const busy =
+											updateStatus.isPending &&
+											updateStatus.variables?.id ===
+												order.id;
 										return (
 											<TableRow key={order.id}>
 												<TableCell>
@@ -261,7 +240,7 @@ export function PesananAdminContent() {
 															disabled={busy}
 															onClick={() =>
 																handleUpdateStatus(
-																	order,
+																	order.id,
 																	'shipped',
 																	'dikirim',
 																)
@@ -280,7 +259,7 @@ export function PesananAdminContent() {
 															disabled={busy}
 															onClick={() =>
 																handleUpdateStatus(
-																	order,
+																	order.id,
 																	'delivered',
 																	'selesai',
 																)

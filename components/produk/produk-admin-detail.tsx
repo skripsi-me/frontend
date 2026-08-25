@@ -19,8 +19,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDeleteProduct, useProductById } from '@/hooks/product.hook';
 import { isApiError } from '@/lib/api';
-import { format } from 'date-fns';
-import { id as localeId } from 'date-fns/locale';
+import { formatDate } from '@/lib/utils/format';
 import {
 	ArrowLeftIcon,
 	Loader2Icon,
@@ -30,10 +29,6 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-function formatDateTime(value: string) {
-	return format(new Date(value), 'd MMMM yyyy, HH:mm', { locale: localeId });
-}
 
 export function ProdukAdminDetail({ productId }: { productId: string }) {
 	const router = useRouter();
@@ -157,7 +152,7 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 						<div className="flex flex-wrap items-center gap-3">
 							<Badge
 								variant="outline"
-								className="bg-primary-soft text-green-700"
+								className="bg-primary-soft text-success"
 							>
 								{product.category.name}
 							</Badge>
@@ -186,7 +181,7 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 									Dibuat
 								</span>
 								<span className="text-body-sm font-medium text-foreground">
-									{formatDateTime(product.created_at)}
+									{formatDate(product.created_at)}
 								</span>
 							</div>
 							<div className="flex items-center justify-between gap-3">
@@ -194,7 +189,7 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 									Diperbarui
 								</span>
 								<span className="text-body-sm font-medium text-foreground">
-									{formatDateTime(product.updated_at)}
+									{formatDate(product.updated_at)}
 								</span>
 							</div>
 						</div>

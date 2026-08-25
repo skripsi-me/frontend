@@ -3,7 +3,10 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useCategories } from '@/hooks/category.hook';
-import { useProducts } from '@/hooks/product.hook';
+import {
+	useAllProducts,
+	useProducts,
+} from '@/hooks/product.hook';
 import { searchProductsFuzzy } from '@/lib/utils/levenshtein';
 import { ProductCard } from '@/components/product-card';
 import { ProductGridSkeleton } from '@/components/product-grid-skeleton';
@@ -11,7 +14,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/empty-state';
 import { SectionHeader } from '@/components/section-header';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { PaginationNav } from '@/components/pagination-nav';
+import { FlaskConicalIcon } from 'lucide-react';
 import type { Product } from '@/types/product';
 
 const PAGE_SIZE = 12;
@@ -211,7 +216,7 @@ function LdResults({
 	search: string;
 	category?: string;
 }) {
-	const { data, isPending, isError } = useProducts({ page: 1, limit: 1000 });
+	const { data, isPending, isError } = useAllProducts();
 
 	if (isPending) {
 		return <ProductGridSkeleton count={8} />;
@@ -229,7 +234,7 @@ function LdResults({
 		);
 	}
 
-	const all = (data?.data ?? []).filter(
+	const all = (data ?? []).filter(
 		(product) => !category || product.category_id === category,
 	);
 	const results = search
@@ -279,6 +284,17 @@ export function ProdukContent() {
 						title="Produk"
 						description="Telusuri semua produk kebutuhan keluarga Anda. Gunakan pencarian untuk menemukan yang lebih spesifik."
 					/>
+					<div className="mt-2">
+						<Button
+							render={<Link href="/produk/research" />}
+							variant="outline"
+							size="sm"
+							data-testid="research-entry"
+						>
+							<FlaskConicalIcon className="size-4" />
+							Penelitian
+						</Button>
+					</div>
 				</div>
 			</section>
 

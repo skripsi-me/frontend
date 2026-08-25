@@ -129,8 +129,7 @@ export function ProdukForm({
 				category_id: product.category_id,
 			});
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [product?.id]);
+	}, [product, form]);
 
 	useEffect(
 		() => () => {

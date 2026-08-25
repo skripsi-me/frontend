@@ -53,7 +53,7 @@ Sistem terdiri dari dua area:
 
 | Aktor     | Deskripsi                | Hak Akses                                                |
 | --------- | ------------------------ | -------------------------------------------------------- |
-| **Guest** | Tidak login              | Katalog, pencarian, detail produk, login/register        |
+| **Guest** | Tidak login              | Katalog, pencarian, detail produk, login        |
 | **User**  | Sudah login              | Semua akses guest + keranjang, checkout, riwayat, profil |
 | **Admin** | User dengan role `admin` | Semua akses + admin panel                                |
 
@@ -89,7 +89,7 @@ ID format: `FR-<modul>-<no>`.
 | ID         | Kebutuhan                                                                                                                     |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | FR-USER-01 | Sistem menampilkan profil user (`GET /api/users/me`) pada `/profil`.                                                          |
-| FR-USER-02 | Sistem menyediakan form update profil pada `/profil/update` dan mengirim `PATCH /api/users/me` (name, address, phone_number). |
+| FR-USER-02 | Sistem menyediakan form update profil (edit inline) pada `/profil` dan mengirim `PATCH /api/users/me` (name, address, phone_number). |
 | FR-USER-03 | Sistem menampilkan riwayat transaksi pada `/profil/riwayat-transaksi` (`GET /api/orders/me`).                                 |
 | FR-USER-04 | Admin dapat melihat daftar pengguna di `/dashboard/pengguna` (`GET /api/users/`).                                             |
 | FR-USER-05 | Admin dapat melihat detail pengguna di `/dashboard/pengguna/{id}` (`GET /api/users/:id`).                                     |
@@ -105,7 +105,7 @@ ID format: `FR-<modul>-<no>`.
 | FR-PRODUCT-02 | Halaman produk (`/produk`) menampilkan daftar produk dengan pagination & pencarian (`GET /api/products/?search=&category_id=&page=&limit=`). |
 | FR-PRODUCT-03 | Detail produk (`/produk/{id}`) mengambil data via `GET /api/products/slug/:slug`.                                                            |
 | FR-PRODUCT-04 | Beranda menampilkan daftar kategori (`GET /api/categories/`) sebagai shortcut filter.                                                        |
-| FR-PRODUCT-05 | Filter produk per kategori memakai `GET /api/products/category/:categorySlug`.                                                               |
+| FR-PRODUCT-05 | Filter produk per kategori memakai `GET /api/products/?category_id=` (pagination & pencarian di endpoint yang sama). |
 | FR-PRODUCT-06 | Admin dapat membuat produk (`POST /api/products/`, multipart image).                                                                         |
 | FR-PRODUCT-07 | Admin dapat mengupdate produk (`PATCH /api/products/:id`).                                                                                   |
 | FR-PRODUCT-08 | Admin dapat menghapus produk (`DELETE /api/products/:id`).                                                                                   |
@@ -199,11 +199,11 @@ categories 1 ──── * products
 | `/`                                   | `/api/products/best-sellers`, `/api/categories/` | GET                   |
 | `/produk`                             | `/api/products/`                                 | GET                   |
 | `/produk/{id}`                        | `/api/products/slug/:slug`                       | GET                   |
+| `/produk/research`                    | `/api/products/` (dataset instrumen penelitian)  | GET                   |
 | `/keranjang-saya`                     | `/api/carts/`, `/api/carts/items/:itemId`        | GET/PUT/DELETE        |
 | `/keranjang-saya/konfirmasi-checkout` | `/api/carts/` (ringkasan)                        | GET                   |
 | Pesan Sekarang                        | `/api/orders/`                                   | POST                  |
-| `/profil`                             | `/api/users/me`                                  | GET                   |
-| `/profil/update`                      | `/api/users/me`                                  | PATCH                 |
+| `/profil`                             | `/api/users/me`                                  | GET/PATCH            |
 | `/profil/riwayat-transaksi`           | `/api/orders/me`, `/api/orders/:id`              | GET                   |
 | `/auth/login`                         | `/api/auth/login`, `/api/auth/logout`            | POST                  |
 | `/auth/ubah-password`                 | `/api/auth/change-password`                      | POST                  |

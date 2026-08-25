@@ -14,6 +14,7 @@ export type User = {
 export type UserListParams = {
 	page?: number;
 	limit?: number;
+	role?: UserRole;
 };
 
 export type UpdateProfileRequest = Partial<

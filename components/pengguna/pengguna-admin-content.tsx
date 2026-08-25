@@ -2,7 +2,7 @@
 
 import { EmptyState } from '@/components/empty-state';
 import { PaginationNav } from '@/components/pagination-nav';
-import { Badge } from '@/components/ui/badge';
+import { RoleBadge } from '@/components/role-badge';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -56,21 +56,6 @@ const ROLE_OPTIONS: Array<{ value: string; label: string }> = [
 	{ value: 'admin', label: 'Admin' },
 ];
 
-function RoleBadge({ role }: { role: UserRole }) {
-	return (
-		<Badge
-			variant="outline"
-			className={
-				role === 'admin'
-					? 'bg-primary-soft text-green-700'
-					: 'bg-secondary text-on-surface-muted'
-			}
-		>
-			{role === 'admin' ? 'Admin' : 'Pengguna'}
-		</Badge>
-	);
-}
-
 function TableSkeleton({ rows = 6 }: { rows?: number }) {
 	return (
 		<>
@@ -114,6 +99,7 @@ export function PenggunaAdminContent() {
 	const { data, isPending, isError, error, refetch } = useUsers({
 		page,
 		limit: PAGE_SIZE,
+		role: (role || undefined) as UserRole | undefined,
 	});
 	const deleteUser = useDeleteUser();
 	const [userToDelete, setUserToDelete] = useState<User | null>(null);
@@ -145,9 +131,7 @@ export function PenggunaAdminContent() {
 		}
 	}
 
-	const users = (data?.data ?? []).filter(
-		(user) => !role || user.role === role,
-	);
+	const users = data?.data ?? [];
 	const totalPages = data?.meta.total_pages ?? 1;
 	const total = data?.meta.total ?? users.length;
 
@@ -262,7 +246,7 @@ export function PenggunaAdminContent() {
 											<TableCell>
 												<div className="flex items-center gap-3">
 													<Avatar size="sm">
-														<AvatarFallback className="bg-primary-soft text-green-700">
+														<AvatarFallback className="bg-primary-soft text-success">
 															{getInitials(
 																user.name,
 															)}

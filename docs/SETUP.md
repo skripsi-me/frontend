@@ -53,7 +53,7 @@ app/
 ├── page.tsx              # Beranda (/)
 ├── produk/               # /produk, /produk/{id}
 ├── keranjang-saya/       # /keranjang-saya
-├── profil/               # /profil, /profil/update, /profil/riwayat-transaksi
+├── profil/               # /profil, /profil/riwayat-transaksi
 ├── auth/                 # /auth/login, /auth/ubah-password
 └── dashboard/            # Admin panel (base /dashboard)
 ```

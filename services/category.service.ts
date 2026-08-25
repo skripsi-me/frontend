@@ -8,8 +8,6 @@ import type {
 
 export const categoryService = {
 	list: () => get<Category[]>(API_ENDPOINTS.categories.list),
-	getBySlug: (slug: string) =>
-		get<Category>(API_ENDPOINTS.categories.bySlug(slug)),
 	create: (data: CreateCategoryRequest) =>
 		post<Category>(API_ENDPOINTS.categories.create, data),
 	update: (id: string, data: UpdateCategoryRequest) =>

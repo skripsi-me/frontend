@@ -16,6 +16,13 @@ Format berdasarkan [Keep a Changelog](https://keepachangelog.com/id-ID/1.0.0/) d
 - Riwayat transaksi (`/profil/riwayat-transaksi`) + detail pesanan (`/profil/riwayat-transaksi/{id}`) — daftar order, status, timeline pengiriman.
 - Komponen `ProductImage` — fallback saat gambar gagal dimuat (URL signed expired / 403).
 - Perbaikan `DropdownMenuLabel` — dibungkus `Menu.Group` (Base UI) agar tidak error runtime.
+- Instrumen penelitian pencarian fuzzy (`/produk/research`) — metrik TBT/FPS/INP, Web Worker vs Main Thread.
+
+### Diubah
+
+- Refactor plan-01 (audit & refactor): dedup komponen (SectionError, RoleBadge, CartSummary, QueryError, SegmentedControl), hook `useOrderStatusUpdate`, util `sumCart`/`text`, hapus rantai dead (register/refresh/category-bySlug/product-byCategory), hapus dep `next-themes` & `date-fns`, tema dark mati dihapus, `tsconfig` target ES2022.
+- Bug fix: debounce search loop, filter role pengguna (server-side), busy-guard race, cache dataset research, form error reaktif, akun tanpa password dicegah, LdResults muat semua halaman, toast nilai stock.
+- Best practice: devtools digate NODE_ENV, pagination riwayat berbasis URL, logout konsisten, `next/image`, design token warna, radio a11y base-ui.
 
 ## [0.1.0] - 2026-08-09
 

@@ -47,7 +47,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 const PAGE_SIZE = 10;
@@ -193,6 +193,12 @@ export function ProdukAdminList() {
 		null,
 	);
 
+	const searchParamsRef = useRef(searchParams);
+
+	useEffect(() => {
+		searchParamsRef.current = searchParams;
+	});
+
 	const { data, isPending, isError, error, refetch } = useProducts({
 		page,
 		limit: PAGE_SIZE,
@@ -204,7 +210,9 @@ export function ProdukAdminList() {
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			const params = new URLSearchParams(searchParams.toString());
+			const params = new URLSearchParams(
+				searchParamsRef.current.toString(),
+			);
 			if (searchInput.trim()) {
 				params.set('search', searchInput.trim());
 			} else {
@@ -214,7 +222,7 @@ export function ProdukAdminList() {
 			router.replace(`${pathname}?${params.toString()}`);
 		}, 400);
 		return () => clearTimeout(timer);
-	}, [searchInput, pathname, router, searchParams]);
+	}, [searchInput, pathname, router]);
 
 	function updateFilter(key: 'category', value: string) {
 		const params = new URLSearchParams(searchParams.toString());

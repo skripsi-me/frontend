@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge';
+import { LOW_STOCK_THRESHOLD } from '@/components/dashboard/dashboard-utils';
 import { cn } from '@/lib/utils';
 
 export function StockBadge({
@@ -12,17 +13,17 @@ export function StockBadge({
 		return (
 			<Badge
 				variant="outline"
-				className={cn('bg-destructive/10 text-red-700', className)}
+				className={cn('bg-destructive/10 text-destructive', className)}
 			>
 				Habis
 			</Badge>
 		);
 	}
-	if (stock <= 5) {
+	if (stock <= LOW_STOCK_THRESHOLD) {
 		return (
 			<Badge
 				variant="outline"
-				className={cn('bg-warning/10 text-amber-700', className)}
+				className={cn('bg-warning/10 text-warning', className)}
 			>
 				{stock} tersisa
 			</Badge>

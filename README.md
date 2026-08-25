@@ -57,6 +57,7 @@ public/       # Aset statis
 | Beranda | `/` |
 | Produk | `/produk` |
 | Detail produk | `/produk/{slug}` |
+| Penelitian (pencarian fuzzy) | `/produk/research` |
 | Keranjang | `/keranjang-saya` |
 | Konfirmasi checkout | `/keranjang-saya/konfirmasi-checkout` |
 | Profil | `/profil` |
@@ -86,6 +87,8 @@ public/       # Aset statis
 - [`docs/SRS.md`](docs/SRS.md) — Software Requirements Specification
 - [`docs/SETUP.md`](docs/SETUP.md) — Panduan setup & deployment
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — Rencana pengembangan
+- [`docs/PRD-research-fuzzy-search.md`](docs/PRD-research-fuzzy-search.md) — PRD instrumen penelitian pencarian fuzzy
+- [`docs/plan/`](docs/plan/) — Plan audit & refactor (orchestrator + plan files)
 - [`CHANGELOG.md`](CHANGELOG.md) — Catatan perubahan
 
 ## Lisensi

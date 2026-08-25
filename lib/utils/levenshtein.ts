@@ -1,9 +1,7 @@
 import { distance } from 'fastest-levenshtein';
+import { normalize, tokenize } from '@/lib/utils/text';
+import type { FuzzyMatch } from '@/types/research';
 import type { Product } from '@/types/product';
-
-function normalize(value: string): string {
-	return value.toLowerCase().trim();
-}
 
 function thresholdFor(token: string): number {
 	const len = token.length;
@@ -11,17 +9,6 @@ function thresholdFor(token: string): number {
 	if (len <= 6) return 2;
 	return 3;
 }
-
-function tokenize(value: string): string[] {
-	return normalize(value)
-		.split(/[^a-z0-9]+/)
-		.filter(Boolean);
-}
-
-export type FuzzyMatch = {
-	product: Product;
-	distance: number;
-};
 
 export function searchProductsFuzzy(
 	products: Product[],

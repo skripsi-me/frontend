@@ -10,7 +10,6 @@ import { productService } from '@/services/product.service';
 import type {
 	CreateProductRequest,
 	ProductListParams,
-	ProductPaginationParams,
 	UpdateProductRequest,
 } from '@/types/product';
 
@@ -24,8 +23,6 @@ export const productKeys = {
 	details: () => [...productKeys.all, 'detail'] as const,
 	detail: (id: string) => [...productKeys.details(), id] as const,
 	bySlug: (slug: string) => [...productKeys.all, 'slug', slug] as const,
-	byCategory: (slug: string, filters: ProductPaginationParams) =>
-		[...productKeys.all, 'category', slug, filters] as const,
 };
 
 export function useProducts(params: ProductListParams = {}) {
@@ -43,6 +40,25 @@ export function useBestSellers(limit = 20) {
 	});
 }
 
+export function useAllProducts() {
+	return useQuery({
+		queryKey: [...productKeys.all, 'all'] as const,
+		// ponytail: muat seluruh katalog client-side utk fuzzy LD (cap 1000/halaman).
+		// Upgrade bila katalog besar: pindah fuzzy ke backend / search-index.
+		queryFn: async () => {
+			const first = await productService.list({ page: 1, limit: 1000 });
+			const rest = await Promise.all(
+				Array.from(
+					{ length: Math.max(0, first.meta.total_pages - 1) },
+					(_, i) =>
+						productService.list({ page: i + 2, limit: 1000 }),
+				),
+			);
+			return [first, ...rest].flatMap((page) => page.data);
+		},
+	});
+}
+
 export function useProductById(id: string | undefined) {
 	return useQuery({
 		queryKey: productKeys.detail(id ?? ''),
@@ -56,18 +72,6 @@ export function useProductBySlug(slug: string | undefined) {
 		queryKey: productKeys.bySlug(slug ?? ''),
 		queryFn: () => productService.getBySlug(slug as string),
 		enabled: Boolean(slug),
-	});
-}
-
-export function useProductsByCategory(
-	slug: string | undefined,
-	params: ProductPaginationParams = {},
-) {
-	return useQuery({
-		queryKey: productKeys.byCategory(slug ?? '', params),
-		queryFn: () => productService.byCategory(slug as string, params),
-		enabled: Boolean(slug),
-		placeholderData: keepPreviousData,
 	});
 }
 

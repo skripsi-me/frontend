@@ -4,25 +4,24 @@ import { RequireAuth } from '@/components/auth/require-auth';
 import { EmptyState } from '@/components/empty-state';
 import { Price } from '@/components/price';
 import { ProductImage } from '@/components/product-image';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { QueryError } from '@/components/query-error';
 import { useCart } from '@/hooks/cart.hook';
 import { useCreateOrder } from '@/hooks/order.hook';
 import { isApiError } from '@/lib/api';
-import { formatRupiah } from '@/lib/utils/format';
+import { sumCart } from '@/lib/utils/cart';
 import {
 	ArrowRightIcon,
-	BadgeCheckIcon,
 	CheckIcon,
 	LoaderIcon,
 	PackageIcon,
-	RefreshCcwIcon,
 	ShoppingCartIcon,
 	TruckIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { CartSummary } from './cart-summary';
 
 function SkeletonRow() {
 	return (
@@ -42,23 +41,18 @@ export function KonfirmasiCheckoutContent() {
 	const createOrder = useCreateOrder();
 
 	const items = cart?.items ?? [];
-	const totalQuantity = items.reduce((sum, i) => sum + i.quantity, 0);
-	const totalPrice = items.reduce(
-		(sum, i) => sum + Number(i.product.price) * i.quantity,
-		0,
-	);
+	const { quantity: totalQuantity, price: totalPrice } = sumCart(items);
 
 	async function handleSubmit() {
 		try {
-			const order = await createOrder.mutateAsync();
+			await createOrder.mutateAsync();
 			toast.success('Pesanan berhasil dibuat');
-			return order;
 		} catch (err) {
-			const message = isApiError(err)
-				? err.message
-				: 'Gagal membuat pesanan. Coba lagi.';
-			toast.error(message);
-			throw err;
+			toast.error(
+				isApiError(err)
+					? err.message
+					: 'Gagal membuat pesanan. Coba lagi.',
+			);
 		}
 	}
 
@@ -191,27 +185,11 @@ export function KonfirmasiCheckoutContent() {
 									</div>
 								</div>
 							) : isError ? (
-								<Alert
-									variant="destructive"
-									className="mx-auto max-w-2xl"
-								>
-									<AlertTitle>
-										Checkout gagal dimuat
-									</AlertTitle>
-									<AlertDescription>
-										{errorMessage}
-									</AlertDescription>
-									<div className="pt-2">
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() => refetch()}
-										>
-											<RefreshCcwIcon />
-											Coba lagi
-										</Button>
-									</div>
-								</Alert>
+								<QueryError
+									title="Checkout gagal dimuat"
+									message={errorMessage}
+									onRetry={() => refetch()}
+								/>
 							) : items.length === 0 ? (
 								<div className="flex flex-col items-center gap-2">
 									<EmptyState
@@ -285,77 +263,40 @@ export function KonfirmasiCheckoutContent() {
 										))}
 									</div>
 
-									<aside className="lg:sticky lg:top-24">
-										<div className="flex flex-col gap-5 rounded-2xl bg-white p-6 ring-1 ring-border">
-											<h2 className="text-headline-sm text-foreground">
-												Ringkasan Belanja
-											</h2>
-											<dl className="flex flex-col gap-3 text-body-sm">
-												<div className="flex items-center justify-between">
-													<dt className="text-muted-foreground">
-														Total Item
-													</dt>
-													<dd className="font-medium text-foreground">
-														{totalQuantity} item
-													</dd>
-												</div>
-												<div className="flex items-center justify-between">
-													<dt className="text-muted-foreground">
-														Total Harga
-													</dt>
-													<dd className="text-label-lg font-semibold text-primary">
-														{formatRupiah(
-															totalPrice,
-														)}
-													</dd>
-												</div>
-											</dl>
-
-											<div className="flex items-center gap-2 rounded-xl bg-surface-muted px-3 py-2.5">
-												<TruckIcon className="size-4 shrink-0 text-primary" />
-												<p className="text-caption text-muted-foreground">
-													Bayar di rumah saat pesanan
-													tiba (COD), tanpa biaya
-													tersembunyi.
-												</p>
-											</div>
-
-											<Button
-												size="lg"
-												onClick={handleSubmit}
-												disabled={createOrder.isPending}
-												className="w-full"
-											>
-												{createOrder.isPending ? (
-													<>
-														<LoaderIcon className="size-4 animate-spin" />
-														Membuat pesanan...
-													</>
-												) : (
-													<>
-														Buat Pesanan
-														<ArrowRightIcon />
-													</>
-												)}
-											</Button>
-											<Button
-												variant="ghost"
-												size="lg"
-												onClick={() =>
-													router.push(
-														'/keranjang-saya',
-													)
-												}
-											>
-												Kembali ke Keranjang
-											</Button>
-
-											<p className="flex items-center justify-center gap-1 text-caption text-muted-foreground">
-												<BadgeCheckIcon className="size-4 text-primary" />
-												Harga tetap sesuai label produk
-											</p>
-										</div>
-									</aside>
+									<CartSummary
+										totalQuantity={totalQuantity}
+										totalPrice={totalPrice}
+									>
+										<Button
+											size="lg"
+											onClick={handleSubmit}
+											disabled={createOrder.isPending}
+											className="w-full"
+										>
+											{createOrder.isPending ? (
+												<>
+													<LoaderIcon className="size-4 animate-spin" />
+													Membuat pesanan...
+												</>
+											) : (
+												<>
+													Buat Pesanan
+													<ArrowRightIcon />
+												</>
+											)}
+										</Button>
+										<Button
+											variant="ghost"
+											size="lg"
+											onClick={() =>
+												router.push(
+													'/keranjang-saya',
+												)
+											}
+										>
+											Kembali ke Keranjang
+										</Button>
+									</CartSummary>
 								</div>
 							)}
 						</div>

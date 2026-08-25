@@ -1,7 +1,7 @@
 'use client';
 
 import { EmptyState } from '@/components/empty-state';
-import { Badge } from '@/components/ui/badge';
+import { RoleBadge } from '@/components/role-badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUserById } from '@/hooks/user.hook';
@@ -92,7 +92,7 @@ export function PenggunaAdminDetail({ userId }: { userId: string }) {
 						<div className="flex flex-wrap items-center justify-between gap-4">
 							<div className="flex items-center gap-4">
 								<Avatar size="lg">
-									<AvatarFallback className="bg-primary-soft text-green-700">
+									<AvatarFallback className="bg-primary-soft text-success">
 										{getInitials(user.name)}
 									</AvatarFallback>
 								</Avatar>
@@ -105,16 +105,7 @@ export function PenggunaAdminDetail({ userId }: { userId: string }) {
 									</p>
 								</div>
 							</div>
-							<Badge
-								variant="outline"
-								className={
-									user.role === 'admin'
-										? 'bg-primary-soft text-green-700'
-										: 'bg-secondary text-on-surface-muted'
-								}
-							>
-								{user.role === 'admin' ? 'Admin' : 'Pengguna'}
-							</Badge>
+							<RoleBadge role={user.role} />
 						</div>
 
 						<div className="flex flex-col gap-2 rounded-xl bg-surface-muted p-4">

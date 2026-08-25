@@ -90,7 +90,7 @@ pending → shipped → delivered
 | Keranjang saya      | `/keranjang-saya`                     |
 | Konfirmasi checkout | `/keranjang-saya/konfirmasi-checkout` |
 | Profil              | `/profil`                             |
-| Update profile      | `/profil/update`                      |
+| Update profile      | `/profil` (edit inline)               |
 | Riwayat transaksi   | `/profil/riwayat-transaksi`           |
 | Login               | `/auth/login`                         |
 | Ubah password       | `/auth/ubah-password`                 |
@@ -128,7 +128,7 @@ pending → shipped → delivered
 
 | Prioritas       | Fitur                                                                                                                                                                                |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Must have**   | Auth (login/register/logout), katalog & pencarian produk, detail produk, keranjang, checkout COD, riwayat transaksi, kelola produk, kelola kategori, kelola pesanan, kelola pengguna |
+| **Must have**   | Auth (login/logout), katalog & pencarian produk, detail produk, keranjang, checkout COD, riwayat transaksi, kelola produk, kelola kategori, kelola pesanan, kelola pengguna |
 | **Should have** | Update profil, ubah password, dashboard admin, laporan harian                                                                                                                        |
 | **Could have**  | Fitur best-sellers di beranda, filter lanjutan                                                                                                                                       |
 | **Won't have**  | Payment gateway, wishlist, review produk, notifikasi realtime, chat                                                                                                                  |

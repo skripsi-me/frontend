@@ -13,10 +13,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { useOrder, useUpdateOrderStatus } from '@/hooks/order.hook';
+import { useOrder } from '@/hooks/order.hook';
+import { useOrderStatusUpdate } from '@/hooks/order-status.hook';
 import { isApiError } from '@/lib/api';
 import { formatDate, formatRupiah } from '@/lib/utils/format';
-import type { OrderStatus } from '@/types/order';
 import {
 	ArrowLeftIcon,
 	CheckIcon,
@@ -26,8 +26,6 @@ import {
 	XCircleIcon,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 function OrderInfoRow({ label, value }: { label: string; value: string }) {
 	return (
@@ -48,28 +46,11 @@ export function PesananAdminDetail({ orderId }: { orderId: string }) {
 		error,
 		refetch,
 	} = useOrder(orderId);
-	const updateStatus = useUpdateOrderStatus();
-	const [busy, setBusy] = useState<OrderStatus | null>(null);
-
-	async function handleUpdateStatus(status: OrderStatus, verb: string) {
-		if (busy) return;
-		setBusy(status);
-		try {
-			await updateStatus.mutateAsync({
-				id: orderId,
-				data: { status },
-			});
-			toast.success(`Pesanan #${orderId.slice(0, 8)} ${verb}.`);
-		} catch (err) {
-			toast.error(
-				isApiError(err)
-					? err.message
-					: 'Gagal memperbarui status pesanan.',
-			);
-		} finally {
-			setBusy(null);
-		}
-	}
+	const { mutation: updateStatus, update: handleUpdateStatus } =
+		useOrderStatusUpdate();
+	const busy = updateStatus.isPending
+		? (updateStatus.variables?.data.status ?? null)
+		: null;
 
 	return (
 		<div className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-8 md:px-6 md:py-10">
@@ -197,6 +178,7 @@ export function PesananAdminDetail({ orderId }: { orderId: string }) {
 												disabled={Boolean(busy)}
 												onClick={() =>
 													handleUpdateStatus(
+														orderId,
 														'shipped',
 														'dikirim',
 													)
@@ -214,6 +196,7 @@ export function PesananAdminDetail({ orderId }: { orderId: string }) {
 												disabled={Boolean(busy)}
 												onClick={() =>
 													handleUpdateStatus(
+														orderId,
 														'cancelled',
 														'dibatalkan',
 													)
@@ -233,6 +216,7 @@ export function PesananAdminDetail({ orderId }: { orderId: string }) {
 											disabled={Boolean(busy)}
 											onClick={() =>
 												handleUpdateStatus(
+													orderId,
 													'delivered',
 													'selesai',
 												)

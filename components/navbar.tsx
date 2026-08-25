@@ -11,18 +11,24 @@ import { isActiveNav } from '@/utils/nav.util';
 import { ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { MenuSheet } from './sheet/menu-sheet';
 import { Badge } from './ui/badge';
 
 export function Navbar() {
 	const pathname = usePathname();
+	const router = useRouter();
 
 	const { user, isAuthenticated, isLoading, logout } = useAuth();
 	const { data: cart } = useCart();
 
 	const cartCount =
 		cart?.items?.reduce((total, item) => total + item.quantity, 0) ?? 0;
+
+	async function handleLogout() {
+		await logout();
+		router.push('/');
+	}
 
 	const navLinkClass = (href: string) =>
 		cn(
@@ -84,16 +90,15 @@ export function Navbar() {
 						user={user}
 						isAuthenticated={isAuthenticated}
 						isLoading={isLoading}
-						logout={logout}
+						logout={handleLogout}
 					/>
 
 					<MenuSheet
-						menu={USER_NAV_LINKS}
 						pathname={pathname}
 						user={user}
 						isAuthenticated={isAuthenticated}
 						isLoading={isLoading}
-						logout={logout}
+						logout={handleLogout}
 					/>
 				</div>
 			</div>

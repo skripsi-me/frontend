@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils';
-import type { ReactNode } from 'react';
 
 type SectionHeaderProps = {
 	label?: string;
@@ -7,7 +6,6 @@ type SectionHeaderProps = {
 	description?: string;
 	align?: 'start' | 'center';
 	className?: string;
-	children?: ReactNode;
 };
 
 export function SectionHeader({
@@ -16,7 +14,6 @@ export function SectionHeader({
 	description,
 	align = 'start',
 	className,
-	children,
 }: SectionHeaderProps) {
 	return (
 		<div
@@ -31,7 +28,6 @@ export function SectionHeader({
 			{description && (
 				<p className="text-sm text-muted-foreground">{description}</p>
 			)}
-			{children}
 		</div>
 	);
 }

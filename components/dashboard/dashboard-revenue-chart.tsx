@@ -1,7 +1,6 @@
 'use client';
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { SectionError } from '@/components/dashboard/dashboard-state';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
 	ChartContainer,
@@ -9,9 +8,8 @@ import {
 	ChartTooltipContent,
 	type ChartConfig,
 } from '@/components/ui/chart';
-import { isApiError } from '@/lib/api';
 import { formatRupiah } from '@/lib/utils/format';
-import { RefreshCcwIcon, WalletIcon } from 'lucide-react';
+import { WalletIcon } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import { CHART_DAYS, type RevenueChartPoint } from './dashboard-utils';
 
@@ -49,22 +47,11 @@ export function DashboardRevenueChart({
 			</div>
 
 			{error ? (
-				<Alert variant="destructive" className="p-4">
-					<AlertTitle className="text-sm">
-						Gagal memuat grafik
-					</AlertTitle>
-					<AlertDescription className="text-sm">
-						{isApiError(error)
-							? error.message
-							: 'Terjadi kesalahan.'}
-					</AlertDescription>
-					<div className="pt-2">
-						<Button variant="outline" size="sm" onClick={onRetry}>
-							<RefreshCcwIcon />
-							Coba lagi
-						</Button>
-					</div>
-				</Alert>
+				<SectionError
+					title="Gagal memuat grafik"
+					error={error}
+					onRetry={onRetry}
+				/>
 			) : loading ? (
 				<div className="flex h-[280px] items-end gap-1.5">
 					{Array.from({ length: CHART_DAYS }).map((_, i) => (

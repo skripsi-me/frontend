@@ -5,8 +5,8 @@ import { toast } from 'sonner';
 import {
 	useOrderReport,
 	useOrders,
-	useUpdateOrderStatus,
 } from '@/hooks/order.hook';
+import { useOrderStatusUpdate } from '@/hooks/order-status.hook';
 import {
 	useBestSellers,
 	useProducts,
@@ -30,6 +30,7 @@ import { DashboardRevenueChart } from './dashboard-revenue-chart';
 import { StatCard } from './dashboard-stat-card';
 import {
 	BEST_SELLERS_LIMIT,
+	CHART_DAYS,
 	LOW_STOCK_FETCH_LIMIT,
 	LOW_STOCK_THRESHOLD,
 	ORDERS_LIMIT,
@@ -45,8 +46,6 @@ import {
 export function DashboardContent() {
 	const { user, isLoading: authLoading } = useAuth();
 	const [today] = useState(() => new Date());
-	const [busyId, setBusyId] = useState<string | null>(null);
-	const [stockBusyId, setStockBusyId] = useState<string | null>(null);
 
 	const pendingQuery = useOrders({
 		page: 1,
@@ -65,7 +64,8 @@ export function DashboardContent() {
 		stock: 'asc',
 	});
 	const bestSellersQuery = useBestSellers(BEST_SELLERS_LIMIT);
-	const updateStatus = useUpdateOrderStatus();
+	const { mutation: updateStatus, update: updateOrderStatus } =
+		useOrderStatusUpdate();
 	const updateProduct = useUpdateProduct();
 
 	const pendingOrders = pendingQuery.data?.data ?? [];
@@ -74,79 +74,70 @@ export function DashboardContent() {
 	const shippedTotal = shippedQuery.data?.meta.total ?? 0;
 
 	const reportData = reportQuery.data ?? [];
-	const currentBounds = today ? monthBounds(today) : null;
-	const previousBounds = today ? monthBounds(today, -1) : null;
-	const currentRevenue = currentBounds
-		? sumBetween(reportData, currentBounds.start, currentBounds.end)
-		: 0;
-	const previousRevenue = previousBounds
-		? sumBetween(reportData, previousBounds.start, previousBounds.end)
-		: 0;
+	const currentBounds = monthBounds(today);
+	const previousBounds = monthBounds(today, -1);
+	const currentRevenue = sumBetween(
+		reportData,
+		currentBounds.start,
+		currentBounds.end,
+	);
+	const previousRevenue = sumBetween(
+		reportData,
+		previousBounds.start,
+		previousBounds.end,
+	);
 	const revenueDelta =
-		today && previousRevenue > 0
+		previousRevenue > 0
 			? ((currentRevenue - previousRevenue) / previousRevenue) * 100
 			: null;
-	const chartData = today ? buildChartData(today, reportData) : [];
-	const chartRangeLabel = today
-		? `${new Intl.DateTimeFormat('id-ID', {
-				day: 'numeric',
-				month: 'short',
-			}).format(
-				new Date(
-					today.getFullYear(),
-					today.getMonth(),
-					today.getDate() - 13,
-				),
-			)} – ${new Intl.DateTimeFormat('id-ID', {
-				day: 'numeric',
-				month: 'short',
-			}).format(today)}`
-		: '';
-	const greetingDate = today
-		? new Intl.DateTimeFormat('id-ID', {
-				weekday: 'long',
-				day: 'numeric',
-				month: 'long',
-				year: 'numeric',
-			}).format(today)
-		: '';
+	const chartData = buildChartData(today, reportData);
+	const chartRangeLabel = `${new Intl.DateTimeFormat('id-ID', {
+		day: 'numeric',
+		month: 'short',
+	}).format(
+		new Date(
+			today.getFullYear(),
+			today.getMonth(),
+			today.getDate() - (CHART_DAYS - 1),
+		),
+	)} – ${new Intl.DateTimeFormat('id-ID', {
+		day: 'numeric',
+		month: 'short',
+	}).format(today)}`;
+	const greetingDate = new Intl.DateTimeFormat('id-ID', {
+		weekday: 'long',
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+	}).format(today);
 
 	const lowStockProducts = (productsQuery.data?.data ?? []).filter(
 		(product) => product.stock <= LOW_STOCK_THRESHOLD,
 	);
 
-	async function handleUpdateStatus(order: Order, action: OrderAction) {
-		if (busyId) return;
-		setBusyId(order.id);
-		try {
-			await updateStatus.mutateAsync({
-				id: order.id,
-				data: { status: action.nextStatus },
-			});
-			toast.success(
-				`Pesanan #${order.id.slice(0, 8)} ${STATUS_VERB[action.nextStatus]}.`,
-			);
-		} catch (error) {
-			toast.error(
-				isApiError(error)
-					? error.message
-					: 'Gagal memperbarui status pesanan.',
-			);
-		} finally {
-			setBusyId(null);
-		}
+	const busyId = updateStatus.isPending
+		? (updateStatus.variables?.id ?? null)
+		: null;
+	const stockBusyId = updateProduct.isPending
+		? (updateProduct.variables?.id ?? null)
+		: null;
+
+	function handleUpdateStatus(order: Order, action: OrderAction) {
+		void updateOrderStatus(
+			order.id,
+			action.nextStatus,
+			STATUS_VERB[action.nextStatus],
+		);
 	}
 
 	async function handleQuickStock(product: Product) {
-		if (stockBusyId) return;
-		setStockBusyId(product.id);
 		try {
-			await updateProduct.mutateAsync({
+			const updated = await updateProduct.mutateAsync({
 				id: product.id,
 				data: { stock: product.stock + 1 },
 			});
 			toast.success(
-				`Stok "${product.name}" ditambah menjadi ${product.stock + 1}.`,
+				`Stok "${product.name}" ditambah menjadi ${updated.stock}.`,
 			);
 		} catch (error) {
 			toast.error(
@@ -154,8 +145,6 @@ export function DashboardContent() {
 					? error.message
 					: 'Gagal menambah stok produk.',
 			);
-		} finally {
-			setStockBusyId(null);
 		}
 	}
 
@@ -239,7 +228,7 @@ export function DashboardContent() {
 				<div className="pt-6">
 					<DashboardRevenueChart
 						data={chartData}
-						loading={!today || reportQuery.isPending}
+						loading={reportQuery.isPending}
 						error={reportQuery.error}
 						onRetry={() => reportQuery.refetch()}
 						rangeLabel={chartRangeLabel}

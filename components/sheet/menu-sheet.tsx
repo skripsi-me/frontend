@@ -1,6 +1,5 @@
 import { PROFILE_NAV_LINKS, USER_NAV_LINKS } from '@/config/menu.config';
 import { cn } from '@/lib/utils';
-import { NavLinkUser } from '@/types/nav';
 import { User } from '@/types/user';
 import { isActiveNav } from '@/utils/nav.util';
 import { getInitials } from '@/utils/user.util';
@@ -12,7 +11,6 @@ import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Skeleton } from '../ui/skeleton';
 
 interface Props {
-	menu: NavLinkUser[];
 	pathname: string;
 	user: User | null;
 	isAuthenticated: boolean;
@@ -21,7 +19,6 @@ interface Props {
 }
 
 export function MenuSheet({
-	menu,
 	pathname,
 	user,
 	isAuthenticated,
@@ -97,10 +94,10 @@ export function MenuSheet({
 
 								<div>
 									<p className="text-body-sm text-foreground">
-										{user?.name}
+										{user.name}
 									</p>
 									<p className="text-caption text-muted-foreground">
-										{user?.email}
+										{user.email}
 									</p>
 								</div>
 							</div>

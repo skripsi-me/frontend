@@ -5,7 +5,6 @@ import type {
 	CreateProductRequest,
 	Product,
 	ProductListParams,
-	ProductPaginationParams,
 	UpdateProductRequest,
 } from '@/types/product';
 
@@ -24,11 +23,6 @@ export const productService = {
 	getById: (id: string) => get<Product>(API_ENDPOINTS.products.detail(id)),
 	getBySlug: (slug: string) =>
 		get<Product>(API_ENDPOINTS.products.bySlug(slug)),
-	byCategory: (categorySlug: string, params: ProductPaginationParams = {}) =>
-		get<Paginated<Product>>(
-			API_ENDPOINTS.products.byCategory(categorySlug),
-			{ params },
-		),
 	bestSellers: (limit = 20) =>
 		get<Product[]>(API_ENDPOINTS.products.bestSellers, {
 			params: { limit },

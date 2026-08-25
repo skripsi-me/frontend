@@ -34,12 +34,6 @@ const userSchema = z.object({
 		.string()
 		.min(1, 'Email wajib diisi')
 		.email('Format email tidak valid'),
-	password: z
-		.string()
-		.refine(
-			(value) => !value || value.length >= 8,
-			'Password minimal 8 karakter',
-		),
 	phone_number: z
 		.string()
 		.refine(
@@ -60,6 +54,15 @@ export function PenggunaForm({
 }) {
 	const router = useRouter();
 	const isUpdate = mode === 'update';
+
+	const passwordValidator = isUpdate
+		? z
+				.string()
+				.refine(
+					(value) => !value || value.length >= 8,
+					'Password minimal 8 karakter',
+				)
+		: z.string().min(8, 'Password minimal 8 karakter');
 
 	const { data: user, isPending: isUserPending } = useUserById(
 		isUpdate ? userId : undefined,
@@ -128,8 +131,7 @@ export function PenggunaForm({
 				role: user.role,
 			});
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [user?.id]);
+	}, [user, form]);
 
 	const isSubmitting = createUser.isPending || updateUser.isPending;
 
@@ -255,7 +257,7 @@ export function PenggunaForm({
 
 					<form.Field
 						name="password"
-						validators={{ onChange: userSchema.shape.password }}
+						validators={{ onChange: passwordValidator }}
 					>
 						{(field) => {
 							const error = getErrorMessage(field);

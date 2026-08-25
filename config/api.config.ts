@@ -4,8 +4,6 @@ export const API_BASE_URL =
 export const API_ENDPOINTS = {
 	auth: {
 		login: '/api/auth/login',
-		register: '/api/auth/register',
-		refresh: '/api/auth/refresh',
 		logout: '/api/auth/logout',
 		changePassword: '/api/auth/change-password',
 	},
@@ -17,7 +15,6 @@ export const API_ENDPOINTS = {
 	},
 	categories: {
 		list: '/api/categories/',
-		bySlug: (slug: string) => `/api/categories/${slug}`,
 		detail: (id: string) => `/api/categories/${id}`,
 		create: '/api/categories/',
 	},
@@ -25,8 +22,6 @@ export const API_ENDPOINTS = {
 		list: '/api/products/',
 		detail: (id: string) => `/api/products/${id}`,
 		bySlug: (slug: string) => `/api/products/slug/${slug}`,
-		byCategory: (categorySlug: string) =>
-			`/api/products/category/${categorySlug}`,
 		bestSellers: '/api/products/best-sellers',
 		create: '/api/products/',
 	},

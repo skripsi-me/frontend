@@ -27,11 +27,6 @@ export type ProductListParams = {
 	stock?: 'asc' | 'desc';
 };
 
-export type ProductPaginationParams = {
-	page?: number;
-	limit?: number;
-};
-
 export type CreateProductRequest = {
 	name: string;
 	description?: string;

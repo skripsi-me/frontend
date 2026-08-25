@@ -34,6 +34,7 @@ Rencana pengembangan frontend As-Sakinah Mart.
 - [x] Alur checkout: konfirmasi di `/keranjang-saya/konfirmasi-checkout` → "Buat Pesanan" (POST `/api/orders/`).
 - [x] Profil: lihat/update (`/profil`, edit inline; tidak ada route `/profil/update`).
 - [x] Riwayat transaksi (`/profil/riwayat-transaksi`) + detail (`/profil/riwayat-transaksi/{id}`).
+- [x] Instrumen penelitian performa pencarian fuzzy (`/produk/research`) — Levenshtein Main Thread vs Web Worker, metrik TBT/FPS/INP (PRD-research-fuzzy-search.md).
 
 ## Fase 5 — Admin Panel
 
@@ -51,9 +52,12 @@ Rencana pengembangan frontend As-Sakinah Mart.
 - [x] Responsivitas mobile (diperiksa bertahap).
 - [x] Error handling & empty states.
 - [x] `pnpm lint` & `tsc --noEmit` bersih.
+- [x] Refactor & audit plan-01/plan-02 (`docs/plan/`): dedup komponen, hapus dead code & dep (`next-themes`, `date-fns`), bug fix, best practice, penyempurnaan instrumen research.
+
+> **Catatan keamanan:** guard admin/auth (`RequireAdmin`/`RequireAuth`) dan `proxy.ts` bila ada hanya UX-level. Enforcement otorisasi final ada di backend (401/403). `proxy.ts` belum dibuat karena nama cookie auth tak terdokumentasi; tambahkan bila nama cookie diketahui.
 
 ## Fase 7 — Deployment
 
 - [ ] Deploy ke Vercel.
-- [ ] Setup `NEXT_PUBLIC_API_BASE_URL` production.
+- [x] Setup `NEXT_PUBLIC_API_BASE_URL` production (same-origin via rewrite, lihat `docs/plan/plan-17-go-live-readiness.md`).
 - [ ] Uji produksi end-to-end.

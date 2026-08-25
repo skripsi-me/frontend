@@ -4,7 +4,7 @@ import { RequireAuth } from '@/components/auth/require-auth';
 import { EmptyState } from '@/components/empty-state';
 import { Price } from '@/components/price';
 import { StatusBadge } from '@/components/status-badge';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { QueryError } from '@/components/query-error';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMyOrders } from '@/hooks/order.hook';
@@ -15,10 +15,9 @@ import {
 	ChevronLeftIcon,
 	ChevronRightIcon,
 	ReceiptTextIcon,
-	RefreshCcwIcon,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const PAGE_SIZE = 5;
 
@@ -70,7 +69,9 @@ function OrderCard({ order }: { order: Order }) {
 }
 
 export function RiwayatContent() {
-	const [page, setPage] = useState(1);
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const page = Math.max(1, Number(searchParams.get('page')) || 1);
 	const { data, isPending, isError, error, refetch } = useMyOrders({
 		page,
 		limit: PAGE_SIZE,
@@ -82,6 +83,12 @@ export function RiwayatContent() {
 	const errorMessage = isApiError(error)
 		? error.message
 		: 'Terjadi kesalahan saat memuat riwayat.';
+
+	function goToPage(next: number) {
+		const params = new URLSearchParams(searchParams.toString());
+		params.set('page', String(next));
+		router.replace(`/profil/riwayat-transaksi?${params.toString()}`);
+	}
 
 	return (
 		<RequireAuth>
@@ -107,25 +114,11 @@ export function RiwayatContent() {
 								))}
 							</div>
 						) : isError ? (
-							<Alert
-								variant="destructive"
-								className="mx-auto max-w-2xl"
-							>
-								<AlertTitle>Riwayat gagal dimuat</AlertTitle>
-								<AlertDescription>
-									{errorMessage}
-								</AlertDescription>
-								<div className="pt-2">
-									<Button
-										variant="outline"
-										size="sm"
-										onClick={() => refetch()}
-									>
-										<RefreshCcwIcon />
-										Coba lagi
-									</Button>
-								</div>
-							</Alert>
+							<QueryError
+								title="Riwayat gagal dimuat"
+								message={errorMessage}
+								onRetry={() => refetch()}
+							/>
 						) : orders.length === 0 ? (
 							<div className="flex flex-col items-center gap-2">
 								<EmptyState
@@ -156,11 +149,7 @@ export function RiwayatContent() {
 								<Button
 									variant="outline"
 									size="sm"
-									onClick={() =>
-										setPage((value) =>
-											Math.max(1, value - 1),
-										)
-									}
+									onClick={() => goToPage(page - 1)}
 									disabled={page <= 1}
 								>
 									<ChevronLeftIcon />
@@ -172,11 +161,7 @@ export function RiwayatContent() {
 								<Button
 									variant="outline"
 									size="sm"
-									onClick={() =>
-										setPage((value) =>
-											Math.min(totalPages, value + 1),
-										)
-									}
+									onClick={() => goToPage(page + 1)}
 									disabled={page >= totalPages}
 								>
 									Berikutnya

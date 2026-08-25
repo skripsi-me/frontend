@@ -1,7 +1,7 @@
 import { EmptyState } from '@/components/empty-state';
 import { Price } from '@/components/price';
 import { StatusBadge } from '@/components/status-badge';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { SectionError } from '@/components/dashboard/dashboard-state';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -12,14 +12,12 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { isApiError } from '@/lib/api';
 import { formatDate } from '@/lib/utils/format';
 import type { Order } from '@/types/order';
 import {
 	ArrowRightIcon,
 	CheckIcon,
 	Loader2Icon,
-	RefreshCcwIcon,
 	SendIcon,
 	TruckIcon,
 } from 'lucide-react';
@@ -102,20 +100,11 @@ export function DashboardOrdersTable({
 			</div>
 
 			{error ? (
-				<Alert variant="destructive">
-					<AlertTitle>Gagal memuat data</AlertTitle>
-					<AlertDescription>
-						{isApiError(error)
-							? error.message
-							: 'Terjadi kesalahan. Coba lagi.'}
-					</AlertDescription>
-					<div className="pt-2">
-						<Button variant="outline" size="sm" onClick={onRetry}>
-							<RefreshCcwIcon />
-							Coba lagi
-						</Button>
-					</div>
-				</Alert>
+				<SectionError
+					title="Gagal memuat data"
+					error={error}
+					onRetry={onRetry}
+				/>
 			) : loading ? (
 				<div className="overflow-x-auto">
 					<Table>

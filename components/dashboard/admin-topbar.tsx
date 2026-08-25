@@ -29,8 +29,11 @@ export function AdminTopbar() {
 	const { user, isAuthenticated, isLoading, logout } = useAuth();
 
 	const title =
-		TITLE_MAP.find((item) => pathname.startsWith(item.href))?.label ??
-		'Ikhtisar';
+		TITLE_MAP.find((item) =>
+			item.href === '/dashboard'
+				? pathname === item.href
+				: pathname.startsWith(item.href),
+		)?.label ?? 'Ikhtisar';
 
 	async function handleLogout() {
 		await logout();

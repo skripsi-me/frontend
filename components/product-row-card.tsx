@@ -2,6 +2,7 @@ import { Price } from '@/components/price';
 import { cn } from '@/lib/utils';
 import type { Product } from '@/types/product';
 import { PackageIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export function ProductRowCard({
@@ -19,12 +20,13 @@ export function ProductRowCard({
 				className,
 			)}
 		>
-			<div className="flex aspect-square w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-muted md:w-32">
+			<div className="relative flex aspect-square w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-muted md:w-32">
 				{product.image_url ? (
-					// eslint-disable-next-line @next/next/no-img-element
-					<img
+					<Image
 						src={product.image_url}
 						alt={product.name}
+						fill
+						sizes="(max-width: 768px) 96px, 128px"
 						loading="lazy"
 						className="h-full w-full object-cover"
 					/>

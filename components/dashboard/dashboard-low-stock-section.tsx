@@ -1,7 +1,7 @@
 import { EmptyState } from '@/components/empty-state';
 import { Price } from '@/components/price';
 import { ProductImage } from '@/components/product-image';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { SectionError } from '@/components/dashboard/dashboard-state';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -12,7 +12,6 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { isApiError } from '@/lib/api';
 import type { Product } from '@/types/product';
 import {
 	AlertTriangleIcon,
@@ -20,7 +19,6 @@ import {
 	Loader2Icon,
 	PackageCheckIcon,
 	PlusIcon,
-	RefreshCcwIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
@@ -59,20 +57,11 @@ export function DashboardLowStockSection({
 			</div>
 
 			{error ? (
-				<Alert variant="destructive">
-					<AlertTitle>Gagal memuat produk</AlertTitle>
-					<AlertDescription>
-						{isApiError(error)
-							? error.message
-							: 'Terjadi kesalahan. Coba lagi.'}
-					</AlertDescription>
-					<div className="pt-2">
-						<Button variant="outline" size="sm" onClick={onRetry}>
-							<RefreshCcwIcon />
-							Coba lagi
-						</Button>
-					</div>
-				</Alert>
+				<SectionError
+					title="Gagal memuat produk"
+					error={error}
+					onRetry={onRetry}
+				/>
 			) : loading ? (
 				<div className="flex flex-col gap-3">
 					{Array.from({ length: 3 }).map((_, i) => (
@@ -148,8 +137,8 @@ export function DashboardLowStockSection({
 													className={
 														product.stock <=
 														URGENT_STOCK_THRESHOLD
-															? 'inline-flex h-5 items-center gap-1 rounded-full bg-destructive/10 px-2 text-xs font-medium text-red-700'
-															: 'inline-flex h-5 items-center rounded-full bg-warning/10 px-2 text-xs font-medium text-amber-700'
+															? 'inline-flex h-5 items-center gap-1 rounded-full bg-destructive/10 px-2 text-xs font-medium text-destructive'
+															: 'inline-flex h-5 items-center rounded-full bg-warning/10 px-2 text-xs font-medium text-warning'
 													}
 												>
 													{product.stock <=
