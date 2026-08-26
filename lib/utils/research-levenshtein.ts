@@ -1,5 +1,5 @@
-import { distance } from 'fastest-levenshtein';
-import { normalize, tokenize } from '@/lib/utils/text';
+import { levenshteinDistance } from '@/lib/utils/levenshtein';
+import { tokenize } from '@/lib/utils/text';
 import {
 	RESEARCH_MAX_QUERY_LENGTH,
 	RESEARCH_MIN_QUERY_LENGTH,
@@ -51,7 +51,7 @@ export function searchProductsFuzzyResearch(
 		for (const queryToken of queryTokens) {
 			let best = Infinity;
 			for (const nameToken of nameTokens) {
-				const dist = distance(queryToken, nameToken);
+				const dist = levenshteinDistance(queryToken, nameToken);
 				totalDistance += dist;
 				pairCount += 1;
 				if (dist < best) best = dist;

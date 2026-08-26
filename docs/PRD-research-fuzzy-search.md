@@ -1,7 +1,7 @@
 # PRD — "Fuzzy Search Performance Instrument" (Objek Penelitian Skripsi)
 
 **Versi:** 1.0 (final)
-**Tech Stack:** Next.js 16.3 (App Router) · React 19.2 · TypeScript 5 · pnpm · `fastest-levenshtein`
+**Tech Stack:** Next.js 16.3 (App Router) · React 19.2 · TypeScript 5 · pnpm
 **Status:** Final — disetujui
 
 ---
@@ -86,7 +86,7 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 - FR-4.4 **Match rule (any-word-matches):** produk match jika **minimal satu** query-token memiliki jarak terbaik (`best-match` antar product-token, tanpa urutan) ≤ `k`.
 - FR-4.5 **Ranking:** urutkan produk match ascending berdasarkan **rata-rata jarak seluruh pasangan**. Produk non-match tidak dihitung.
 - FR-4.6 **Guard query:** panjang query < 3 atau > 20 → fungsi return kosong (guard di dalam fungsi).
-- FR-4.7 Implementasi `fastest-levenshtein`. File `lib/utils/research-levenshtein.ts`, terpisah dari `lib/utils/levenshtein.ts` (yang tetap dipakai halaman `/produk`).
+- FR-4.7 Implementasi **Levenshtein distance referensi DP O(m·n) murni** (`levenshteinDistance` di `lib/utils/levenshtein.ts`), tanpa library bit-parallel (`fastest-levenshtein` dihapus total). File `lib/utils/research-levenshtein.ts`, terpisah dari `lib/utils/levenshtein.ts` (yang tetap dipakai halaman `/produk`).
 
 ### FR-5 — Strategi data & cache
 - FR-5.1 Dataset (500/1000/2000) di-fetch dari backend API dengan `limit` = nilai `size`.
@@ -104,7 +104,7 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
   - Main → Worker: `{ type: 'init', dataset, seq }`, `{ type: 'search', query, seq }`
   - Worker → Main: `{ type: 'ready', seq }`, `{ type: 'results', results, seq }`
 - FR-6.4 Kondisi Non Web Worker: komputasi sinkron di main thread memakai array dataset dari cache yang sama.
-- FR-6.5 `fastest-levenshtein` di-bundle ke worker.
+- FR-6.5 Implementasi DP native di-bundle ke worker.
 
 ### FR-7 — Layer instrumentasi
 - FR-7.1 **Execution Time:** `performance.now()` di handler klik "Cari" (`t0`) → `t1` setelah hasil ter-render & painted (double `requestAnimationFrame`). Nilai `t1 - t0` ms.
@@ -137,7 +137,7 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 - NFR-4.1 Definisi tiap metrik didokumentasikan (JSDoc) & ditampilkan berlabel di UI.
 
 ### NFR-5 — Kualitas kode
-- NFR-5.1 TypeScript strict, lint (`pnpm lint`) hijau, tanpa dependency baru di luar `fastest-levenshtein` (sudah ada).
+- NFR-5.1 TypeScript strict, lint (`pnpm lint`) hijau, tanpa dependency baru.
 
 ## 6. Struktur Data
 
