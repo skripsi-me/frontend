@@ -110,8 +110,6 @@ async function searchInWorker(
 }
 
 type UseResearchSearchOptions = {
-	/** Target klik periodik (field input) untuk pengukuran INP. */
-	inputRef: RefObject<HTMLInputElement | null>;
 	/** Span untuk timer UI berjalan (diupdate rAF, tanpa re-render React). */
 	timerRef?: RefObject<HTMLSpanElement | null>;
 	/** Span untuk FPS live (diupdate rAF, tanpa re-render React). */
@@ -124,11 +122,7 @@ type ExecuteOptions = {
 	query: string;
 };
 
-export function useResearchSearch({
-	inputRef,
-	timerRef,
-	fpsRef,
-}: UseResearchSearchOptions) {
+export function useResearchSearch({ timerRef, fpsRef }: UseResearchSearchOptions) {
 	const [isSearching, setIsSearching] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
@@ -181,11 +175,14 @@ export function useResearchSearch({
 				longTaskObserver = null;
 			}
 
-			/** INP — latensi interaksi event (data lapangan Chrome). */
+			/** INP — interaksi trusted (klik real) dalam window sesi [t0, ...]. */
+			// ponytail: klik "Cari" terjadi sebelum t0 → dikeluarkan via startTime >= t0.
+			// INP hanya dari klik target research-inp-target saat pencarian berjalan.
 			let eventObserver: PerformanceObserver | null = null;
 			try {
 				eventObserver = new PerformanceObserver((list) => {
 					for (const entry of list.getEntries()) {
+						if (entry.startTime < t0) continue;
 						if (entry.duration > inpMaxRef.value) {
 							inpMaxRef.value = entry.duration;
 						}
@@ -218,39 +215,9 @@ export function useResearchSearch({
 			};
 			rafId = requestAnimationFrame(frameLoop);
 
-			/** INP — klik periodik pada field input, tiap 50ms. */
-			const clickIntervalId = setInterval(() => {
-				const el = inputRef?.current;
-				if (!el) return;
-				const t = performance.now();
-				el.dispatchEvent(
-					new PointerEvent('pointerdown', {
-						bubbles: true,
-						pointerType: 'touch',
-						pointerId: 1,
-						clientX: 0,
-						clientY: 0,
-					}),
-				);
-				el.dispatchEvent(
-					new PointerEvent('pointerup', {
-						bubbles: true,
-						pointerType: 'touch',
-						pointerId: 1,
-						clientX: 0,
-						clientY: 0,
-					}),
-				);
-				const latency = performance.now() - t;
-				if (latency > inpMaxRef.value) inpMaxRef.value = latency;
-			}, 50);
-
 			const teardown = () => {
 				runningRef.current = false;
 				cancelAnimationFrame(rafId);
-				if (clickIntervalId !== undefined) {
-					clearInterval(clickIntervalId);
-				}
 				longTaskObserver?.disconnect();
 				eventObserver?.disconnect();
 			};
@@ -331,7 +298,7 @@ export function useResearchSearch({
 				setError(err instanceof Error ? err : new Error(String(err)));
 			}
 		},
-		[inputRef, timerRef, fpsRef],
+		[timerRef, fpsRef],
 	);
 
 	return { execute, isSearching, isError, error, results, query, session };

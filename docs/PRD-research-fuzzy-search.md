@@ -70,7 +70,7 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 - FR-2.2 Membaca param URL: `method` (`web-worker` | `non-web-worker`), `search`, `size` (`500`|`1000`|`2000`).
 - FR-2.3 Jika `search` ada saat mount, pre-fill input. Tanpa auto-execute.
 - FR-2.4 Struktur halaman:
-  - **Section kontrol** (header atas): input "Kata Kunci", tombol "Cari", toggle metode, toggle ukuran.
+  - **Section kontrol** (header atas): input "Kata Kunci", tombol "Cari", toggle metode, toggle ukuran, **tombol target INP** (`data-testid="research-inp-target"`, no-op `onClick`, hanya sebagai target interaksi trusted).
   - **Panel metrik** (header): Execution Time, TBT, FPS (live saat pencarian + rata-rata), INP.
   - **Section hasil:** grid render **semua** hasil (tanpa batas / tanpa pagination).
 
@@ -110,7 +110,7 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 - FR-7.1 **Execution Time:** `performance.now()` di handler klik "Cari" (`t0`) → `t1` setelah hasil ter-render & painted (double `requestAnimationFrame`). Nilai `t1 - t0` ms.
 - FR-7.2 **TBT:** `PerformanceObserver({ type: 'longtask', buffered: true })`. Jumlahkan `(duration - 50)` untuk task yang mulai antara `t0` dan `t1`.
 - FR-7.3 **FPS:** loop `requestAnimationFrame` dimulai saat "Cari", sampling per detik, sekaligus **timer UI berjalan** di panel metrik. Stop saat render selesai. Seri FPS + rata-rata.
-- FR-7.4 **INP:** `PerformanceObserver({ type: 'event', buffered: true })` (data lapangan Chrome) + **klik periodik programatik pada field input tiap 50ms** sejak "Cari" sampai render selesai (latensi dispatch diukur manual). Ambil **nilai maksimum**.
+- FR-7.4 **INP:** `PerformanceObserver({ type: 'event', buffered: true })`, ambil **nilai maksimum** durasi entri dengan `startTime >= t0`. Sumber interaksi: **klik trusted** (Puppeteer) pada tombol target `data-testid="research-inp-target"` selama window pencarian. Klik "Cari" (startTime sebelum `t0`) **dikecualikan** — INP-nya ≈ duplikat execution time (wall-clock sampai hasil render) dan tidak mengisolasi responsiveness main thread. Klik sintetis `dispatchEvent` **tidak dipakai** — event untrusted tidak menghasilkan `PerformanceEventTiming`.
 - FR-7.5 Semua metrik dirender ke **panel metrik di header**, dengan selector stabil + `data-*` attributes (mis. `data-metric="execution-time"`, `data-metric="tbt"`, `data-metric="fps"`, `data-metric="inp"`).
 
 ### FR-8 — Komponen skeleton loading
@@ -120,7 +120,7 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 ## 5. Non-Functional Requirements
 
 ### NFR-1 — Kesiapan automasi Puppeteer
-- NFR-1.1 Seluruh elemen interaksi & metrik punya **selector deterministik** (id / `data-testid` / `data-metric`).
+- NFR-1.1 Seluruh elemen interaksi & metrik punya **selector deterministik** (id / `data-testid` / `data-metric`) — termasuk `research-inp-target` untuk interaksi INP trusted.
 - NFR-1.2 Tidak ada animasi/elemen mengganggu pengukuran selain yang dirancang untuk diukur (skeleton + timer rAF).
 - NFR-1.3 Semua kombinasi pengujian dapat dipicu via **navigasi URL** (`method`, `search`, `size`) + satu klik "Cari".
 

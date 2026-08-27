@@ -47,7 +47,7 @@ function ResearchPageContent() {
 		results,
 		query: executedQuery,
 		session,
-	} = useResearchSearch({ inputRef, timerRef, fpsRef });
+	} = useResearchSearch({ timerRef, fpsRef });
 
 	function handleSubmit() {
 		const trimmed = query.trim();
@@ -86,6 +86,18 @@ function ResearchPageContent() {
 						isSearching={isSearching}
 						inputRef={inputRef}
 					/>
+
+					{/* Target interaksi trusted untuk pengukuran INP (klik Puppeteer).
+							No-op handler: syarat Chrome emit PerformanceEventTiming. */}
+					<button
+						type="button"
+						data-testid="research-inp-target"
+						aria-label="Target pengukuran INP"
+						onClick={() => {}}
+						className="rounded-lg border border-border px-3 py-1.5 text-caption text-muted-foreground"
+					>
+						INP Target
+					</button>
 					<ResearchMetricsPanel
 						session={session}
 						isSearching={isSearching}
