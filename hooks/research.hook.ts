@@ -150,7 +150,6 @@ export function useResearchSearch({ timerRef, fpsRef }: UseResearchSearchOptions
 			setIsSearching(true);
 
 			const t0 = performance.now();
-			const inpMaxRef = { value: 0 };
 			const longTasks: { start: number; duration: number }[] = [];
 			const fpsSamples: FpsSample[] = [];
 			let totalFrames = 0;
@@ -173,27 +172,6 @@ export function useResearchSearch({ timerRef, fpsRef }: UseResearchSearchOptions
 				longTaskObserver.observe({ type: 'longtask', buffered: true });
 			} catch {
 				longTaskObserver = null;
-			}
-
-			/** INP — interaksi trusted (klik real) dalam window sesi [t0, ...]. */
-			// ponytail: klik "Cari" terjadi sebelum t0 → dikeluarkan via startTime >= t0.
-			// INP hanya dari klik target research-inp-target saat pencarian berjalan.
-			let eventObserver: PerformanceObserver | null = null;
-			try {
-				eventObserver = new PerformanceObserver((list) => {
-					for (const entry of list.getEntries()) {
-						if (entry.startTime < t0) continue;
-						if (entry.duration > inpMaxRef.value) {
-							inpMaxRef.value = entry.duration;
-						}
-					}
-				});
-				eventObserver.observe({
-					type: 'event',
-					buffered: true,
-				});
-			} catch {
-				eventObserver = null;
 			}
 
 			/** FPS — loop rAF; sekaligus timer UI berjalan. */
@@ -219,7 +197,6 @@ export function useResearchSearch({ timerRef, fpsRef }: UseResearchSearchOptions
 				runningRef.current = false;
 				cancelAnimationFrame(rafId);
 				longTaskObserver?.disconnect();
-				eventObserver?.disconnect();
 			};
 
 			try {
@@ -271,7 +248,6 @@ export function useResearchSearch({ timerRef, fpsRef }: UseResearchSearchOptions
 								tbtMs,
 								fps: fpsSamples,
 								fpsAverage,
-								inpMs: inpMaxRef.value,
 								longTasks,
 								resultCount: matches.length,
 								datasetLength,

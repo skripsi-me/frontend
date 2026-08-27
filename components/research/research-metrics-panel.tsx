@@ -38,7 +38,7 @@ type ResearchMetricsPanelProps = {
 /**
  * Panel metrik penelitian.
  *
- * Elemen `data-metric="execution-time|tbt|fps|inp"` hanya berisi NILAI FINAL
+ * Elemen `data-metric="execution-time|tbt|fps"` hanya berisi NILAI FINAL
  * (setelah sesi selesai) — aman dibaca Puppeteer.
  * Timer & FPS live (loop rAF) ditulis ke elemen terpisah
  * `data-metric="live-timer"` / `data-metric="live-fps"`, hanya selama pencarian.
@@ -53,7 +53,6 @@ export function ResearchMetricsPanel({
 	const execution = m ? `${m.executionTimeMs.toFixed(2)} ms` : undefined;
 	const tbt = m ? `${m.tbtMs.toFixed(2)} ms` : undefined;
 	const fps = m ? `${m.fpsAverage.toFixed(1)} fps` : undefined;
-	const inp = m ? `${m.inpMs.toFixed(2)} ms` : undefined;
 	const datasetLength = m ? String(m.datasetLength) : undefined;
 
 	return (
@@ -70,9 +69,6 @@ export function ResearchMetricsPanel({
 				</Metric>
 				<Metric label="FPS (rata-rata)" metricKey="fps">
 					{fps}
-				</Metric>
-				<Metric label="INP (maks)" metricKey="inp">
-					{inp}
 				</Metric>
 				<Metric label="Ukuran dataset" metricKey="dataset-length">
 					{datasetLength}

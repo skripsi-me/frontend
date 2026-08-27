@@ -44,7 +44,6 @@ export type SearchSessionMetrics = {
 		tbtMs: number;
 		fps: FpsSample[];
 		fpsAverage: number;
-		inpMs: number;
 		longTasks: LongTaskEntry[];
 		resultCount: number;
 		datasetLength: number;

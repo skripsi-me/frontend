@@ -23,7 +23,7 @@ Format berdasarkan [Keep a Changelog](https://keepachangelog.com/id-ID/1.0.0/) d
 - Refactor plan-01 (audit & refactor): dedup komponen (SectionError, RoleBadge, CartSummary, QueryError, SegmentedControl), hook `useOrderStatusUpdate`, util `sumCart`/`text`, hapus rantai dead (register/refresh/category-bySlug/product-byCategory), hapus dep `next-themes` & `date-fns`, tema dark mati dihapus, `tsconfig` target ES2022.
 - Bug fix: debounce search loop, filter role pengguna (server-side), busy-guard race, cache dataset research, form error reaktif, akun tanpa password dicegah, LdResults muat semua halaman, toast nilai stock.
 - Best practice: devtools digate NODE_ENV, pagination riwayat berbasis URL, logout konsisten, `next/image`, design token warna, radio a11y base-ui.
-- Instrumen penelitian (`/produk/research`): hapus total dep `fastest-levenshtein` → Levenshtein DP referensi murni (`levenshteinDistance`), INP kini dari interaksi trusted (tombol target `research-inp-target`, klik Puppeteer) via `PerformanceObserver('event')` filter `startTime >= t0`, sintetis `dispatchEvent` dihapus.
+- Instrumen penelitian (`/produk/research`): hapus total dep `fastest-levenshtein` → Levenshtein DP referensi murni (`levenshteinDistance`), **metrik INP dikecualikan** (field metric tak representatif di lab; TBT = lab proxy resmi; tombol `research-inp-target` & observer `event` dihapus).
 
 ## [0.1.0] - 2026-08-09
 

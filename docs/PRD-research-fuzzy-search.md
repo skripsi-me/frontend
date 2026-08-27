@@ -10,11 +10,11 @@
 
 Ini **bukan produk komersial**. Ini **instrumen eksperimen** untuk penelitian skripsi yang mengukur perbedaan performa pencarian fuzzy berbasis **Levenshtein Distance** ketika dieksekusi di **Main Thread** versus **Web Worker**.
 
-Satu halaman penelitian, `/produk/research`, mengeksekusi pencarian pada dataset produk berukuran **500 / 1000 / 2000 entri** dan mengukur empat metrik secara real-time: **Execution Time**, **Total Blocking Time (TBT)**, **FPS** (loop `requestAnimationFrame`), dan **Interaction to Next Paint (INP)**.
+Satu halaman penelitian, `/produk/research`, mengeksekusi pencarian pada dataset produk berukuran **500 / 1000 / 2000 entri** dan mengukur tiga metrik secara real-time: **Execution Time**, **Total Blocking Time (TBT)**, dan **FPS** (loop `requestAnimationFrame`). Metrik **INP** sengaja **dikecualikan** (lihat FR-7.4): metrik *field* yang tidak representatif di lingkungan lab; **TBT dipakai sebagai lab proxy resmi** untuk INP.
 
 Desain diarahkan agar **stabil untuk automasi Puppeteer** (selector deterministik, URL-driven, tanpa ketergantungan cache browser) sehingga eksperimen dapat direproduksi dalam profil Chromium bersih.
 
-**Indikator keberhasilan produk:** halaman dapat dijalankan dalam skenario Puppeteer clean-profile/incognito + Disable Cache, menghasilkan 4 metrik terukur per sesi pencarian untuk ketiga ukuran dataset dan kedua metode, dengan hasil konsisten antar-run.
+**Indikator keberhasilan produk:** halaman dapat dijalankan dalam skenario Puppeteer clean-profile/incognito + Disable Cache, menghasilkan 3 metrik terukur per sesi pencarian (Execution Time, TBT, FPS; INP dikecualikan) untuk ketiga ukuran dataset dan kedua metode, dengan hasil konsisten antar-run.
 
 ## 2. User Persona
 
@@ -47,9 +47,9 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 7. Sistem mengeksekusi pencarian sesuai metode:
    - **Non Web Worker:** dataset dari cache/backend, fuzzy search dihitung sinkron di main thread.
    - **Web Worker:** dataset dipastikan ter-preload di Worker singleton, query dikirim via `postMessage`.
-8. Sistem memulai instrumentasi: catat `t0` (klik Cari), mulai loop rAF (FPS), mulai observer Long Tasks (TBT) dan observer event (INP).
-9. Hasil di-render di grid produk. Setelah render selesai: hentikan loop rAF, catat `t1`, akumulasi TBT, ambil INP maksimum.
-10. Empat metrik ditampilkan di header halaman (panel metrik).
+8. Sistem memulai instrumentasi: catat `t0` (klik Cari), mulai loop rAF (FPS), mulai observer Long Tasks (TBT).
+9. Hasil di-render di grid produk. Setelah render selesai: hentikan loop rAF, catat `t1`, akumulasi TBT.
+10. Tiga metrik ditampilkan di header halaman (panel metrik).
 
 **Flow C — Navigasi langsung oleh Puppeteer (automasi):**
 1. Puppeteer navigasi ke `/produk/research?method=web-worker&search=sepatu&size=1000`.
@@ -70,8 +70,8 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 - FR-2.2 Membaca param URL: `method` (`web-worker` | `non-web-worker`), `search`, `size` (`500`|`1000`|`2000`).
 - FR-2.3 Jika `search` ada saat mount, pre-fill input. Tanpa auto-execute.
 - FR-2.4 Struktur halaman:
-  - **Section kontrol** (header atas): input "Kata Kunci", tombol "Cari", toggle metode, toggle ukuran, **tombol target INP** (`data-testid="research-inp-target"`, no-op `onClick`, hanya sebagai target interaksi trusted).
-  - **Panel metrik** (header): Execution Time, TBT, FPS (live saat pencarian + rata-rata), INP.
+  - **Section kontrol** (header atas): input "Kata Kunci", tombol "Cari", toggle metode, toggle ukuran.
+  - **Panel metrik** (header): Execution Time, TBT, FPS (live saat pencarian + rata-rata).
   - **Section hasil:** grid render **semua** hasil (tanpa batas / tanpa pagination).
 
 ### FR-3 — Komponen search baru (bukan dialog)
@@ -108,10 +108,10 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 
 ### FR-7 — Layer instrumentasi
 - FR-7.1 **Execution Time:** `performance.now()` di handler klik "Cari" (`t0`) → `t1` setelah hasil ter-render & painted (double `requestAnimationFrame`). Nilai `t1 - t0` ms.
-- FR-7.2 **TBT:** `PerformanceObserver({ type: 'longtask', buffered: true })`. Jumlahkan `(duration - 50)` untuk task yang mulai antara `t0` dan `t1`.
+- FR-7.2 **TBT:** `PerformanceObserver({ type: 'longtask', buffered: true })`. Jumlahkan `(duration - 50)` untuk task yang mulai antara `t0` dan `t1`. Window = sesi pencarian `[t0, t1]` (bukan page-load); Long Task API **global main-thread** (tanpa scope elemen/section).
 - FR-7.3 **FPS:** loop `requestAnimationFrame` dimulai saat "Cari", sampling per detik, sekaligus **timer UI berjalan** di panel metrik. Stop saat render selesai. Seri FPS + rata-rata.
-- FR-7.4 **INP:** `PerformanceObserver({ type: 'event', buffered: true })`, ambil **nilai maksimum** durasi entri dengan `startTime >= t0`. Sumber interaksi: **klik trusted** (Puppeteer) pada tombol target `data-testid="research-inp-target"` selama window pencarian. Klik "Cari" (startTime sebelum `t0`) **dikecualikan** — INP-nya ≈ duplikat execution time (wall-clock sampai hasil render) dan tidak mengisolasi responsiveness main thread. Klik sintetis `dispatchEvent` **tidak dipakai** — event untrusted tidak menghasilkan `PerformanceEventTiming`.
-- FR-7.5 Semua metrik dirender ke **panel metrik di header**, dengan selector stabil + `data-*` attributes (mis. `data-metric="execution-time"`, `data-metric="tbt"`, `data-metric="fps"`, `data-metric="inp"`).
+- FR-7.4 **INP — Dikecualikan dari penelitian.** INP merupakan metrik *field* yang hanya valid bila dihitung browser dari **interaksi user asli**. Di lingkungan lab (Puppeteer, clean profile), interaksi sintetis tidak menghasilkan `PerformanceEventTiming` dan interaksi trusted hanya terjadi pada elemen yang menimbulkan kerja nyata — hasilnya tidak konsisten (nilai sering 0). Sebagai gantinya, **TBT (FR-7.2) dipakai sebagai lab proxy resmi untuk INP** (rekomendasi Chrome/Google). Algoritma & kontrak Puppeteer lain tidak terpengaruh.
+- FR-7.5 Semua metrik dirender ke **panel metrik di header**, dengan selector stabil + `data-*` attributes (mis. `data-metric="execution-time"`, `data-metric="tbt"`, `data-metric="fps"`).
 
 ### FR-8 — Komponen skeleton loading
 - FR-8.1 Skeleton tampil selama pencarian berlangsung.
@@ -120,7 +120,7 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 ## 5. Non-Functional Requirements
 
 ### NFR-1 — Kesiapan automasi Puppeteer
-- NFR-1.1 Seluruh elemen interaksi & metrik punya **selector deterministik** (id / `data-testid` / `data-metric`) — termasuk `research-inp-target` untuk interaksi INP trusted.
+- NFR-1.1 Seluruh elemen interaksi & metrik punya **selector deterministik** (id / `data-testid` / `data-metric`).
 - NFR-1.2 Tidak ada animasi/elemen mengganggu pengukuran selain yang dirancang untuk diukur (skeleton + timer rAF).
 - NFR-1.3 Semua kombinasi pengujian dapat dipicu via **navigasi URL** (`method`, `search`, `size`) + satu klik "Cari".
 
@@ -189,7 +189,6 @@ type SearchSessionMetrics = {
     tbtMs: number;             // sum(longtask.duration - 50) dalam window
     fps: { sample: number; fps: number }[]; // seri per detik
     fpsAverage: number;
-    inpMs: number;             // maksimum latensi interaksi
     longTasks: { start: number; duration: number }[];
     resultCount: number;
   };
