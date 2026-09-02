@@ -2,14 +2,14 @@ import type { Product } from '@/types/product';
 
 export type ResearchMethod = 'web-worker' | 'non-web-worker';
 
-export type DatasetSize = 500 | 1000 | 2000;
+export type DatasetSize = 500 | 1000 | 2000 | 3000 | 4000;
 
 export const RESEARCH_METHODS: { value: ResearchMethod; label: string }[] = [
 	{ value: 'web-worker', label: 'Web Worker' },
 	{ value: 'non-web-worker', label: 'Non Web Worker' },
 ];
 
-export const RESEARCH_SIZES: DatasetSize[] = [500, 1000, 2000];
+export const RESEARCH_SIZES: DatasetSize[] = [500, 1000, 2000, 3000, 4000];
 
 export const RESEARCH_MIN_QUERY_LENGTH = 3;
 export const RESEARCH_MAX_QUERY_LENGTH = 20;

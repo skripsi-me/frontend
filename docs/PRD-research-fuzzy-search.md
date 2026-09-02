@@ -67,7 +67,7 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 
 ### FR-2 — Halaman `/produk/research`
 - FR-2.1 Route baru `app/(public)/produk/research/page.tsx`, client component (`'use client'`).
-- FR-2.2 Membaca param URL: `method` (`web-worker` | `non-web-worker`), `search`, `size` (`500`|`1000`|`2000`).
+- FR-2.2 Membaca param URL: `method` (`web-worker` | `non-web-worker`), `search`, `size` (`500`|`1000`|`2000`|`3000`|`4000`).
 - FR-2.3 Jika `search` ada saat mount, pre-fill input. Tanpa auto-execute.
 - FR-2.4 Struktur halaman:
   - **Section kontrol** (header atas): input "Kata Kunci", tombol "Cari", toggle metode, toggle ukuran.
@@ -89,11 +89,11 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 - FR-4.7 Implementasi **Levenshtein distance referensi DP O(m·n) murni** (`levenshteinDistance` di `lib/utils/levenshtein.ts`), tanpa library bit-parallel (`fastest-levenshtein` dihapus total). File `lib/utils/research-levenshtein.ts`, terpisah dari `lib/utils/levenshtein.ts` (yang tetap dipakai halaman `/produk`).
 
 ### FR-5 — Strategi data & cache
-- FR-5.1 Dataset (500/1000/2000) di-fetch dari backend API dengan `limit` = nilai `size`.
+- FR-5.1 Dataset (500/1000/2000/3000/4000) di-fetch dari backend API dengan `limit` = nilai `size`.
   Jika server memiliki produk < `size`, `datasetLength` akan kurang dari `size`
   (fetch berhenti saat halaman kosong). Analis wajib memeriksa `datasetLength`
   untuk validitas — kombinasi size yang hasilnya sama menandakan katalog
-  server tidak mencukupi.
+  server tidak mencukupi. Dataset saat ini: **4000 produk** (semua size valid).
 - FR-5.2 Cache in-memory `Map` key: **`{query}-{method}-{size}`**. Fetch sekali per kombinasi.
 - FR-5.3 Cache **in-memory (sesi JS)** — tidak menyentuh HTTP cache browser; hilang saat reload.
 
@@ -107,9 +107,9 @@ Tidak ada persona pembeli/penjual. Fitur e-commerce lain di luar halaman penelit
 - FR-6.5 Implementasi DP native di-bundle ke worker.
 
 ### FR-7 — Layer instrumentasi
-- FR-7.1 **Execution Time:** `performance.now()` di handler klik "Cari" (`t0`) → `t1` setelah hasil ter-render & painted (double `requestAnimationFrame`). Nilai `t1 - t0` ms.
-- FR-7.2 **TBT:** `PerformanceObserver({ type: 'longtask', buffered: true })`. Jumlahkan `(duration - 50)` untuk task yang mulai antara `t0` dan `t1`. Window = sesi pencarian `[t0, t1]` (bukan page-load); Long Task API **global main-thread** (tanpa scope elemen/section).
-- FR-7.3 **FPS:** loop `requestAnimationFrame` dimulai saat "Cari", sampling per detik, sekaligus **timer UI berjalan** di panel metrik. Stop saat render selesai. Seri FPS + rata-rata.
+- FR-7.1 **Execution Time:** `performance.now()` di handler klik "Cari" (`t0`) → `t1` setelah hasil ter-render & painted (double `requestAnimationFrame`). Nilai `t1 - t0` ms (mencakup fetch dataset; iterasi warm-up di-drop analis).
+- FR-7.2 **TBT:** `PerformanceObserver({ type: 'longtask', buffered: true })`. Jumlahkan `(duration - 50)` untuk task yang mulai antara `computeStart` dan `t1`. **Window TBT/FPS DIISOLASI ke fase compute+render** (plan-03): `computeStart` = saat dataset siap & tepat sebelum komputasi search dimulai (exclude fetch jaringan), `t1` = render selesai. `computeStart` di-ekspos ke `window.__researchComputeStart` agar Mirror automation memakai window independen yang sinkron. Long Task API global main-thread (tanpa scope elemen/section).
+- FR-7.3 **FPS:** loop `requestAnimationFrame` dimulai saat `computeStart`, sampling per detik, sekaligus **timer UI berjalan** di panel metrik (timer tetap dari `t0` klik). Stop saat render selesai (`t1`). Seri FPS + rata-rata atas window `[computeStart, t1]`.
 - FR-7.4 **INP — Dikecualikan dari penelitian.** INP merupakan metrik *field* yang hanya valid bila dihitung browser dari **interaksi user asli**. Di lingkungan lab (Puppeteer, clean profile), interaksi sintetis tidak menghasilkan `PerformanceEventTiming` dan interaksi trusted hanya terjadi pada elemen yang menimbulkan kerja nyata — hasilnya tidak konsisten (nilai sering 0). Sebagai gantinya, **TBT (FR-7.2) dipakai sebagai lab proxy resmi untuk INP** (rekomendasi Chrome/Google). Algoritma & kontrak Puppeteer lain tidak terpengaruh.
 - FR-7.5 Semua metrik dirender ke **panel metrik di header**, dengan selector stabil + `data-*` attributes (mis. `data-metric="execution-time"`, `data-metric="tbt"`, `data-metric="fps"`).
 

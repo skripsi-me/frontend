@@ -150,49 +150,9 @@ export function useResearchSearch({ timerRef, fpsRef }: UseResearchSearchOptions
 			setIsSearching(true);
 
 			const t0 = performance.now();
-			const longTasks: { start: number; duration: number }[] = [];
-			const fpsSamples: FpsSample[] = [];
-			let totalFrames = 0;
-			let frameCount = 0;
-			let sampleIndex = 0;
-			let secondStart = t0;
+
 			let rafId = 0;
-
-			/** TBT — long task (>50ms) yang mulai pada window pencarian. */
 			let longTaskObserver: PerformanceObserver | null = null;
-			try {
-				longTaskObserver = new PerformanceObserver((list) => {
-					for (const entry of list.getEntries()) {
-						longTasks.push({
-							start: entry.startTime,
-							duration: entry.duration,
-						});
-					}
-				});
-				longTaskObserver.observe({ type: 'longtask', buffered: true });
-			} catch {
-				longTaskObserver = null;
-			}
-
-			/** FPS — loop rAF; sekaligus timer UI berjalan. */
-			const frameLoop = (now: number) => {
-				frameCount += 1;
-				totalFrames += 1;
-				if (timerRef?.current) {
-					timerRef.current.textContent = `${Math.round(now - t0)} ms`;
-				}
-				if (now - secondStart >= 1000) {
-					fpsSamples.push({ sample: sampleIndex++, fps: frameCount });
-					if (fpsRef?.current) {
-						fpsRef.current.textContent = String(frameCount);
-					}
-					frameCount = 0;
-					secondStart = now;
-				}
-				rafId = requestAnimationFrame(frameLoop);
-			};
-			rafId = requestAnimationFrame(frameLoop);
-
 			const teardown = () => {
 				runningRef.current = false;
 				cancelAnimationFrame(rafId);
@@ -206,6 +166,60 @@ export function useResearchSearch({ timerRef, fpsRef }: UseResearchSearchOptions
 					products = await fetchDataset(size);
 					datasetCache.set(cacheKey, products);
 				}
+
+				/**
+				 * Window responsivitas (TBT/FPS) DIISOLASI ke fase compute+render:
+				 * mulai setelah dataset siap (exclude fetch jaringan), berakhir t1
+				 * (render selesai). executionTimeMs tetap [t0 klik, t1].
+				 */
+				const computeStart = performance.now();
+				// Ekspos ke Mirror (automation) utk window independen yg sinkron.
+				(
+					window as typeof window & {
+						__researchComputeStart: number | null;
+					}
+				).__researchComputeStart = computeStart;
+
+				const longTasks: { start: number; duration: number }[] = [];
+				const fpsSamples: FpsSample[] = [];
+				let totalFrames = 0;
+				let frameCount = 0;
+				let sampleIndex = 0;
+				let secondStart = computeStart;
+
+				/** TBT — long task (>50ms) yang mulai pada window compute+render. */
+				try {
+					longTaskObserver = new PerformanceObserver((list) => {
+						for (const entry of list.getEntries()) {
+							longTasks.push({
+								start: entry.startTime,
+								duration: entry.duration,
+							});
+						}
+					});
+					longTaskObserver.observe({ type: 'longtask', buffered: true });
+				} catch {
+					longTaskObserver = null;
+				}
+
+				/** FPS — loop rAF; sekaligus timer UI berjalan. */
+				const frameLoop = (now: number) => {
+					frameCount += 1;
+					totalFrames += 1;
+					if (timerRef?.current) {
+						timerRef.current.textContent = `${Math.round(now - t0)} ms`;
+					}
+					if (now - secondStart >= 1000) {
+						fpsSamples.push({ sample: sampleIndex++, fps: frameCount });
+						if (fpsRef?.current) {
+							fpsRef.current.textContent = String(frameCount);
+						}
+						frameCount = 0;
+						secondStart = now;
+					}
+					rafId = requestAnimationFrame(frameLoop);
+				};
+				rafId = requestAnimationFrame(frameLoop);
 
 				const matches =
 					method === 'web-worker'
@@ -224,12 +238,16 @@ export function useResearchSearch({ timerRef, fpsRef }: UseResearchSearchOptions
 						teardown();
 
 						const elapsedSec = Math.max(
-							(t1 - t0) / 1000,
+							(t1 - computeStart) / 1000,
 							0.001,
 						);
 						const fpsAverage = totalFrames / elapsedSec;
 						const tbtMs = longTasks
-							.filter((task) => task.start >= t0 && task.start <= t1)
+							.filter(
+								(task) =>
+									task.start >= computeStart &&
+									task.start <= t1,
+							)
 							.reduce(
 								(sum, task) =>
 									sum + Math.max(0, task.duration - 50),

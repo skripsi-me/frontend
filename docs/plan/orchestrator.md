@@ -30,7 +30,8 @@ Source of truth untuk semua agent AI. **BACA FILE INI DULU** sebelum mengeksekus
 | ID | File | Status |
 |----|------|--------|
 | plan-01 | docs/plan/plan-01-audit-refactor-codebase.md | done (H2 smoke manual pending) |
-| plan-02 | docs/plan/plan-02-research-instrument-refinement.md | done (H5 smoke manual pending) |
+| plan-02 | docs/plan/plan-02-research-instrument-refinement.md | done (H5 smoke verified) |
+| plan-03 | docs/plan/plan-03-research-compute-window-and-size-expansion.md | done (F3 run penuh pending) |
 
 ## Status Konvensi
 - `not-started` → `in-progress` → `done` | `blocked` (tulis alasan)
