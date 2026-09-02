@@ -44,14 +44,14 @@ export function Navbar() {
 				<Link href="/" className="flex shrink-0 items-center gap-2">
 					<Image
 						src="/image/logo.png"
-						alt="As-Sakinah Mart"
+						alt="Rull Store"
 						width={36}
 						height={36}
-						className="size-9 rounded-full object-contain"
+						className="size-9 object-contain"
 						priority
 					/>
 					<span className="text-lg text-foreground font-semibold">
-						As-Sakinah <span className="text-primary">Mart</span>
+						Rull <span className="text-primary">Store</span>
 					</span>
 				</Link>
 

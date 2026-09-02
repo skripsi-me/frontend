@@ -65,14 +65,14 @@ export function AdminTopbar() {
 						<div className="flex shrink-0 items-center gap-2.5 border-b border-border px-5 py-4">
 							<Image
 								src="/image/logo.png"
-								alt="As-Sakinah Mart"
+								alt="Rull Store"
 								width={32}
 								height={32}
-								className="size-8 rounded-full object-contain"
+								className="size-8 object-contain"
 							/>
 							<div className="min-w-0">
 								<p className="truncate text-sm font-semibold text-foreground">
-									As-Sakinah Mart
+									Rull Store
 								</p>
 								<p className="text-xs text-muted-foreground">
 									Admin Panel

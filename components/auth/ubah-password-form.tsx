@@ -112,10 +112,10 @@ export function UbahPasswordForm() {
 				<CardHeader className="items-center gap-2 text-center">
 					<Image
 						src="/image/logo.png"
-						alt="As-Sakinah Mart"
+						alt="Rull Store"
 						width={56}
 						height={56}
-						className="size-14 rounded-full object-contain"
+						className="size-14 object-contain"
 					/>
 					<div className="flex flex-col gap-1">
 						<h1 className="text-headline-lg text-foreground">

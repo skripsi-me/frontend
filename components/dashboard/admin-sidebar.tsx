@@ -15,15 +15,15 @@ export function AdminSidebar() {
 			>
 				<Image
 					src="/image/logo.png"
-					alt="As-Sakinah Mart"
+					alt="Rull Store"
 					width={36}
 					height={36}
-					className="size-9 rounded-full object-contain"
+					className="size-9 object-contain"
 					priority
 				/>
 				<div className="min-w-0">
 					<p className="truncate text-sm font-semibold text-foreground">
-						As-Sakinah <span className="text-primary">Mart</span>
+						Rull <span className="text-primary">Store</span>
 					</p>
 					<p className="text-xs text-muted-foreground">Admin Panel</p>
 				</div>

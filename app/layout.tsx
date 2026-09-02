@@ -9,9 +9,9 @@ import { cn } from '@/lib/utils';
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-	title: 'As-Sakinah Mart',
+	title: 'Rull Store',
 	description:
-		'Toko online As-Sakinah Mart. Belanja mudah dengan pembayaran Cash on Delivery (COD).',
+		'Toko online Rull Store. Belanja mudah dengan pembayaran Cash on Delivery (COD).',
 };
 
 export default function RootLayout({

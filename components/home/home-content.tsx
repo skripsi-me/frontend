@@ -86,7 +86,7 @@ export function HomeContent() {
 							di rumah
 						</h1>
 						<p className="text-sm text-muted-foreground">
-							As-Sakinah Mart menghadirkan bahan kebutuhan rumah
+							Rull Store menghadirkan bahan kebutuhan rumah
 							tangga dengan harga bersahabat. Pilih, pesan, bayar
 							pas barang tiba.
 						</p>
@@ -134,21 +134,21 @@ export function HomeContent() {
 								</p>
 							</div>
 						</div>
-						<div className="col-span-2 flex flex-col gap-4 rounded-xl bg-primary-soft p-5 ring-1 ring-border md:p-6">
+						<div className="col-span-2 flex flex-col gap-4 rounded-xl bg-primary p-5 ring-1 ring-white/20 md:p-6">
 							<div className="flex items-center gap-3">
 								<div className="flex size-10 items-center justify-center rounded-lg bg-white text-primary">
 									<StoreIcon className="size-5" />
 								</div>
 								<div>
-									<p className="text-body-md text-primary">
-										As-Sakinah Mart
+									<p className="text-body-md text-white">
+										Rull Store
 									</p>
-									<p className="text-caption text-muted-foreground">
+									<p className="text-caption text-white/80">
 										Toko keluarga, dikelola terpercaya
 									</p>
 								</div>
 							</div>
-							<p className="text-body-sm text-foreground">
+							<p className="text-body-sm text-white">
 								Belanjaan sampai depan rumah tanpa ribet antre
 								atau bawa beban.
 							</p>

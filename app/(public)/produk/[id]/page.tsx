@@ -37,7 +37,7 @@ export async function generateMetadata({
 	}
 
 	return {
-		title: `${product.name} - As-Sakinah Mart`,
+		title: `${product.name} - Rull Store`,
 		description: product.description ?? undefined,
 	};
 }

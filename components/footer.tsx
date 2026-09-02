@@ -10,18 +10,18 @@ export function Footer() {
 					<div className="flex items-center gap-2">
 						<Image
 							src="/image/logo.png"
-							alt="As-Sakinah Mart"
+							alt="Rull Store"
 							width={32}
 							height={32}
-							className="size-8 rounded-full object-contain"
+							className="size-8 object-contain"
 						/>
 						<span className="text-lg font-semibold text-foreground">
-							As-Sakinah{' '}
-							<span className="text-primary">Mart</span>
+							Rull{' '}
+							<span className="text-primary">Store</span>
 						</span>
 					</div>
 					<p className="text-body-sm text-muted-foreground">
-						Toko online As-Sakinah Mart. Belanja mudah dengan
+						Toko online Rull Store. Belanja mudah dengan
 						pembayaran Cash on Delivery (COD).
 					</p>
 				</div>
@@ -74,7 +74,7 @@ export function Footer() {
 					<h3 className="text-label-md text-foreground">Kontak</h3>
 					<p className="flex items-start gap-2 text-body-sm text-muted-foreground">
 						<MapPinIcon className="mt-0.5 size-4 shrink-0" />
-						As-Sakinah Mart
+						Rull Store
 					</p>
 					<p className="flex items-center gap-2 text-body-sm text-muted-foreground">
 						<PhoneIcon className="size-4 shrink-0" />
@@ -87,7 +87,7 @@ export function Footer() {
 				</div>
 			</div>
 			<div className="border-t border-border py-4 text-center text-caption text-muted-foreground">
-				&copy; {new Date().getFullYear()} As-Sakinah Mart. Semua hak
+				&copy; {new Date().getFullYear()} Rull Store. Semua hak
 				dilindungi.
 			</div>
 		</footer>
