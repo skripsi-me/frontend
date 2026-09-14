@@ -13,15 +13,20 @@ import { Input } from '@/components/ui/input';
 import { useCategories } from '@/hooks/category.hook';
 import { cn } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 
 export function SearchDialog() {
 	const router = useRouter();
+	const params = useSearchParams();
+	const categoryParam = params.get('category');
+
 	const [open, setOpen] = useState(false);
 	const [query, setQuery] = useState('');
-	const [categoryId, setCategoryId] = useState<string | undefined>();
+	const [categoryId, setCategoryId] = useState<string | undefined>(
+		categoryParam ?? undefined,
+	);
 	const { data: categories } = useCategories();
 
 	function handleSubmit(e: FormEvent) {

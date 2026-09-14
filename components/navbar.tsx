@@ -12,7 +12,6 @@ import { ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { MenuSheet } from './sheet/menu-sheet';
 import { Badge } from './ui/badge';
 
 export function Navbar() {
@@ -76,7 +75,7 @@ export function Navbar() {
 						nativeButton={false}
 						render={<Link href="/keranjang-saya" />}
 						aria-label="Keranjang belanja"
-						className="relative"
+						className="relative hidden md:inline-flex"
 					>
 						<ShoppingCartIcon />
 						{cartCount > 0 && (
@@ -87,14 +86,6 @@ export function Navbar() {
 					</Button>
 
 					<UserDropdown
-						user={user}
-						isAuthenticated={isAuthenticated}
-						isLoading={isLoading}
-						logout={handleLogout}
-					/>
-
-					<MenuSheet
-						pathname={pathname}
 						user={user}
 						isAuthenticated={isAuthenticated}
 						isLoading={isLoading}
