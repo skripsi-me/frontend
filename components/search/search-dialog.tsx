@@ -15,19 +15,33 @@ import { cn } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { FormEvent } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function SearchDialog() {
 	const router = useRouter();
 	const params = useSearchParams();
-	const categoryParam = params.get('category');
+	const searchParam = params.get('search') ?? '';
+	const categoryParam = params.get('category') ?? undefined;
 
 	const [open, setOpen] = useState(false);
-	const [query, setQuery] = useState('');
-	const [categoryId, setCategoryId] = useState<string | undefined>(
-		categoryParam ?? undefined,
-	);
+	const [query, setQuery] = useState<string>('');
+	const [categoryId, setCategoryId] = useState<string | undefined>();
 	const { data: categories } = useCategories();
+
+	useEffect(() => {
+		if (!open) {
+			setQuery('');
+			setCategoryId(undefined);
+			return;
+		}
+		setQuery(searchParam);
+		setCategoryId(categoryParam);
+	}, [open, searchParam, categoryParam]);
+
+	console.log('searchParam', searchParam);
+	console.log('categoryParam', categoryParam);
+	console.log('query', query);
+	console.log('categoryId', categoryId);
 
 	function handleSubmit(e: FormEvent) {
 		e.preventDefault();
@@ -48,7 +62,10 @@ export function SearchDialog() {
 		);
 
 	return (
-		<Dialog open={open} onOpenChange={setOpen}>
+		<Dialog
+			open={open}
+			onOpenChange={setOpen}
+		>
 			<DialogTrigger
 				render={
 					<Button

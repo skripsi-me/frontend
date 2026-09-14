@@ -12,6 +12,7 @@ import { ShoppingCartIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 import { Badge } from './ui/badge';
 
 export function Navbar() {
@@ -67,7 +68,9 @@ export function Navbar() {
 				</nav>
 
 				<div className="flex items-center gap-1.5 md:gap-4 w-fit">
-					<SearchDialog />
+					<Suspense fallback={null}>
+						<SearchDialog />
+					</Suspense>
 
 					<Button
 						variant="ghost"
