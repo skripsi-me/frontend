@@ -4,6 +4,12 @@ import { useMutation } from '@tanstack/react-query';
 import { authService } from '@/services/auth.service';
 import type { ChangePasswordRequest } from '@/types/auth';
 
+export function useRegister() {
+	return useMutation({
+		mutationFn: authService.register,
+	});
+}
+
 export function useLogin() {
 	return useMutation({
 		mutationFn: authService.login,

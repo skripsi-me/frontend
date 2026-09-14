@@ -4,68 +4,69 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useLogin } from '@/hooks/auth.hook';
-import { userKeys } from '@/hooks/user.hook';
+import { Textarea } from '@/components/ui/textarea';
+import { useRegister } from '@/hooks/auth.hook';
 import { isApiError } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { getErrorMessage } from '@/lib/utils/form';
 import { useForm } from '@tanstack/react-form';
-import { useQueryClient } from '@tanstack/react-query';
-import { z } from 'zod';
 import { EyeIcon, EyeOffIcon, Loader2Icon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
-const loginSchema = z.object({
+const registerSchema = z.object({
+	name: z.string().min(1, 'Nama wajib diisi'),
 	email: z
 		.string()
 		.min(1, 'Email wajib diisi')
 		.email('Format email tidak valid'),
-	password: z.string().min(1, 'Kata sandi wajib diisi'),
+	password: z.string().min(8, 'Password minimal 8 karakter'),
+	phone_number: z
+		.string()
+		.refine(
+			(value) =>
+				!value.trim() || /^[0-9+\-\s()]{8,16}$/.test(value.trim()),
+			'Format nomor HP tidak valid',
+		),
+	address: z.string(),
 });
 
-function sanitizeRedirect(value: string | null): string {
-	if (value && value.startsWith('/') && !value.startsWith('//')) {
-		return value;
-	}
-	return '/';
-}
-
-export function LoginForm() {
+export function RegisterForm() {
 	const router = useRouter();
-	const searchParams = useSearchParams();
-	const queryClient = useQueryClient();
-	const login = useLogin();
+	const register = useRegister();
 
 	const [showPassword, setShowPassword] = useState(false);
 	const [serverError, setServerError] = useState<string | null>(null);
 
 	const form = useForm({
 		defaultValues: {
+			name: '',
 			email: '',
 			password: '',
+			phone_number: '',
+			address: '',
 		},
 		onSubmit: async ({ value }) => {
 			setServerError(null);
 			try {
-				await login.mutateAsync({
+				await register.mutateAsync({
+					name: value.name.trim(),
 					email: value.email.trim(),
 					password: value.password,
+					phone_number: value.phone_number.trim() || undefined,
+					address: value.address.trim() || undefined,
 				});
-				await queryClient.invalidateQueries({
-					queryKey: userKeys.me,
-				});
-				toast.success('Login berhasil');
-				router.push(sanitizeRedirect(searchParams.get('redirect')));
-				router.refresh();
+				toast.success('Akun berhasil dibuat. Silakan masuk.');
+				router.push('/auth/login');
 			} catch (error) {
 				setServerError(
 					isApiError(error)
 						? error.message
-						: 'Gagal masuk. Silakan coba lagi.',
+						: 'Gagal membuat akun. Silakan coba lagi.',
 				);
 			}
 		},
@@ -83,10 +84,10 @@ export function LoginForm() {
 				/>
 				<div className="flex flex-col gap-1">
 					<h1 className="text-headline-lg text-foreground">
-						Masuk ke Akun
+						Daftar Akun Baru
 					</h1>
 					<p className="text-body-sm text-muted-foreground">
-						Silakan masuk untuk melanjutkan belanja Anda.
+						Buat akun untuk mulai belanja di Rull Store.
 					</p>
 				</div>
 			</CardHeader>
@@ -111,10 +112,41 @@ export function LoginForm() {
 					)}
 
 					<form.Field
-						name="email"
-						validators={{
-							onChange: loginSchema.shape.email,
+						name="name"
+						validators={{ onChange: registerSchema.shape.name }}
+					>
+						{(field) => {
+							const error = getErrorMessage(field);
+							return (
+								<div className="flex flex-col gap-1.5">
+									<Label htmlFor={field.name}>Nama</Label>
+									<Input
+										id={field.name}
+										name={field.name}
+										autoComplete="name"
+										placeholder="cth. Budi Santoso"
+										value={field.state.value}
+										onChange={(event) =>
+											field.handleChange(
+												event.target.value,
+											)
+										}
+										onBlur={field.handleBlur}
+										aria-invalid={error ? true : undefined}
+									/>
+									{error && (
+										<p className="text-caption text-destructive">
+											{error}
+										</p>
+									)}
+								</div>
+							);
 						}}
+					</form.Field>
+
+					<form.Field
+						name="email"
+						validators={{ onChange: registerSchema.shape.email }}
 					>
 						{(field) => {
 							const error = getErrorMessage(field);
@@ -125,8 +157,8 @@ export function LoginForm() {
 										id={field.name}
 										name={field.name}
 										type="email"
-										autoComplete="email"
 										inputMode="email"
+										autoComplete="email"
 										placeholder="nama@email.com"
 										value={field.state.value}
 										onChange={(event) =>
@@ -149,9 +181,7 @@ export function LoginForm() {
 
 					<form.Field
 						name="password"
-						validators={{
-							onChange: loginSchema.shape.password,
-						}}
+						validators={{ onChange: registerSchema.shape.password }}
 					>
 						{(field) => {
 							const error = getErrorMessage(field);
@@ -169,8 +199,8 @@ export function LoginForm() {
 													? 'text'
 													: 'password'
 											}
-											autoComplete="current-password"
-											placeholder="••••••••"
+											autoComplete="new-password"
+											placeholder="Minimal 8 karakter"
 											value={field.state.value}
 											onChange={(event) =>
 												field.handleChange(
@@ -218,6 +248,63 @@ export function LoginForm() {
 						}}
 					</form.Field>
 
+					<form.Field name="phone_number">
+						{(field) => {
+							const error = getErrorMessage(field);
+							return (
+								<div className="flex flex-col gap-1.5">
+									<Label htmlFor={field.name}>Nomor HP</Label>
+									<Input
+										id={field.name}
+										name={field.name}
+										type="tel"
+										inputMode="tel"
+										autoComplete="tel"
+										placeholder="081234567890"
+										value={field.state.value}
+										onChange={(event) =>
+											field.handleChange(
+												event.target.value,
+											)
+										}
+										onBlur={field.handleBlur}
+										aria-invalid={error ? true : undefined}
+									/>
+									{error && (
+										<p className="text-caption text-destructive">
+											{error}
+										</p>
+									)}
+								</div>
+							);
+						}}
+					</form.Field>
+
+					<form.Field name="address">
+						{(field) => (
+							<div className="flex flex-col gap-1.5">
+								<Label htmlFor={field.name}>Alamat</Label>
+								<Textarea
+									id={field.name}
+									name={field.name}
+									rows={3}
+									required
+									placeholder="Alamat lengkap"
+									value={field.state.value}
+									onChange={(event) =>
+										field.handleChange(event.target.value)
+									}
+									onBlur={field.handleBlur}
+								/>
+								<p className="text-caption text-muted-foreground">
+									Pastikan alamat yang anda masukkan sudah
+									sesuai agar memudahkan proses pengiriman
+									barang.
+								</p>
+							</div>
+						)}
+					</form.Field>
+
 					<form.Subscribe
 						selector={(state) => [
 							state.canSubmit,
@@ -229,29 +316,27 @@ export function LoginForm() {
 								type="submit"
 								size="lg"
 								className="mt-1 w-full font-semibold"
-								disabled={!canSubmit || isSubmitting}
+								disabled={
+									!canSubmit ||
+									isSubmitting ||
+									register.isPending
+								}
 							>
 								{isSubmitting && (
 									<Loader2Icon className="animate-spin" />
 								)}
-								{isSubmitting ? 'Memproses...' : 'Masuk'}
+								{isSubmitting ? 'Mendaftarkan...' : 'Daftar'}
 							</Button>
 						)}
 					</form.Subscribe>
 
 					<p className="text-center text-caption text-muted-foreground">
-						Belum punya akun?{' '}
+						Sudah punya akun?{' '}
 						<Link
-							href="/auth/register"
+							href="/auth/login"
 							className="text-primary hover:underline"
 						>
-							Daftar
-						</Link>
-					</p>
-					<p className="text-center text-caption text-muted-foreground">
-						Lupa akses? Hubungi admin toko untuk bantuan.{' '}
-						<Link href="/" className="text-primary hover:underline">
-							Kembali ke beranda
+							Masuk
 						</Link>
 					</p>
 				</form>
