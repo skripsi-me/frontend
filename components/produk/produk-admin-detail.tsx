@@ -152,7 +152,7 @@ export function ProdukAdminDetail({ productId }: { productId: string }) {
 						<div className="flex flex-wrap items-center gap-3">
 							<Badge
 								variant="outline"
-								className="bg-primary-soft text-success"
+								className="bg-primary/10 text-success"
 							>
 								{product.category.name}
 							</Badge>

@@ -246,7 +246,7 @@ export function PenggunaAdminContent() {
 											<TableCell>
 												<div className="flex items-center gap-3">
 													<Avatar size="sm">
-														<AvatarFallback className="bg-primary-soft text-success">
+														<AvatarFallback className="bg-primary/10 text-success">
 															{getInitials(
 																user.name,
 															)}

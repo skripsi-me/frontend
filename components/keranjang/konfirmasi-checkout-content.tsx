@@ -78,7 +78,7 @@ export function KonfirmasiCheckoutContent() {
 				{createOrder.isSuccess ? (
 					<section className="flex flex-1 items-start">
 						<div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-6 px-4 py-12 md:px-6 md:py-16">
-							<div className="flex size-16 items-center justify-center rounded-full bg-primary-soft text-primary">
+							<div className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary">
 								<CheckIcon className="size-8" />
 							</div>
 							<div className="flex flex-col items-center gap-2 text-center">
@@ -139,7 +139,7 @@ export function KonfirmasiCheckoutContent() {
 									))}
 								</div>
 
-								<div className="flex items-center gap-2 rounded-xl bg-primary-soft px-3 py-2.5">
+								<div className="flex items-center gap-2 rounded-xl bg-primary/10 px-3 py-2.5">
 									<TruckIcon className="size-4 shrink-0 text-primary" />
 									<p className="text-caption text-primary">
 										Bayar di rumah saat pesanan tiba (COD).

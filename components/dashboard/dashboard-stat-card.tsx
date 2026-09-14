@@ -20,7 +20,7 @@ export function StatCard({
 }) {
 	const content = (
 		<div className="flex flex-col gap-3 rounded-xl bg-white p-5 ring-1 ring-border transition-shadow hover:shadow-sm">
-			<div className="flex size-10 items-center justify-center rounded-xl bg-primary-soft text-success">
+			<div className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-success">
 				<Icon className="size-5" />
 			</div>
 			{loading ? (

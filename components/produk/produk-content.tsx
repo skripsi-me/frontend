@@ -14,9 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/empty-state';
 import { SectionHeader } from '@/components/section-header';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { PaginationNav } from '@/components/pagination-nav';
-import { FlaskConicalIcon } from 'lucide-react';
 import type { Product } from '@/types/product';
 
 const PAGE_SIZE = 12;
@@ -33,7 +31,7 @@ function CategoryFilterBar({
 		`shrink-0 rounded-full border px-4 py-2 text-label-sm transition-colors ${
 			active
 				? 'border-primary bg-primary text-primary-foreground'
-				: 'border-border bg-surface text-foreground hover:border-primary hover:bg-primary-soft hover:text-primary'
+				: 'border-border bg-surface text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary'
 		}`;
 
 	return (
@@ -284,17 +282,6 @@ export function ProdukContent() {
 						title="Produk"
 						description="Telusuri semua produk kebutuhan keluarga Anda. Gunakan pencarian untuk menemukan yang lebih spesifik."
 					/>
-					<div className="mt-2">
-						<Button
-							render={<Link href="/produk/research" />}
-							variant="outline"
-							size="sm"
-							data-testid="research-entry"
-						>
-							<FlaskConicalIcon className="size-4" />
-							Penelitian
-						</Button>
-					</div>
 				</div>
 			</section>
 

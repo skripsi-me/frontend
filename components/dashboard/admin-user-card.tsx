@@ -31,7 +31,7 @@ export function AdminUserCard() {
 			) : (
 				<Link href="/profil" className="flex items-center gap-2 px-2">
 					<Avatar size="lg">
-						<AvatarFallback className="bg-primary-soft text-success">
+						<AvatarFallback className="bg-primary/10 text-success">
 							{getInitials(user?.name ?? 'Admin')}
 						</AvatarFallback>
 					</Avatar>

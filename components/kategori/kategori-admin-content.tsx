@@ -206,7 +206,7 @@ export function KategoriAdminContent() {
 								key={category.id}
 								className="flex items-start gap-3 rounded-xl border border-border p-4"
 							>
-								<div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary-soft text-success">
+								<div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-success">
 									<TagsIcon className="size-5" />
 								</div>
 								<div className="min-w-0 flex-1">

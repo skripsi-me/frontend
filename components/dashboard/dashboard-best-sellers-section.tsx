@@ -113,7 +113,7 @@ export function DashboardBestSellersSection({
 							<TableRow key={product.id}>
 								<TableCell>
 									<div className="flex items-center gap-3">
-										<span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-semibold tabular-nums text-success">
+										<span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold tabular-nums text-success">
 											{index + 1}
 										</span>
 										<div className="relative size-10 shrink-0 overflow-hidden rounded-lg bg-surface-muted">
@@ -139,7 +139,7 @@ export function DashboardBestSellersSection({
 									{product.category.name}
 								</TableCell>
 								<TableCell className="text-right">
-									<span className="inline-flex h-5 items-center gap-1 rounded-full bg-primary-soft px-2 text-xs font-medium tabular-nums text-success">
+									<span className="inline-flex h-5 items-center gap-1 rounded-full bg-primary/10 px-2 text-xs font-medium tabular-nums text-success">
 										<FlameIcon className="size-3" />
 										{product.total_sold ?? 0} terjual
 									</span>

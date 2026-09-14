@@ -10,31 +10,37 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { useCategories } from '@/hooks/category.hook';
 import { cn } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState, type FormEvent } from 'react';
-
-type SearchMethod = 'normal' | 'ld';
-
-const METHODS: { value: SearchMethod; label: string }[] = [
-	{ value: 'normal', label: 'Normal' },
-	{ value: 'ld', label: 'Levenshtein Distance' },
-];
+import type { FormEvent } from 'react';
+import { useState } from 'react';
 
 export function SearchDialog() {
 	const router = useRouter();
 	const [open, setOpen] = useState(false);
 	const [query, setQuery] = useState('');
-	const [method, setMethod] = useState<SearchMethod>('normal');
+	const [categoryId, setCategoryId] = useState<string | undefined>();
+	const { data: categories } = useCategories();
 
 	function handleSubmit(e: FormEvent) {
 		e.preventDefault();
 		const q = query.trim();
 		if (!q) return;
-		router.push(`/produk?search=${encodeURIComponent(q)}&method=${method}`);
+		const params = new URLSearchParams({ search: q });
+		if (categoryId) params.set('category', categoryId);
+		router.push(`/produk?${params.toString()}`);
 		setOpen(false);
 	}
+
+	const chipClass = (active: boolean) =>
+		cn(
+			'shrink-0 rounded-full border px-4 py-2 text-label-sm transition-colors',
+			active
+				? 'border-primary bg-primary text-primary-foreground'
+				: 'border-border bg-surface text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary',
+		);
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -50,57 +56,59 @@ export function SearchDialog() {
 				<SearchIcon />
 			</DialogTrigger>
 
-			<DialogContent className="max-w-2xl lg:max-w-6xl">
-				<DialogHeader>
+			<DialogContent className="sm:max-w-xl lg:max-w-2xl">
+				<DialogHeader className="mb-4 w-full">
 					<DialogTitle>Cari Produk</DialogTitle>
 					<DialogDescription>
-						Ketikan kata kunci, pilih metode pencarian, lalu tekan
-						Cari.
+						Ketikan kata kunci dan pilih kategori, lalu tekan Cari.
 					</DialogDescription>
 				</DialogHeader>
-				<form onSubmit={handleSubmit} className="flex flex-col gap-4">
-					<Input
-						value={query}
-						onChange={(e) => setQuery(e.target.value)}
-						placeholder="Cari produk..."
-						aria-label="Kata kunci"
-						autoFocus
-					/>
-					<div
-						role="radiogroup"
-						aria-label="Metode pencarian"
-						className="grid grid-cols-2 gap-1 rounded-xl bg-muted p-1"
+				<div className="w-full">
+					<form
+						onSubmit={handleSubmit}
+						className="flex flex-col gap-4 w-full"
 					>
-						{METHODS.map((m) => (
-							<Button
-								key={m.value}
+						<Input
+							value={query}
+							onChange={(e) => setQuery(e.target.value)}
+							placeholder="Cari produk..."
+							aria-label="Kata kunci"
+							autoFocus
+							className="w-full"
+						/>
+						<nav
+							aria-label="Pilih kategori"
+							className="-mx-1 flex gap-2 flex-wrap"
+						>
+							<button
 								type="button"
-								role="radio"
-								aria-checked={method === m.value}
-								variant={
-									method === m.value ? 'default' : 'ghost'
-								}
-								size="lg"
-								onClick={() => setMethod(m.value)}
-								className={cn(
-									method === m.value
-										? ''
-										: 'text-on-surface-muted hover:bg-background',
-								)}
+								className={chipClass(categoryId === undefined)}
+								onClick={() => setCategoryId(undefined)}
 							>
-								{m.label}
-							</Button>
-						))}
-					</div>
-					<Button
-						type="submit"
-						size="lg"
-						className={'mt-8'}
-						disabled={!query.trim()}
-					>
-						Cari
-					</Button>
-				</form>
+								Semua
+							</button>
+							{categories?.map((category) => (
+								<button
+									key={category.id}
+									type="button"
+									className={chipClass(
+										categoryId === category.id,
+									)}
+									onClick={() => setCategoryId(category.id)}
+								>
+									{category.name}
+								</button>
+							))}
+						</nav>
+						<Button
+							type="submit"
+							size="lg"
+							disabled={!query.trim()}
+						>
+							Cari
+						</Button>
+					</form>
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

@@ -7,7 +7,7 @@ export function RoleBadge({ role }: { role: UserRole }) {
 			variant="outline"
 			className={
 				role === 'admin'
-					? 'bg-primary-soft text-success'
+					? 'bg-primary/10 text-success'
 					: 'bg-secondary text-on-surface-muted'
 			}
 		>

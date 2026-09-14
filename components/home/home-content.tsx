@@ -77,7 +77,7 @@ export function HomeContent() {
 			<section className="border-b border-border">
 				<div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:gap-12 md:px-6 md:py-24">
 					<div className="flex flex-col items-start gap-5">
-						<span className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft px-3 py-1 text-label-sm text-primary">
+						<span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-label-sm text-primary">
 							<BadgeCheckIcon className="size-4" />
 							Belanja aman, COD tersedia
 						</span>
@@ -184,7 +184,7 @@ export function HomeContent() {
 								<Link
 									key={category.id}
 									href={`/produk?category=${category.id}`}
-									className="rounded-full border border-border bg-surface px-5 py-2.5 text-label-md text-foreground transition-colors hover:border-primary hover:bg-primary-soft hover:text-primary"
+									className="rounded-full border border-border bg-surface px-5 py-2.5 text-label-md text-foreground transition-colors hover:border-primary hover:bg-primary/10 hover:text-primary"
 								>
 									{category.name}
 								</Link>
@@ -310,7 +310,7 @@ export function HomeContent() {
 			<section className="border-b border-border">
 				<div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-16 md:grid-cols-2 md:gap-12 md:px-6 md:py-20">
 					<div className="flex flex-col items-start gap-4">
-						<span className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft px-3 py-1 text-label-sm text-primary">
+						<span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-label-sm text-primary">
 							<WalletIcon className="size-4" />
 							Cash on Delivery
 						</span>

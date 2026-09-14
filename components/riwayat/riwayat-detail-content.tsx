@@ -69,7 +69,7 @@ function StatusTimeline({ status }: { status: Order['status'] }) {
 										'bg-primary text-primary-foreground ring-primary',
 									!done &&
 										active &&
-										'bg-primary-soft text-primary ring-primary',
+										'bg-primary/10 text-primary ring-primary',
 									!done &&
 										!active &&
 										'bg-surface-muted text-muted-foreground ring-border',
@@ -254,7 +254,7 @@ export function RiwayatDetailContent() {
 									</div>
 								</div>
 
-								<div className="flex items-start gap-2 rounded-xl bg-primary-soft px-4 py-3">
+								<div className="flex items-start gap-2 rounded-xl bg-primary/10 px-4 py-3">
 									<MapPinIcon className="mt-0.5 size-4 shrink-0 text-primary" />
 									<p className="text-caption text-primary">
 										Pesanan diantar ke alamat pengiriman

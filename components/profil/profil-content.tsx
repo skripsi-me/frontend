@@ -52,7 +52,7 @@ function DetailRow({
 }) {
 	return (
 		<div className="flex items-start gap-3">
-			<div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
+			<div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
 				<Icon className="size-4" />
 			</div>
 			<div className="flex min-w-0 flex-col gap-0.5">
@@ -202,7 +202,7 @@ export function ProfilContent() {
 											className={cn(
 												'flex items-center justify-between rounded-xl px-4 py-3 text-body-md transition-colors hover:bg-surface-muted',
 												active
-													? 'bg-primary-soft font-medium text-primary'
+													? 'bg-primary/10 font-medium text-primary'
 													: 'text-foreground',
 											)}
 										>

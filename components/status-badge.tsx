@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 const STATUS_CLASS: Record<string, string> = {
 	pending: 'bg-warning/10 text-warning',
-	shipped: 'bg-primary-soft text-success',
+	shipped: 'bg-primary/10 text-success',
 	delivered: 'bg-success/10 text-success',
 	cancelled: 'bg-secondary text-on-surface-muted',
 };
